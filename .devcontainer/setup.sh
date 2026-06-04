@@ -10,6 +10,13 @@ set -euo pipefail
 CHAT_MODEL="${OLLAMA_MODEL:-qwen2.5:3b}"
 EMBED_MODEL="nomic-embed-text"
 
+echo "==> Installing zstd (required by the Ollama installer for package extraction)..."
+# The Ollama install script now extracts a zstd-compressed package, but the
+# Debian base image doesn't ship zstd. Install it non-interactively first.
+export DEBIAN_FRONTEND=noninteractive
+sudo apt-get update
+sudo apt-get install -y zstd
+
 echo "==> Installing Ollama (Linux build bundles the engine)..."
 curl -fsSL https://ollama.com/install.sh | sh
 
