@@ -1,0 +1,97 @@
+# =============================================================================
+#  .gitignore — Seminario Experimental de Inteligencia Artificial (UNSAM)
+#
+#  Un único .gitignore en la raíz. Cada estudiante crea su propia carpeta
+#  de nivel superior (con su nombre) por pull request y guarda ahí su tarea.
+#  Por eso los patrones NO están anclados a la raíz: deben coincidir con los
+#  archivos generados en CUALQUIER parte del árbol. No se ignoran las carpetas
+#  de los estudiantes, solo los artefactos generados dentro de ellas.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Modelos de Ollama / pesos de modelos
+#
+# NUNCA subir pesos de modelos al repositorio. En este entorno Ollama usa su
+# ubicación por defecto (~/.ollama), fuera del workspace, porque setup.sh y
+# devcontainer.json no definen OLLAMA_MODELS. Igualmente ignoramos .ollama/ en
+# cualquier parte por si alguien lo apunta al workspace, y los formatos de
+# pesos por si se descargan o exportan manualmente.
+# -----------------------------------------------------------------------------
+.ollama/
+**/.ollama/
+*.gguf
+*.ggml
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+# -----------------------------------------------------------------------------
+# Python
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+.ipynb_checkpoints/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+dist/
+build/
+.python-version
+pip-log.txt
+pip-wheel-metadata/
+.cache/
+
+# -----------------------------------------------------------------------------
+# R
+# (Se mantiene renv.lock bajo control de versiones; se ignora la librería local.)
+# -----------------------------------------------------------------------------
+.Rhistory
+.Rapp.history
+.RData
+.RDataTmp
+.Ruserdata
+.Rproj.user/
+*.Rproj.user
+.Renviron
+renv/library/
+renv/python/
+renv/staging/
+.httr-oauth
+*_cache/
+
+# -----------------------------------------------------------------------------
+# Sistema operativo y editores
+# -----------------------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# -----------------------------------------------------------------------------
+# Secretos / entorno
+# -----------------------------------------------------------------------------
+.env
+.env.*
+*.local
+*.log

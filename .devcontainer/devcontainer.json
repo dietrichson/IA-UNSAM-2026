@@ -1,0 +1,32 @@
+{
+  "name": "Local LLM Classroom (Ollama + RAG)",
+
+  // Python base image so pip is ready for the RAG lab.
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+
+  // Request a 4-core / 8GB machine — comfortable for qwen2.5:3b on CPU.
+  // (Codespaces is CPU-only; no GPU. A 3B model streams fine for demos.)
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "32gb"
+  },
+
+  // Ollama serves its API on 11434.
+  "forwardPorts": [11434],
+  "portsAttributes": {
+    "11434": { "label": "Ollama API", "onAutoForward": "silent" }
+  },
+
+  // Runs once at creation: installs Ollama, pulls models, installs Python deps.
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+
+  // Runs on every start: make sure the server is up.
+  "postStartCommand": "pgrep -x ollama >/dev/null || (nohup ollama serve > /tmp/ollama.log 2>&1 & disown)",
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python"]
+    }
+  }
+}
