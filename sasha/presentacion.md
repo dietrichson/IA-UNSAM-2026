@@ -13,5 +13,3 @@ Soy docente de UNSAM en la carrera de comunación.
 1. Claude
 2. ChatGPT
 3. Gemini
-
-Me *encanta* la IA **con sus **limitaciones** cuando VAS A INSTRUIR UN IA por ejemplo IMPORTANTE: 
