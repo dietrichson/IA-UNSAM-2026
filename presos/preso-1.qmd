@@ -1,0 +1,71 @@
+---
+title: "Seminario Experimental Inteligencia Artificial"
+author: "Aleksander Dietrichson, PhD"
+format: revealjs
+lang: es
+theme: dark
+editor: visual
+---
+
+## ¿Cómo se organiza el seminario?
+
+- Práctico
+
+- Exploración teórica y práctica de IA:
+
+  - LLMs
+
+  - Reinforcement Learning
+
+  - Modelos de clasificación
+
+  - Modelos de visión
+
+  - Modelos predictivos
+
+## ¿Cómo se organiza el seminario?
+
+- Disertantes invitados
+  - Algunos en inglés
+- Experimentos con tecnologías existentes
+- Ejercicios y tareas prácticos  
+- Trabajo final práctico
+
+## ¿Cómo se evalua?
+
+  - 50% ejercicios y tareas
+  - 50% trabajo final
+  
+  Se permite y se recomienda trabajo en grupo
+  
+  Se recomienda organización según interés 
+  
+  
+## Herramientas a usar
+
+Vamos a trabajar principalmente con herramientas de código abierto y de uso libre. Las principales son: 
+
+- Github 
+  - Git
+  - Spaces
+- Hugging face
+- Kaggle
+
+## Primer ejercicio 
+
+- Crear una cuenta de git
+- Hacer fork de este repositorio
+- Crear una carpeta con su nombre de pila en el repositorio
+- Crear un documento de Markdown dentro de la carpeta
+
+## Primer ejercicio 
+
+- En el documento presentarse: 
+  - Quien soy
+  - Carrera que curso
+  - En qué trabajo
+  - Herramientas de IA que uso
+  - Herramientas tecnológias que uso con frecuencia
+    
+  Guardar el markdown en github y sincronizar (pull request)
+  

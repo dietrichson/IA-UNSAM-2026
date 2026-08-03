@@ -102,3 +102,24 @@ Desktop.ini
 # -----------------------------------------------------------------------------
 .claude/
 .claude-mpm/
+
+# -----------------------------------------------------------------------------
+# Quarto / RStudio
+#
+# .quarto/ es el directorio de trabajo interno de Quarto: se ignora en
+# cualquier parte del árbol porque puede aparecer en cualquier carpeta que
+# tenga un proyecto Quarto. Los renders sueltos dentro de presos/ (hechos
+# in situ, antes de configurar output-dir del proyecto) sí se ignoran, pero
+# ANCLADOS a esa carpeta: el render final vive en docs/ y ese SÍ debe
+# versionarse para publicarlo con GitHub Pages.
+# -----------------------------------------------------------------------------
+.quarto/
+/presos/*.html
+/presos/*_files/
+
+# docs/ es la salida publicada (GitHub Pages) y debe versionarse completa.
+# Excepción necesaria: el patrón "dist/" de la sección Python (arriba) es
+# genérico y sin anclar, y por eso también atrapa la carpeta vendorizada
+# libs/revealjs/dist/ que Quarto copia dentro de docs/ (reveal.js, CSS,
+# fuentes). Sin esta excepción el sitio publicado quedaría roto.
+!/docs/**
