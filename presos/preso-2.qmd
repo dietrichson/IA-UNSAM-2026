@@ -61,8 +61,6 @@ El botón «Contribute» está al lado de «Sync fork»
 
 3. Click en «Sync fork»
 
-4. En RStudio hacer «pull»
-
 ## Sincronizar - 1
 
 ![](images/github-tus-repositorios.png)
@@ -74,10 +72,6 @@ El botón «Contribute» está al lado de «Sync fork»
 ## Sincronizar - 3
 
 ![](images/sync-fork-y-contribute.png)
-
-## Sincronizar - 4
-
-![](images/rstudio-pull.png)
 
 ## Resumen
 
