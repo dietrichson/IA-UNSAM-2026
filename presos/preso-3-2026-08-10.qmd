@@ -1,0 +1,32 @@
+---
+subtitle: "Seminario Experimental Inteligencia Artificial"
+title: "Tunear un modelo LLM" 
+author: "Aleksander Dietrichson, PhD"
+date: 2026-08-10
+format: revealjs
+lang: es
+theme: dark
+editor: visual
+---
+
+## Agenda de hoy
+
+- Las 3 maneras de tunear un modelo
+
+- System prompt
+
+
+## Tunear modelos
+
+- Agregar un system prompt
+
+- Sistemas de RAG
+
+- Agregar pesos (weights)
+
+## Ejercicio
+
+- Tunear el model qwen instalado en codespaces a tu gusto
+
+- Proveer ejemplos de cambio generado y refleccionar/analizar
+
