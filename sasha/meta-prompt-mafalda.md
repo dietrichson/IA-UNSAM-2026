@@ -1,0 +1,4 @@
+So, I am working with a very minimal qwen model and I asked it to emulate the cartoon character Mafalda from Argentina. Since this model has very limited knowledge (which is why it runs on the hardware we have
+  present), it didn't do a very good job. Can you write a system instruction for it adding sufficient context and perhaps some real quotes so that we can reach the goal here. Also please write the instruction in
+  Spanish as this is for my AI class and I am going to use it as an example in class. Write this up as an md file and place it in the subdirectory 'sasha' which is mine.
+  Before you start perhaps we should do a git pull to ensure we are working on the latest version of the codebase.
