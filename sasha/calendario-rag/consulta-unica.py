@@ -15,7 +15,7 @@ Antes de correrlo (una sola vez):
     ollama pull qwen2.5:3b
 
 Uso:
-    python3 sasha/calendario-rag.py "¿Cuándo empieza el segundo cuatrimestre?"
+    python3 sasha/calendario-rag/consulta-unica.py "¿Cuándo empieza el segundo cuatrimestre?"
 """
 
 import argparse
@@ -26,7 +26,7 @@ import numpy as np
 import ollama
 
 EMBED_MODEL = "nomic-embed-text"
-DATOS = Path(__file__).parent / "docs" / "calendario-unsam-2025.md"
+DATOS = Path(__file__).resolve().parent / "datos" / "calendario-unsam-2025.md"
 
 # Una línea igual a uno de estos abre un mes; las de abajo son sus entradas.
 ENCABEZADOS = {
