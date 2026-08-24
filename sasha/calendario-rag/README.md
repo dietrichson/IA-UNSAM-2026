@@ -51,10 +51,25 @@ escribe la respuesta.
 
 ## Cómo correrlo
 
+### La forma más fácil: los scripts `run-*.sh`
+
+Desde la raíz del repo (o desde donde estés: los scripts se resuelven solos):
+
+```
+./sasha/calendario-rag/run-chatbot.sh
+./sasha/calendario-rag/run-consulta.sh "¿Cuándo empieza el segundo cuatrimestre?"
+```
+
+Los dos detectan solos si tenés `ollama` y `numpy` disponibles en tu `python3`
+(como en Codespaces) o si hace falta pasar por `uv` (como en tu Mac), así que
+no tenés que pensar cuál de los dos comandos de abajo te toca. Cualquier
+opción se la pasás igual: `./sasha/calendario-rag/run-chatbot.sh --top-k 5`.
+
 ### En Codespaces
 
 `.devcontainer/setup.sh` ya instala `ollama` y `numpy` y baja los dos modelos.
-No tenés que preparar nada:
+No tenés que preparar nada — que es lo mismo que corre el script de arriba
+por adentro:
 
 ```
 python3 sasha/calendario-rag/chatbot.py
@@ -66,7 +81,8 @@ python3 sasha/calendario-rag/consulta-unica.py "¿Cuándo empieza el segundo cua
 Si instalaste Python con Homebrew, `pip install` te va a rebotar con un error
 que dice `externally-managed-environment`. No está roto: Homebrew protege su
 Python para que no le metas paquetes por encima. La forma más corta de
-esquivarlo es `uv`, que arma un entorno descartable al vuelo:
+esquivarlo es `uv`, que arma un entorno descartable al vuelo — que es lo mismo
+que corre el script de arriba por adentro:
 
 ```
 uv run --with ollama --with numpy python3 sasha/calendario-rag/chatbot.py
