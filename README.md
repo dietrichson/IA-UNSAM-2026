@@ -35,6 +35,17 @@ La evaluación se basa en:
 * 8-10 ejercicios prácticos, que constituyen el 50% de la nota
 * Trabajo final (50%)
 
+## Presentaciones
+
+Las presentaciones de cada clase:
+
+1. [Seminario Experimental Inteligencia Artificial](https://dietrichson.github.io/IA-UNSAM-2026/preso-1.html)
+2. [GitHub: cuenta, fork y pull request](https://dietrichson.github.io/IA-UNSAM-2026/preso-2.html)
+3. [Tunear un modelo LLM](https://dietrichson.github.io/IA-UNSAM-2026/preso-3-2026-08-10.html) — 10/08/2026
+4. [Experimento y RAG](https://dietrichson.github.io/IA-UNSAM-2026/preso-4-2026-08-24.html) — 24/08/2026
+
+El código fuente de cada una está en [`presos/`](./presos/).
+
 ## Información técnica y laboratorios
 
 Cómo preparar el entorno de trabajo y los laboratorios: [Información técnica y laboratorios](./informacion-tecnica-y-laboratorios.md).
