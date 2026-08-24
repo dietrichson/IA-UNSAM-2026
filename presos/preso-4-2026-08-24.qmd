@@ -1,0 +1,38 @@
+---
+subtitle: "Seminario Experimental Inteligencia Artificial"
+title: "Experimento y RAG" 
+author: "Aleksander Dietrichson, PhD"
+date: 2026-08-24
+format: revealjs
+lang: es
+theme: dark
+editor: visual
+---
+
+## Agenda de hoy
+
+- Revisar tareas
+
+- Experimento con IAs en conjunto
+
+- Sistema de RAG
+
+
+## Revisar tareas
+
+- Miren sus tickets en github
+
+- Miren mi tiquet en github
+
+## Experimento
+
+- Selecioné cinco de los personajes que armaron ustedes y les puse a discutir entre si
+
+Resultados: 
+
+- [Output](https://github.com/dietrichson/IA-UNSAM-2026/blob/main/sasha/discusion-IA-en-educacion.md)
+
+- [Feedback de Claude](https://github.com/dietrichson/IA-UNSAM-2026/pull/56)
+
+## Ejemplo de RAG
+
