@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ollama create chacaboy -f "$(dirname "$0")/Chacaboy-modelfile"
+ollama create chacaboy -f "Maria Belen\Chacaboy\Chacaboy-modelfile"
