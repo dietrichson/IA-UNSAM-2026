@@ -1,0 +1,261 @@
+---
+subtitle: "Seminario Experimental Inteligencia Artificial"
+title: "Modelos estadísticos y LLMs"
+author: "Aleksander Dietrichson, PhD"
+date: 2026-08-31
+format: revealjs
+lang: es
+theme: dark
+editor: visual
+---
+
+```{r}
+#| include: false
+library(ggplot2)
+
+knitr::opts_chunk$set(
+  dev.args = list(bg = "transparent"),
+  fig.height = 4,
+  message = FALSE,
+  warning = FALSE
+)
+
+theme_set(
+  theme_minimal(base_size = 16) +
+    theme(
+      plot.background = element_rect(fill = "transparent", colour = NA),
+      panel.background = element_rect(fill = "transparent", colour = NA),
+      legend.background = element_rect(fill = "transparent", colour = NA),
+      legend.key = element_rect(fill = "transparent", colour = NA),
+      text = element_text(colour = "grey90"),
+      axis.text = element_text(colour = "grey90"),
+      panel.grid = element_line(colour = "grey35")
+    )
+)
+
+CM <- 2.54
+KG <- 0.45359237
+
+mujeres <- data.frame(
+  height = datasets::women$height * CM,
+  weight = datasets::women$weight * KG
+)
+
+personas <- na.omit(modelr::heights[, c("height", "weight", "sex")])
+personas <- data.frame(
+  height = personas$height * CM,
+  weight = personas$weight * KG,
+  sex = personas$sex
+)
+set.seed(42)
+personas <- personas[sample(nrow(personas), 300), ]
+```
+
+## Agenda de hoy
+
+- Revisar PRs (en vivo)
+
+- Modelos estadísticos y LLMs
+
+## Un modelo predictivo
+
+- Predecir el peso (kg) a partir de la altura (cm)
+
+- Datos: `mujeres` (15 observaciones)
+
+## Los datos
+
+```{r}
+#| echo: true
+ggplot(mujeres, aes(height, weight)) +
+  geom_point(colour = "blue", size = 3) +
+  labs(x = "Altura (cm)", y = "Peso (kg)")
+```
+
+## El modelo
+
+```{r}
+#| echo: true
+m <- lm(weight ~ height, data = mujeres)
+coef(m)
+```
+
+## La recta ajustada
+
+```{r}
+#| echo: true
+ggplot(mujeres, aes(height, weight)) +
+  geom_point(size = 3, color="blue") +
+  geom_line(aes(y = fitted(m)), colour = "red", linewidth = 1.2) +
+  labs(x = "Altura (cm)", y = "Peso (kg)")
+```
+
+## Predicción
+
+```{r}
+#| echo: true
+predict(m, newdata = data.frame(height = 165))
+```
+
+- Un parámetro de entrada, un número de salida
+
+## Predicción
+
+```{r}
+#| echo: false
+x0 <- 165
+y0 <- unname(predict(m, newdata = data.frame(height = x0)))
+
+ggplot(mujeres, aes(height, weight)) +
+  geom_point(colour = "blue", size = 3) +
+  geom_line(aes(y = fitted(m)), colour = "red", linewidth = 1.2) +
+  annotate("segment", x = x0, xend = x0, y = -Inf, yend = y0,
+           linetype = "dashed", linewidth = 0.9, colour = "orange") +
+  annotate("segment", x = -Inf, xend = x0, y = y0, yend = y0,
+           linetype = "dashed", linewidth = 0.9, colour = "orange") +
+  annotate("point", x = x0, y = y0, size = 4, colour = "orange") +
+  annotate("text", x = x0, y = -Inf, label = paste0(x0, " cm"),
+           hjust = -0.2, vjust = -0.8, size = 6, colour = "orange") +
+  annotate("text", x = -Inf, y = y0, label = paste0(round(y0, 1), " kg"),
+           hjust = -0.2, vjust = -0.8, size = 6, colour = "orange") +
+  labs(x = "Altura (cm)", y = "Peso (kg)")
+```
+
+## Dos parámetros
+
+- Agregamos el sexo como segundo predictor
+
+- Datos: `personas` (encuesta real, muestra de 300)
+
+## El modelo de dos parámetros
+
+```{r}
+#| echo: true
+m2 <- lm(weight ~ height + sex, data = personas)
+coef(m2)
+```
+
+## Dos grupos
+
+```{r}
+#| echo: false
+ggplot(personas, aes(height, weight, colour = sex)) +
+  geom_point(alpha = 0.6) +
+  geom_line(aes(y = fitted(m2)), linewidth = 1.2) +
+  
+  labs(x = "Altura (cm)", y = "Peso (kg)", colour = "Sexo")
+```
+
+## Predicciones
+
+```{r}
+#| echo: false
+x1 <- 173
+py <- unname(predict(m2, newdata = data.frame(height = x1,
+                                              sex = c("male", "female"))))
+cols <- c("red", "blue")
+
+ggplot(personas, aes(height, weight, colour = sex)) +
+  geom_point(alpha = 0.35) +
+  geom_line(aes(y = fitted(m2)), linewidth = 1.2) +
+  annotate("segment", x = x1, xend = x1, y = -Inf, yend = py[1],
+           linetype = "dashed", linewidth = 0.9, colour = "orange") +
+  annotate("segment", x = -Inf, xend = x1, y = py, yend = py,
+           linetype = "dashed", linewidth = 0.9, colour = cols) +
+  annotate("point", x = x1, y = py, size = 4, colour = cols) +
+  annotate("text", x = x1, y = -Inf, label = paste0(x1, " cm"),
+           hjust = -0.2, vjust = -0.8, size = 6, colour = "orange") +
+  annotate("text", x = -Inf, y = py[1], label = paste0(round(py[1], 1), " kg"),
+           hjust = -0.2, vjust = -0.6, size = 6, colour = cols[1]) +
+  annotate("text", x = -Inf, y = py[2], label = paste0(round(py[2], 1), " kg"),
+           hjust = -0.2, vjust = 1.5, size = 6, colour = cols[2]) +
+  labs(x = "Altura (cm)", y = "Peso (kg)", colour = "Sexo")
+```
+
+## Predicciones
+
+```{r}
+#| echo: true
+predict(m2, newdata = data.frame(height = 173,
+                                 sex = c("male", "female")))
+```
+
+- Más parámetros, predicción más fina
+
+## ¿Qué es un token?
+
+- Del modelo estadístico al modelo de lenguaje
+
+- Antes de predecir palabras hay que representarlas
+
+## Ejemplo
+
+::: {style="font-size: 8em; text-align: center; line-height: 1.1;"}
+水
+:::
+
+## Un símbolo, muchos sonidos
+
+- Mandarín: *shuǐ*
+
+- Cantonés: *seoi²*
+
+- Japonés: *mizu* / *sui*
+
+- Mismo signo, mismo significado, sonidos distintos
+
+## Significado, no sonido
+
+- El alfabeto codifica sonido
+
+- El ideograma codifica significado
+
+- Los tokens de un LLM se parecen al ideograma
+
+## Un token es un número
+
+```{r}
+#| echo: true
+vocab <- c("agua", "fuego", "tierra", "aire")
+setNames(seq_along(vocab), vocab)
+```
+
+- El id es la posición en el vocabulario
+
+- El modelo no ve letras: ve números
+
+## Predecir la próxima palabra
+
+"El gato se subió al ..."
+
+```{r}
+#| echo: true
+p <- c(techo = 0.55, arbol = 0.30, sillon = 0.10, teorema = 0.05)
+set.seed(1)
+sample(names(p), 1, prob = p)
+```
+
+## La distribución
+
+```{r}
+#| echo: true
+ggplot(data.frame(palabra = names(p), prob = p),
+       aes(palabra, prob)) +
+  geom_col(fill = "blue") +
+  labs(x = NULL, y = "Probabilidad")
+```
+
+## Multiples muestras
+
+```{r}
+#| echo: true
+table(sample(names(p), 100, replace = TRUE, prob = p))
+```
+
+## Resumen
+
+- La regresión predice un número a partir de parámetros
+
+- El LLM predice una distribución sobre tokens
+
+- Y después elige uno
