@@ -6,7 +6,7 @@ augmented generation. There are exactly five moves, marked [1]..[5] below.
 
 Prereqs (run once in your terminal):
     pip install ollama numpy
-    ollama pull qwen3:4b            # the chat model
+    ollama pull   qwen2.5:3b        # the chat model
     ollama pull nomic-embed-text    # the embedding model (small, ~275MB)
 
 Then drop some .txt or .md files into a ./docs folder and run:
