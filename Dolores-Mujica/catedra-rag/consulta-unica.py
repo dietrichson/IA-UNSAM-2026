@@ -26,7 +26,7 @@ embeddings = OllamaEmbeddings(model="nomic-embed-text")
 vectorstore = Chroma.from_documents(docs, embeddings)
 
 # 4. Configurar modelo y cadena RAG
-llm = Ollama(model="llama3")
+llm = ChatOllama(model="qwen2.5:3b")
 qa_chain = RetrievalQA.from_chain_type(
     llm=llm,
     retriever=vectorstore.as_retriever(search_kwargs={"k": 3})
