@@ -21,7 +21,7 @@ embeddings = OllamaEmbeddings(model="nomic-embed-text")
 vectorstore = Chroma.from_documents(docs, embeddings)
 
 # 4. Configurar el modelo de lenguaje y la memoria del chat
-llm = Ollama(model="llama3")
+llm = Ollama(model="qwen2.5:3b")
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
 qa_chain = ConversationalRetrievalChain.from_llm(
