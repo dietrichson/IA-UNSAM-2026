@@ -1,0 +1,135 @@
+“La Regulación de los Medios” de Denis Mcquail
+Introducción y Marco Conceptual
+¿Qué es la regulación de los medios?
+La regulación de los medios abarca el conjunto de procesos de control y guía aplicados por gobiernos y autoridades políticas o administrativas mediante reglas y procedimientos a las actividades de los medios de comunicación masiva. Estos medios incluyen la prensa, la radio, la televisión, el cine, la industria discográfica, las plataformas de distribución por cable y satélite, e Internet.
+Esta regulación constituye una potencial intervención sobre actividades consideradas de interés público, pero también responde a necesidades del mercado (como incentivar la competencia) o a razones técnico-eficientes (como fijar estándares tecnológicos). Las formas que adopta van desde cláusulas constitucionales y leyes hasta especificaciones técnicas y procedimientos administrativos. Puede manifestarse de dos maneras:
+Regulación externa: Aplicada directamente por el Estado u organismos públicos.
+Autorregulación (o regulación interna): Controles que la propia industria de medios establece como respuesta a presiones públicas o críticas externas.
+Un problema central del ámbito regulatorio moderno es la creciente dificultad para deslindar la comunicación pública de la privada. Herramientas como la telefonía móvil e Internet cumplen de manera simultánea funciones de comunicación personal y de difusión o publicación masiva.
+Antecedentes históricos de la regulación
+El control de la comunicación pública comenzó con la invención de la imprenta en Europa occidental a mediados del siglo XV. En un principio, la producción manuscrita estaba bajo la supervisión informal de autoridades eclesiásticas y estatales. Con la expansión del comercio editorial a partir de 1500, las autoridades impusieron licencias estatales y aprobaciones eclesiásticas para combatir la disidencia y la herejía, estableciendo severos castigos e incluso la prohibición total de la imprenta en estados autocráticos como los imperios Otomano y Ruso.
+Entre los siglos XVI y XIX, la historia regulatoria estuvo signada por las luchas en favor de la libertad política, los derechos humanos y el desarrollo comercial e industrial. La libertad de publicación se consolidó gradualmente en Gran Bretaña, Francia (tras la Revolución) y la Europa continental durante el siglo XIX.
+El siglo XIX y el siglo XX introdujeron nuevas tecnologías que requirieron nuevos marcos normativos:
+Telégrafo, teléfono y radio: Su regulación nació ligada a acuerdos técnicos internacionales (como la asignación del espectro radioeléctrico) y a intereses militares y económicos del Estado, adoptando la forma de monopolios públicos o agencias gubernamentales (como la FCC en Estados Unidos).
+Cine: Fue regulado a nivel local por normas de seguridad física (prevención de incendios) y estándares morales.
+Radiodifusión (radio y televisión): Experimentó el grado más alto de regulación y nunca alcanzó los niveles de libertad conferidos a la prensa gráfica.
+Nuevas tecnologías (desde 1980): El cable y el satélite permitieron relajar los marcos normativos. Sin embargo, la etapa actual no debe interpretarse como una simple desregulación, sino como un período de re-regulación, donde las normas se reconfiguran para responder a prioridades políticas y económicas.
+Justificación de la regulación y el "Interés Público"
+Existe una tensión o contradicción intrínseca en regular los medios: la regulación fija límites a la libertad de expresión, la cual representa el principio fundamental de una sociedad democrática. Por ello, cualquier intervención debe contar con justificaciones claras.
+McQuail sintetiza seis razones generales que justifican la regulación:
+Gestionar un recurso económico clave en la sociedad de la información.
+Proteger el orden público y respaldar los instrumentos de gobierno y justicia.
+Proteger los derechos individuales y sectoriales que puedan ser dañados por el uso irrestricto de la comunicación.
+Promover la eficiencia técnica, la estandarización, la innovación y el servicio universal.
+Garantizar el acceso, la diversidad, la libertad de comunicación y las elecciones culturales de la población.
+Mantener las condiciones de libre mercado, estimulando la competencia y protegiendo a los consumidores.
+El concepto normativo central que guía estas justificaciones es el interés público, entendido como aquello esencial para el bienestar general de la sociedad. En la comunicación masiva, este interés público abarca tres dimensiones o funciones principales:
+Función política: Asegurar el flujo continuo de información veraz para la participación ciudadana, la competencia entre partidos y la expresión de visiones críticas.
+Función sociocultural: Promover la identidad nacional y regional, reflejar la diversidad de la población y mantener la cohesión social a través de las artes, la educación, el entretenimiento y el deporte.
+Función económica: Estimular el desarrollo del sector industrial tecnológico, proteger intereses económicos nacionales y evitar prácticas monopólicas para asegurar la competencia.
+Teoría, Políticas, Regulación y Responsabilidad
+Jerarquía de la regulación
+La regulación no opera de forma aislada, sino dentro de un marco de principios organizados jerárquicamente en tres niveles:
+Teoría (Principios e ideas generales): Fundamentos sociopolíticos y filosóficos como la libertad de expresión o los derechos humanos.
+Políticas de medios: Proyectos gubernamentales concretos orientados a aplicar esos principios teóricos para garantizar el interés público.
+Regulación: Aplicación formal (leyes, normas administrativas) e informal (autorregulación) sobre la estructura, la conducta, el contenido y los aspectos técnicos de los medios.
+Teorías normativas y modelos de sistemas de medios
+La teoría normativa se refiere a cómo deberían actuar los medios en una sociedad, reflejando los valores dominantes de su contexto sociopolítico. Siebert, Peterson y Schramm (1956) formularon cuatro teorías tradicionales sobre la prensa, a las que posteriormente se sumaron dos más:
+Teoría autoritaria: La comunicación está bajo supervisión directa del poder gobernante para mantener el orden social.
+Teoría de la libertad de prensa (Liberal): Defiende la libertad absoluta de expresión y de mercado, rechazando la intervención estatal.
+Teoría de la responsabilidad social: Acepta la libertad de prensa pero exige que los medios asuman obligaciones públicas y éticas, recurriendo a la autorregulación o a la intervención estatal si es necesario.
+Teoría desarrollista: Subordina la libertad mediática a las necesidades de desarrollo económico y social del país.
+Teoría alternativa: Defiende medios locales, participativos y no comerciales para dar voz a grupos excluidos.
+Por su parte, Hallin y Mancini (2004) reemplazan estas teorías abstractas por una tipología basada en el estudio empírico de la relación entre el sistema político y los medios:
+Modelo Liberal: Predominio del libre mercado, sin vínculos formales entre política y medios, con mínima intervención estatal (ejemplo: Estados Unidos).
+Modelo Democrático Corporativista: Convivencia entre medios comerciales y medios vinculados a grupos sociales y políticos, con un Estado reducido pero activo (ejemplo: Europa del Norte).
+Modelo Pluralista Polarizado: Medios fuertemente integrados a la política partidaria, industria comercial débil y fuerte presencia estatal (ejemplo: Sur de Europa).
+Principios generales en el modelo occidental
+Dentro del modelo democrático-liberal occidental, existe un consenso normativo en torno a cuatro principios básicos que los medios deben respetar:
+Independencia: Libertad de operar sin presiones gubernamentales o corporativas.
+Diversidad / Pluralismo: Variedad de medios, voces y visiones accesibles al público.
+Calidad informativa: Estándares de veracidad, precisión, objetividad y equilibrio.
+Orden social y cultural: Respeto a las leyes y contribución a la cultura e idioma nacional.
+La regulación cumple la tarea de mediar las tensiones inevitables entre estos principios (por ejemplo, entre la libertad de prensa y la protección del orden público).
+Políticas de medios y sus lógicas
+Las políticas son proyectos formulados a nivel transnacional, nacional o local para abordar problemas mediáticos. En su elaboración colisionan tres oposiciones principales:
+Interés público versus interés privado.
+Intereses económicos versus intereses sociales/culturales.
+Intereses internacionales versus intereses nacionales o locales.
+Además, las políticas responden a distintas lógicas de acción racional según el actor dominante: política (partidismo), administrativa (eficiencia organizativa), comercial (rentabilidad), industrial (estrategia económica nacional), cultural (identidad y valores) y técnica (innovación y rendimiento).
+Regulación formal, autorregulación y rendición de cuentas
+El marco regulatorio varía según su grado de poder y formalidad (fijado por su respaldo legal, su permanencia y su capacidad sancionatoria):
+Regulación formal: Normas de cumplimiento obligatorio derivadas del Estado, leyes específicas de medios, leyes generales (difamación, propiedad intelectual, privacidad) y agencias de control administrativo (como la FCC en EE.UU. o la OfCom en el Reino Unido).
+Autorregulación: Principios éticos, códigos de conducta y guías internas que los propios medios adoptan voluntariamente sin sanciones punitivas legales, supervisados por Consejos de Prensa o defensores del público.
+La rendición de cuentas (accountability) abarca los procesos voluntarios o involuntarios mediante los cuales los medios responden a la sociedad por sus publicaciones. Funciona a través de cuatro mecanismos: el mercado (oferta y demanda), la opinión pública (presión social), la ley/regulación (sanciones formales) y la autorregulación profesional.
+Aspectos de los Medios Sujetos a Regulación y Temas de Debate
+Las seis áreas regulables
+La intervención estatal o institucional no se aplica de manera uniforme, sino sobre seis dimensiones concretas:
+Estructura: Propiedad, financiamiento, concentración, licencias y monopolios.
+Infraestructura y tecnología: Redes, frecuencias espectrales y estándares técnicos.
+Distribución: Cobertura geográfica, reglas de emisión (como el must carry) y soberanía técnica.
+Acceso: Condiciones para que ciudadanos, minorías o partidos políticos usen los canales de comunicación.
+Conducta: Comportamiento ético, respeto a la privacidad, derechos de autor y límites en seguridad nacional.
+Contenido: Normas sobre lo que se emite (cuotas de pantalla, protección de menores, prohibición de incitación al odio).
+Temas de interés público e individual
+Los motivos que impulsan reclamos regulatorios en la agenda pública se dividen en dos esferas:
+Interés público: Seguridad nacional, protección del orden social, salvaguarda de valores morales (decencia), fomento del flujo informativo plural, defensa del idioma y de la cultura local, y protección de menores.
+Interés privado / individual: Protección del honor y la reputación (difamación), defensa contra intrusiones a la privacidad y resguardo de la propiedad intelectual.
+Modelos Específicos de Regulación por Medio
+Históricamente, cada tecnología de comunicación dio lugar a un modelo regulatorio propio. Aunque la convergencia tecnológica está diluyendo sus fronteras, McQuail analiza los tres modelos clásicos.
+1. El Modelo de la Prensa Escrita
+El principio rector de la prensa en las democracias occidentales es la libertad frente a cualquier regulación gubernamental, rechazando licencias previas, censura o castigos posteriores arbitrarios. La libertad de prensa es la piedra angular del sistema, aunque se encuentra limitada por normas civiles o penales sobre difamación, privacidad o seguridad estatal.
+Para abordar el rol del Estado sobre la prensa, Picard distingue dos conceptos:
+Libertad de prensa negativa (laissez-faire): Rechaza toda intervención gubernamental y deja el funcionamiento de los diarios exclusivamente en manos del libre mercado (su máxima expresión es la Primera Enmienda de EE.UU.).
+Libertad de prensa positiva: Promueve intervenciones públicas para remover las barreras que impiden el libre flujo de ideas y proteger al diario de las distorsiones del propio mercado.
+Dentro de la regulación positiva y reactiva de la prensa destacan dos instrumentos:
+Control de la concentración: La acumulación de diarios en pocas manos atenta contra el pluralismo. Países como Francia, Alemania, Italia y el Reino Unido aplican límites a la cuota de mercado (por ejemplo, considerar excesivo superar el 30% del mercado) e imponen normas estrictas de transparencia de la propiedad.
+Subsidios y apoyos económicos: Pueden ser generales (reducciones impositivas como el IVA o tarifas postales preferenciales para toda la industria) o específicos (ayudas directas a periódicos débiles o regionales). Los subsidios generales son preferibles porque no comprometen la independencia editorial, aunque benefician en mayor medida a los grandes grupos.
+2. El Modelo de Radiodifusión (Radio y Televisión)
+A diferencia de la prensa, la radiodifusión ha estado históricamente sujeta a un alto nivel de regulación e intervención estatal. Las razones originales de esta diferencia fueron la escasez del espectro radioeléctrico (que requería asignación de frecuencias), el enorme impacto cultural y político del audiovisual, y la necesidad de asegurar el acceso universal.
+Se distinguen dos variantes del modelo:
+Radiodifusión de Servicio Público: Caracterizada por la búsqueda del servicio universal, el financiamiento público (impuestos o cánones), el control democrático/parlamentario, la neutralidad e imparcialidad política, y el compromiso con estándares de alta calidad cultural y educativa.
+Radiodifusión Comercial Privada: Sujeta a licencias renovables que imponen reglas restrictivas (límites a la publicidad, protección de menores, cuotas de producción nacional o regional y normas de imparcialidad informativa).
+3. El Modelo de las Telecomunicaciones ("Common Carrier")
+Este modelo regula medios de comunicación punto a punto (correo, teléfono, telégrafo) que no difunden contenidos a audiencias masivas, sino que prestan un servicio público de transporte de mensajes. Sus características regulatorias centrales son:
+Neutralidad de contenido: El operador de la red tiene prohibido interferir, censurar o responsabilizarse por el contenido del mensaje.
+Obligación de acceso universal: Garantizar que cualquier ciudadano pueda acceder a la red en condiciones de equidad y a precios regulados.
+Control estricto de la infraestructura: Históricamente gestionado mediante monopolios estatales o privados fuertemente regulados, enfocados en la interconexión técnica y la competencia justa.
+El desafío de Internet y la Convergencia Regulatoria
+Internet presenta una condición anómala porque combina funciones de la prensa, la radiodifusión y las telecomunicaciones dentro de una misma plataforma interactiva y transnacional. Aunque formalmente se la encuadra dentro del modelo de common carrier, su carácter descentralizado y supranacional dificulta la aplicación de controles tradicionales. Actualmente, Internet funciona bajo esquemas de autorregulación de los proveedores de servicio, gobernanza técnica internacional (como ICANN) y la aplicación de leyes generales (propiedad intelectual, ciberdelito).
+La convergencia tecnológica (impulsada por la digitalización de contenidos) hace que la separación de los tres modelos regulatorios clásicos resulte cada vez más artificial, provocando tensiones donde servicios distribuidos por cable o red operan bajo normas distintas a la radiodifusión tradicional.
+Regulación Internacional y Tendencias Futuras
+Organismos de Gobernanza Global
+Ante la ausencia de un gobierno mundial, la regulación internacional se basa en la cooperación voluntaria y se enfoca en aspectos técnicos y comerciales:
+UIT (Unión Internacional de Telecomunicaciones): Asigna el espectro radioeléctrico, gestiona órbitas satelitales y fija estándares técnicos.
+OMC (Organización Mundial del Comercio): Promueve el libre comercio y presiona contra las medidas proteccionistas o subsidios culturales de los Estados.
+UNESCO: Promueve la libertad de expresión y la diversidad cultural, aunque carece de poder regulatorio sancionatorio.
+OMPI (Organización Mundial de la Propiedad Intelectual): Armoniza las leyes sobre derechos de autor.
+ICANN: Entidad privada sin fines de lucro que administra las direcciones IP y nombres de dominio en Internet.
+Comisión Europea: Establece marcos normativos comunitarios para el mercado audiovisual y de telecomunicaciones.
+Tendencias dinámicas de regulación
+Las políticas mediáticas actuales están moldeadas por cuatro fuerzas de cambio principales: avances tecnológicos, transformaciones políticas, presiones de mercado y la globalización. Las tendencias globales muestran:
+Paso de la desregulación a la re-regulación: Abandono de monopolios estatales y reestructuración de marcos normativos para favorecer la competencia privada.
+Prioridad de la lógica económica e industrial: Los derechos humanos y las consideraciones socioculturales quedan supeditados a la lógica comercial y al libre comercio.
+Marginalización del servicio público: La multiplicación de canales de distribución debilita la posición de los medios públicos.
+Aumento de la autorregulación: Preferencia por normas voluntarias y códigos de ética profesional frente a leyes estatales directas, excepto en áreas de seguridad nacional y combate al ciberdelito.
+Importante para el Parcial
+Conceptos Fundamentales
+Regulación de medios: Proceso de control y guía mediante reglas aplicadas por autoridades públicas a las actividades mediáticas para proteger el interés público, ordenar el mercado o garantizar eficiencia técnica.
+Interés público: Principio normativo que justifica la intervención estatal en tres áreas: política (información para la democracia), sociocultural (diversidad e identidad) y económica (competencia y desarrollo).
+Teoría normativa: Definición de cómo deberían actuar los medios en una sociedad según los valores de su sistema político.
+Libertad de prensa negativa vs. positiva: La negativa rechaza toda intervención del Estado (laissez-faire); la positiva exige intervenciones estatales para garantizar la equidad y eliminar barreras al libre flujo informativo.
+Convergencia tecnológica: Proceso impulsado por la digitalización que unifica los canales de distribución, haciendo obsoletas las divisiones regulatorias tradicionales.
+Distinciones Clave entre los Tres Modelos Regulatorios
+Prensa Escrita: Modelo basado en la máxima libertad sin licencias ni censura previa. Su regulación es principalmente negativa/reactiva (leyes antimonopolio) o de fomento (subsidios).
+Radiodifusión (Radio y TV): Modelo con alta intervención estatal y exigencia de licencias. Justificado por la escasez de frecuencias y su fuerte impacto social. Se divide en servicio público (imparcial, financiamiento público, servicio universal) y comercial (regulada en tiempos publicitarios y protección de menores).
+Telecomunicaciones (Common Carrier): Modelo de servicios punto a punto regulado en infraestructura y acceso universal. Se aplica el principio de neutralidad de contenido (el operador no controla lo que se transmite).
+Autores y Aportes
+Siebert, Peterson y Schramm: Formuladores de las cuatro teorías tradicionales de la prensa (Autoritaria, Liberal, Responsabilidad Social y Soviética).
+Hallin y Mancini: Clasifican los sistemas de medios según su relación con la política en tres modelos reales: Liberal, Democrático Corporativista y Pluralista Polarizado.
+Picard: Conceptualiza la diferencia entre libertad de prensa negativa y positiva.
+Pool: Clasifica los tres modelos tradicionales de regulación (Prensa, Radiodifusión y Common Carrier).
+Tensiones y Puntos de Confusión Frecuentes
+Regulación vs. Libertad: La regulación busca garantizar el interés público, pero siempre genera una tensión con la libertad de expresión.
+Desregulación vs. Re-regulación: La desregulación no implica la desaparición total de las normas, sino la modificación del marco regulatorio hacia una lógica orientada al mercado y a la competencia (re-regulación).
+Estatus de Internet: Internet no posee un modelo regulatorio propio. Se encuadra técnicamente como common carrier, operando bajo autorregulación, normas de derecho común y gobernanza técnica internacional.
