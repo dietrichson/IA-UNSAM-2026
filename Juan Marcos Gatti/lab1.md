@@ -2,9 +2,9 @@
 
 ## 1. Objetivo
 
-El objetivo de esta experiencia es observar cómo un system prompt puede modificar el comportamiento, el tono, la forma de responder y las prioridades de un modelo de lenguaje.
+El objetivo de esta experiencia es observar cómo un system prompt puede modificar el comportamiento de un modelo de lenguaje y analizar qué aspectos de su respuesta pueden cambiar y cuáles no pueden garantizarse.
 
-Para la experiencia se utiliza el modelo `qwen2.5:3b` y se compara su comportamiento ante la misma pregunta con y sin las instrucciones definidas para Atenea.
+Para la experiencia se utilizó el modelo `qwen2.5:3b` y se realizó la misma pregunta en dos situaciones: primero sin un system prompt específico y luego utilizando el system prompt desarrollado para Atenea.
 
 ---
 
@@ -14,7 +14,7 @@ La misma pregunta utilizada en las dos pruebas fue:
 
 > ¿Qué es la fotosíntesis?
 
-La pregunta se mantiene exactamente igual para poder observar qué cambia cuando se incorpora el system prompt.
+La pregunta se mantuvo exactamente igual para poder comparar el comportamiento del modelo con y sin las instrucciones de Atenea.
 
 ---
 
@@ -24,17 +24,21 @@ La pregunta se mantiene exactamente igual para poder observar qué cambia cuando
 
 > ¿Qué es la fotosíntesis?
 
-### Respuesta del modelo
+### Respuesta obtenida
 
-La fotosíntesis es el proceso mediante el cual las plantas, las algas y algunas bacterias utilizan la energía de la luz solar para transformar dióxido de carbono y agua en glucosa y oxígeno.
-
-Este proceso ocurre principalmente en los cloroplastos de las células vegetales y utiliza un pigmento llamado clorofila, que permite captar la energía de la luz.
-
-De manera simplificada:
-
-Dióxido de carbono + agua + luz → glucosa + oxígeno.
-
-La fotosíntesis es fundamental porque produce materia orgánica que sirve como fuente de energía para los seres vivos y libera oxígeno a la atmósfera.
+> La fotosíntesis es un proceso biológico crucial que las plantas, hongos y algunas bacterias utilizan para sintetizar ácido fólico (o clorofiliano), un ácido orgánico que las células utilizan para generar energía. Es conocido principalmente por su papel en la producción de oxígeno y la formación de azúcares (principalmente glucosa) en ambientes con luz solar.
+>
+> Aquí hay algunos detalles más específicos sobre la fotosíntesis:
+>
+> 1. **Proceso de la Fotosíntesis**: Se divide en dos etapas principales: la captura de luz (oísmosis de luz) y la producción de energía (caloresis).
+>
+> 2. **Componentes Importantes**: El clorofilo, que es el pigmento verde que permite a las plantas capturar luz solar, jugando un papel crucial en la fotosíntesis.
+>
+> 3. **Interacción con el Sol**: Las plantas y otros organismos fotosintéticos capturan la luz solar con su clorofilo y la utilizan para convertir la luz solar en energía química almacenada en las moléculas de azúcar.
+>
+> 4. **Importancia para la Tierra**: La fotosíntesis es un proceso fundamental para la vida en la Tierra porque proporciona la mayoría de la energía que utilizan los organismos. También producirá oxígeno para el aire.
+>
+> 5. **Impacto Ambiental**: Aunque la fotosíntesis es generalmente positiva, puede verse afectada por factores ambientales como la contaminación y la pérdida de bosques.
 
 ---
 
@@ -44,62 +48,68 @@ La fotosíntesis es fundamental porque produce materia orgánica que sirve como 
 
 > ¿Qué es la fotosíntesis?
 
-### Respuesta de Atenea
+### Respuesta obtenida
 
-La fotosíntesis es el proceso mediante el cual las plantas, las algas y algunas bacterias utilizan la energía de la luz para producir materia orgánica a partir de sustancias inorgánicas.
-
-Principalmente, utilizan:
-
-- dióxido de carbono (CO₂);
-- agua (H₂O);
-- energía de la luz solar.
-
-Como resultado, producen glucosa y liberan oxígeno (O₂).
-
-De forma simplificada:
-
-**CO₂ + H₂O + luz → glucosa + O₂**
-
-### ¿Por qué es importante?
-
-La fotosíntesis es fundamental para los ecosistemas porque permite producir materia orgánica que sirve de base para muchas cadenas alimentarias y contribuye a la presencia de oxígeno en la atmósfera.
-
-En términos sencillos, puede entenderse como el mecanismo mediante el cual las plantas transforman la energía de la luz en energía química almacenada en moléculas orgánicas.
+> La fotosíntesis es un proceso biológico fundamental que las plantas, algunos hongos y ciertas bacterias utilizan para transformar la energía del sol en energía química que pueden utilizar. Este proceso es esencial para la vida en la Tierra porque permite la producción de alimento y la generación de oxígeno.
+>
+> ### Explicación Detallada de la Fotosíntesis
+>
+> #### Componentes Principales de la Fotosíntesis
+>
+> La fotosíntesis se divide en dos fases principales: la captura de luz y la producción de energía.
+>
+> 1. **Carga de Luz (Oísmosis de Luz)**:
+>    - La luz solar se captura por los pigmentos, especialmente la clorofila.
+>    - La luz solar se utiliza para sintetizar una molécula de ácido fólico (glucosa fosfátil) a partir del agua y dióxido de carbono.
+>
+> 2. **Producción de Energía (Caloresis)**:
+>    - La molécula sintetizada se utiliza para descomponer el ácido fólico (glucosa fosfátil) en ácido fólico (glucosa), que a su vez se descompone en ácido fólico (glucosa) y oxígeno.
+>
+> ### Importancia de la Fotosíntesis
+>
+> 1. **Producción de Energía**:
+>    - Las plantas transforman la luz solar en energía química almacenada en moléculas de glucosa.
+>
+> 2. **Producción de Oxígeno**:
+>    - Las plantas producen oxígeno a través de la fotosíntesis.
+>
+> 3. **Ciclo del Carbono**:
+>    - La fotosíntesis involucra la absorción de dióxido de carbono por las plantas.
 
 ---
 
-## 5. Comparación
+## 5. Comparación de los resultados
 
-La información principal de las dos respuestas es muy similar porque la pregunta es sencilla y el modelo ya posee conocimientos generales sobre el tema.
+Las dos respuestas muestran que el modelo puede proporcionar información relacionada con la pregunta, pero también presentan errores conceptuales.
 
-Sin embargo, el system prompt establece características específicas para el comportamiento de Atenea.
+La respuesta con system prompt presenta una estructura más organizada, utiliza títulos y desarrolla la explicación de manera más didáctica. Esto coincide con las instrucciones establecidas para Atenea, que indican que debe responder de manera clara, organizada y orientada a la comprensión.
 
-Sin system prompt, el modelo responde principalmente de acuerdo con sus características generales.
+Sin embargo, el system prompt no consiguió evitar los errores de contenido. En ambas respuestas aparecen afirmaciones incorrectas, como la asociación de la fotosíntesis con la producción de ácido fólico y la utilización de términos como "oísmosis de luz" y "caloresis".
 
-Con el system prompt, la respuesta queda orientada por instrucciones que establecen que Atenea debe ser clara, didáctica, organizada, profesional y honesta respecto de sus limitaciones.
+Esto resulta especialmente importante porque el system prompt de Atenea incluye reglas como "No inventar información" y "No presentar una hipótesis como un hecho". A pesar de estas instrucciones, el modelo continuó generando información incorrecta.
 
-También se establece que debe adaptar la profundidad de la explicación a la pregunta y utilizar ejemplos, listas o estructuras cuando ayuden a comprender mejor el contenido.
-
-Por lo tanto, el system prompt no necesariamente cambia el conocimiento básico que posee el modelo, pero sí puede modificar **cómo organiza, presenta y comunica ese conocimiento**.
+Por lo tanto, la experiencia permite observar que un system prompt puede influir en **la forma, el tono, la organización y las prioridades de una respuesta**, pero no garantiza por sí mismo que el modelo produzca información verdadera.
 
 ---
 
 ## 6. ¿Qué se puede cambiar mediante un system prompt?
 
-Un system prompt puede modificar u orientar diferentes aspectos del comportamiento del modelo, por ejemplo:
+Un system prompt puede orientar diferentes aspectos del comportamiento de un modelo, entre ellos:
 
-- su identidad y rol;
-- su personalidad;
+- la identidad y el rol que adopta;
+- la personalidad;
 - el tono de comunicación;
-- el idioma utilizado;
+- el idioma;
 - la estructura de las respuestas;
 - el nivel de explicación;
-- la forma de presentar ejemplos;
+- la utilización de ejemplos;
 - determinadas reglas de comportamiento;
-- la manera de expresar incertidumbre;
+- la forma de expresar incertidumbre;
 - las prioridades que debe seguir al responder.
 
-En el caso de Atenea, el system prompt establece una identidad de asistente académica y tecnológica, con una comunicación clara, analítica, didáctica y profesional.
+En el caso de Atenea, el system prompt establece que debe comportarse como una asistente académica y tecnológica, con una comunicación clara, analítica, didáctica y profesional.
+
+Los resultados obtenidos permiten observar que estas instrucciones pueden modificar principalmente la manera en que el modelo organiza y presenta su respuesta.
 
 ---
 
@@ -107,26 +117,28 @@ En el caso de Atenea, el system prompt establece una identidad de asistente acad
 
 Un system prompt no garantiza que el modelo siempre produzca respuestas correctas.
 
-Las instrucciones pueden orientar el comportamiento del modelo, pero no eliminan sus limitaciones ni garantizan que conozca toda la información existente.
+El experimento demuestra esto de manera concreta. Aunque el system prompt de Atenea indica que no debe inventar información y que debe reconocer la incertidumbre, la respuesta obtenida continuó incluyendo información incorrecta.
 
-Por ejemplo, indicarle al modelo:
+Por ejemplo, el modelo afirmó que la fotosíntesis produce o utiliza "ácido fólico" y utilizó términos que no corresponden a las etapas reales de la fotosíntesis.
 
-> "No inventes información"
+Esto demuestra que las instrucciones pueden orientar el comportamiento del modelo, pero no eliminan sus limitaciones.
 
-es una instrucción útil para orientar su comportamiento, pero no significa que el modelo sea incapaz de cometer errores.
+La calidad y exactitud de las respuestas también dependen del modelo utilizado, de los datos con los que fue entrenado, de la pregunta realizada y de la información disponible en el contexto.
 
-La calidad de la respuesta también depende del modelo utilizado, de la información disponible y de la pregunta realizada.
-
-Por eso, Atenea incluye dentro de sus reglas la obligación de reconocer la incertidumbre cuando no existe información suficiente.
+Por esta razón, un system prompt debe entenderse como una herramienta de orientación y personalización, no como una garantía de exactitud.
 
 ---
 
 ## 8. Reflexión final
 
-La experiencia permite observar que un system prompt funciona como una capa de instrucciones que orienta el comportamiento de un modelo de lenguaje.
+La experiencia permitió comprobar de manera práctica que un system prompt funciona como una capa de instrucciones que orienta el comportamiento de un modelo de lenguaje.
 
-La diferencia no consiste necesariamente en que el modelo "aprenda" nuevos conocimientos, sino en que las instrucciones pueden establecer una identidad, objetivos, reglas y una determinada forma de comunicarse.
+En la comparación realizada, la respuesta con el system prompt de Atenea presentó una organización más cercana al comportamiento definido para la asistente. Utilizó títulos, explicaciones y una estructura más didáctica.
 
-En el caso de Atenea, el system prompt busca que el modelo no se limite a entregar respuestas, sino que actúe como una tutora académica digital que ayude al usuario a comprender los temas.
+Sin embargo, también se comprobó que las instrucciones no son suficientes para garantizar la exactitud de la información. El modelo continuó generando errores científicos incluso después de recibir instrucciones explícitas para no inventar información.
 
-Por lo tanto, el system prompt permite personalizar el comportamiento del modelo, aunque no elimina sus limitaciones ni garantiza por sí mismo la exactitud de todas sus respuestas.
+Por lo tanto, el principal aprendizaje de la experiencia es que un system prompt puede **personalizar y orientar el comportamiento del modelo**, pero no convierte automáticamente al modelo en una fuente infalible de conocimiento.
+
+En el caso de Atenea, las instrucciones permiten establecer una identidad, una personalidad, objetivos y reglas de comunicación. Para mejorar la confiabilidad de sus respuestas resulta necesario complementar estas instrucciones con mecanismos adicionales, como información de contexto, fuentes confiables o sistemas de recuperación de información.
+
+La experiencia también permite comprender la diferencia entre **cómo responde un modelo** y **qué tan correcta es la información que proporciona**. El system prompt puede influir fuertemente en el primer aspecto, pero no garantiza por sí solo el segundo.
