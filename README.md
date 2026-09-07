@@ -43,6 +43,7 @@ Las presentaciones de cada clase:
 2. [GitHub: cuenta, fork y pull request](https://dietrichson.github.io/IA-UNSAM-2026/preso-2.html)
 3. [Tunear un modelo LLM](https://dietrichson.github.io/IA-UNSAM-2026/preso-3-2026-08-10.html) — 10/08/2026
 4. [Experimento y RAG](https://dietrichson.github.io/IA-UNSAM-2026/preso-4-2026-08-24.html) — 24/08/2026
+5. [Modelos estadísticos y tokens de LLM](https://dietrichson.github.io/IA-UNSAM-2026/preso-5-2026-08-31.html) — 31/08/2026
 
 El código fuente de cada una está en [`presos/`](./presos/).
 
