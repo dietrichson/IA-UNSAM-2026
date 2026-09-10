@@ -44,8 +44,9 @@ Las presentaciones de cada clase:
 3. [Tunear un modelo LLM](https://dietrichson.github.io/IA-UNSAM-2026/preso-3-2026-08-10.html) — 10/08/2026
 4. [Experimento y RAG](https://dietrichson.github.io/IA-UNSAM-2026/preso-4-2026-08-24.html) — 24/08/2026
 5. [Modelos estadísticos y tokens de LLM](https://dietrichson.github.io/IA-UNSAM-2026/preso-5-2026-08-31.html) — 31/08/2026
+6. [Silicon Sampling](https://dietrichson.github.io/IA-UNSAM-2026/preso-6-2026-09-07.html) — 07/09/2026 — clase invitada de Thiago Donato ([@akathiago](https://github.com/akathiago)); fuente original en [akathiago/clase-silicon-sampling](https://github.com/akathiago/clase-silicon-sampling)
 
-El código fuente de cada una está en [`presos/`](./presos/).
+El código fuente de cada una está en [`presos/`](./presos/), salvo la presentación de la clase invitada (6), cuya fuente está en el repositorio original del disertante.
 
 ## Información técnica y laboratorios
 
