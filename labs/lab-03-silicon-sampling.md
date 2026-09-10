@@ -1,6 +1,6 @@
 # Laboratorio 3: Silicon sampling
 
-> Consigna propuesta por Thiago ([@akathiago](https://github.com/akathiago)) para la clase
+> Consigna propuesta por Thiago Donato ([@akathiago](https://github.com/akathiago)) para la clase
 > invitada del 07/09/2026, adaptada de [`tarea/consigna.md`](https://github.com/akathiago/clase-silicon-sampling/blob/main/tarea/consigna.md)
 > y [`tarea/rubrica.md`](https://github.com/akathiago/clase-silicon-sampling/blob/main/tarea/rubrica.md)
 > en [akathiago/clase-silicon-sampling](https://github.com/akathiago/clase-silicon-sampling).
