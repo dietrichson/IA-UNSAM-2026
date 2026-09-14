@@ -1,0 +1,106 @@
+ATENEA — DOCUMENTACIÓN DEL PROYECTO
+
+Descripción general
+
+Atenea es un asistente de inteligencia artificial desarrollado como proyecto académico para el Seminario Experimental de Inteligencia Artificial 2026. Su objetivo es responder preguntas utilizando información proporcionada en documentos locales.
+
+Atenea utiliza un modelo de lenguaje local mediante Ollama. Para mejorar sus respuestas se implementa una arquitectura RAG (Retrieval-Augmented Generation), que permite recuperar fragmentos relevantes de los documentos antes de generar una respuesta.
+
+FUNCIONAMIENTO DEL RAG
+
+El sistema funciona mediante cinco pasos principales:
+
+1. Carga de documentos:
+El sistema busca archivos de texto y Markdown dentro de la carpeta docs.
+
+2. División en fragmentos:
+Los documentos se dividen en fragmentos de aproximadamente 120 palabras. Los fragmentos comparten 20 palabras con el fragmento siguiente para evitar perder información cuando una idea queda dividida entre dos fragmentos.
+
+3. Generación de embeddings:
+Cada fragmento se transforma en un vector numérico utilizando el modelo nomic-embed-text.
+
+4. Recuperación:
+Cuando el usuario realiza una pregunta, la pregunta también se transforma en un vector. El sistema compara ese vector con los vectores de los documentos utilizando similitud coseno y selecciona los tres fragmentos más relevantes.
+
+5. Generación de respuesta:
+Los fragmentos recuperados se incorporan al contexto enviado al modelo de lenguaje. Atenea debe responder utilizando únicamente la información recuperada. Si la información necesaria no aparece en los documentos, debe indicar que no lo sabe.
+
+MODELOS UTILIZADOS
+
+Modelo de conversación:
+qwen2.5:3b
+
+Modelo de embeddings:
+nomic-embed-text
+
+El modelo de conversación genera las respuestas. El modelo de embeddings transforma textos en representaciones numéricas que permiten comparar su similitud semántica.
+
+OBJETIVO ACADÉMICO
+
+El objetivo principal del proyecto es comprender de manera práctica cómo funciona un sistema RAG sin depender de frameworks especializados.
+
+El proyecto busca que los estudiantes puedan observar cada etapa del proceso: carga de documentos, fragmentación, generación de embeddings, recuperación de información y generación de respuestas.
+
+VENTAJAS DEL SISTEMA
+
+Una ventaja importante de RAG es que el modelo puede utilizar información específica contenida en documentos locales sin necesidad de volver a entrenar el modelo de lenguaje.
+
+También permite reducir las respuestas inventadas, ya que Atenea recibe instrucciones de utilizar únicamente el contexto recuperado.
+
+LIMITACIONES
+
+Atenea no conoce automáticamente toda la información existente en los documentos. Solamente recibe los fragmentos que el sistema considera más relevantes para cada pregunta.
+
+Si una información no se encuentra en los fragmentos recuperados, Atenea puede responder que no conoce la respuesta.
+
+La calidad de las respuestas depende de la calidad de los documentos, la división en fragmentos, los embeddings y la cantidad de fragmentos recuperados.
+
+CONFIGURACIÓN
+
+Cantidad de palabras por fragmento: 120
+
+Superposición entre fragmentos: 20 palabras
+
+Cantidad de fragmentos recuperados: 3
+
+Carpeta de documentos: docs
+
+Los documentos aceptados por el sistema son archivos .txt y .md.
+
+CONCEPTOS IMPORTANTES
+
+RAG significa Retrieval-Augmented Generation, o generación aumentada mediante recuperación.
+
+Embedding es una representación numérica de un texto que permite comparar su significado con otros textos.
+
+Similitud coseno es una medida utilizada para determinar qué tan relacionados están dos vectores.
+
+Chunk es un fragmento de texto utilizado por el sistema para realizar la recuperación.
+
+Contexto es la información recuperada que se entrega al modelo antes de generar una respuesta.
+
+EJEMPLO DE USO
+
+Pregunta:
+¿Qué modelo se utiliza para generar las respuestas?
+
+Respuesta esperada:
+Atenea utiliza qwen2.5:3b como modelo de conversación.
+
+Pregunta:
+¿Cuántos fragmentos recupera el sistema?
+
+Respuesta esperada:
+El sistema recupera los tres fragmentos más relevantes.
+
+Pregunta:
+¿Qué modelo se utiliza para generar embeddings?
+
+Respuesta esperada:
+Se utiliza nomic-embed-text.
+
+REGLA PRINCIPAL DE ATENEA
+
+Cuando una pregunta pueda responderse utilizando los documentos disponibles, Atenea debe basarse en ellos.
+
+Cuando la información solicitada no se encuentre en el contexto recuperado, Atenea debe decir que no lo sabe en lugar de inventar una respuesta.
