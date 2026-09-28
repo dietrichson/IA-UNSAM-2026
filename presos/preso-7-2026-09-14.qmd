@@ -1,0 +1,382 @@
+---
+subtitle: "Seminario Experimental Inteligencia Artificial"
+title: "Programar con agentes: dos videojuegos"
+author: "Aleksander Dietrichson, PhD"
+date: 2026-09-14
+format:
+  revealjs:
+    theme: dark
+    mermaid:
+      theme: dark
+lang: es
+editor: visual
+---
+
+## Agenda de hoy
+
+1.  Revisión de entregas (en vivo)
+
+2.  Ta-te-ti
+
+3.  Space Invaders
+
+# 1. Revisión de entregas
+
+## Revisión de entregas
+
+-   Revisamos los PRs en vivo, en el repo.
+
+-   Lo que miramos: ¿corre? ¿se entiende? ¿qué le pidieron al modelo?
+
+# 2. Ta-te-ti
+
+## El pedido (lo que escribió el humano)
+
+::: {style="font-size: 0.75em;"}
+> Create two simple (classic) video-games using prompts / vibe-coding / agentic engineering. They should run entirely in the browser, and they should have an internal API which returns game state and score \[...\] The idea of the internal API is to have a quick way to use reinforcement learning to train a model against these live systems.
+>
+> Tic-tac-toe: create the game so that we have a 3x3, 4x4 and 5x5 option.
+>
+> Run the programming tasks as separate agents, so we have clean transcripts for each process.
+:::
+
+::: {.fragment}
+Un párrafo. Ninguna línea de código. Ningún nombre de archivo.
+:::
+
+## ¿Quién hace qué?
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+    H[Humano<br/>docente] -->|pedido en prosa| PM[PM<br/>orquestador]
+    PM -->|brief: spec + contrato| E1[javascript-engineer<br/>ta-te-ti]
+    PM -->|brief: spec + contrato| E2[javascript-engineer<br/>space invaders]
+    E1 -->|informe + tests| PM
+    E2 -->|informe + tests| PM
+    PM -->|verificar en browser| Q1[web-qa]
+    PM -->|verificar en browser| Q2[web-qa]
+    Q1 -->|PASS / FAIL + evidencia| PM
+    Q2 -->|PASS / FAIL + evidencia| PM
+    PM -->|resumen| H
+```
+
+## El orquestador no programa
+
+-   El PM tiene **prohibido** escribir código. Su trabajo es escribir *briefs* y leer informes.
+
+-   Cada sub-agente arranca con **contexto vacío**: sólo ve su brief, el repo y sus propias herramientas.
+
+-   Cada agente vive en su propia transcripción. Eso es lo que estamos mirando hoy.
+
+-   El PM nunca vio el código de los juegos. Sólo vio los informes.
+
+## El brief: de un párrafo a una especificación {.smaller}
+
+Lo que el PM le mandó al ingeniero (en inglés, tal como se envió):
+
+``` markdown
+# Task: Tic-tac-toe (Ta-te-ti) in the browser, with an internal API
+  for reinforcement learning
+
+You are building a teaching artifact for a university seminar on AI.
+The audience is non-programmers. The code must be small, readable,
+and modular. No frameworks, no build step, no dependencies, no server.
+Opening `index.html` by double-clicking must work (so use plain
+`<script>` tags, NOT `type="module"`, because ES modules fail on `file://`).
+
+## Files (keep each one short and focused)
+- `index.html` — minimal page ...
+- `game.js`    — pure game logic. No DOM access at all. Works in Node.
+                 This is the file students will read.
+- `ui.js`      — rendering and input: exposes `window.game` (the API below).
+- `test.js`    — tests of `game.js` runnable with `node --test test.js`
+- `README.md`  — in Spanish ...
+```
+
+## El brief: el contrato de la API {.smaller}
+
+La parte que importa para la clase de *reinforcement learning*:
+
+``` javascript
+game.reset(options)   // { size: 3|4|5, winLength?, opponent?: 'human'|'random'|'none' }
+game.step(action)     // action = índice de celda → { state, reward, done, illegal }
+game.getState()       // copia JSON del estado
+game.getScore()       // { x, o, draws }
+game.getActions()     // celdas legales
+```
+
+> Reward is always from the point of view of player 1 (X): `+1` when X wins, `-1` when O wins, `0` otherwise. An illegal action returns `reward: -1` and does not change the board.
+
+::: {.fragment}
+El mismo contrato se usó para Space Invaders. **Una interfaz, dos entornos.**
+:::
+
+## El brief: la cláusula de cierre
+
+Toda delegación a un ingeniero termina con el mismo párrafo:
+
+> Before returning: run `node --test sasha/tic-tac-toe/test.js`, fix any issues, verify all tests pass. Verify ALL deliverables listed above are present. **Show the raw test output in your report**, and list the final files with their line counts.
+
+-   Sin esto el agente dice "debería funcionar".
+
+-   Con esto el agente pega la salida real de los tests.
+
+## Qué pasa "bajo el capó"
+
+```{mermaid}
+%%| fig-width: 10
+sequenceDiagram
+    participant PM
+    participant E as javascript-engineer
+    participant FS as Repo (archivos)
+    participant N as node --test
+    PM->>E: brief (spec + contrato + cláusula de cierre)
+    E->>FS: escribe game.js, ui.js, index.html, ...
+    E->>N: corre los tests
+    N-->>E: 14 pass / 0 fail
+    E->>E: ui.js no se testea en Node → simula un DOM, juega 300 partidas
+    E-->>PM: informe: archivos, líneas, salida cruda, decisiones tomadas
+```
+
+## Lo que respondió el ingeniero {.smaller}
+
+Fragmentos del informe (agente → PM):
+
+> `node --test sasha/tic-tac-toe/test.js` → `EXIT=0` ... ℹ tests 14, pass 14, fail 0
+
+> Code excluding README and tests is 310 lines. I stopped compacting there: getting under 300 meant collapsing CSS declarations into one-liners, which costs the readability the spec asks for.
+
+> `test.js` exercises `game.js` only, so the API in `ui.js` would have shipped unverified. I drove it through a throwaway fake DOM: 300 full games played through `reset` / `getActions` / `step`.
+
+::: {.fragment}
+Tres cosas para notar: **evidencia cruda**, **desvío justificado** (310 vs 300), **iniciativa acotada** (testeó lo que el brief no cubría, sin agregar features).
+:::
+
+## Comunicación agente a agente
+
+El PM lee el informe y decide el próximo paso. No hubo conversación con el ingeniero: el brief fue suficiente.
+
+Lo que sí hubo:
+
+-   El *framework* rechazó lanzar dos ingenieros a la vez sobre el mismo checkout de git (riesgo de que un agente pise los archivos del otro).
+
+-   Solución: el segundo juego corrió en un **worktree aislado** (una copia del repo), y un tercer agente (`local-ops`) copió la carpeta de vuelta.
+
+-   El PM no ejecutó ninguno de esos comandos. Delegó también la mudanza.
+
+## Verificación: un segundo agente, otro punto de vista {.smaller}
+
+Brief a `web-qa`: abrir el juego en el browser, jugar a mano, y correr esto en la consola:
+
+``` javascript
+game.reset({ size: 4, opponent: 'random' });
+game.step(0);   // O ya respondió
+game.step(0);   // ilegal: reward -1, tablero sin cambios
+
+game.reset({ size: 3, opponent: 'random' });
+let r; while (!(r = game.step(game.getActions()[
+  Math.floor(Math.random() * game.getActions().length)])).done) {}
+r.reward; game.getScore();
+```
+
+Informe del QA:
+
+> PASS on all 6 checks. Zero console messages of any kind.
+
+> **Tooling note:** the `file://` scheme is rejected by the `navigate` tool, so I served the same, unmodified directory over `python3 -m http.server`. Flagging this deviation for you to judge.
+
+## Principio: los desvíos se declaran
+
+-   El ingeniero se pasó de 300 líneas y explicó por qué.
+
+-   El QA no pudo abrir `file://` y explicó qué hizo en su lugar.
+
+-   El PM reportó ambas cosas al humano, sin esconderlas.
+
+::: {.fragment}
+Un agente que esconde un desvío es peor que uno que falla.
+:::
+
+## Resultado: ta-te-ti
+
+::: columns
+::: {.column width="50%"}
+-   `sasha/tic-tac-toe/`
+-   6 archivos, 310 líneas de código
+-   14 tests en Node
+-   3x3, 4x4, 5x5 y `winLength` configurable
+-   Oponente humano, aleatorio o ninguno
+:::
+
+::: {.column width="50%"}
+``` javascript
+// En la consola del browser:
+game.reset({ size: 5, winLength: 4 })
+game.getActions()
+game.step(12)
+```
+
+[▶ Jugar al ta-te-ti](tic-tac-toe/index.html){target="_blank"}
+:::
+:::
+
+# 3. Space Invaders
+
+## El mismo método, otro problema
+
+-   Mismo tipo de agente (`javascript-engineer`), mismo modelo, misma estructura de brief.
+
+-   Lo que cambió: la especificación del juego.
+
+-   Space Invaders es un juego en tiempo real. Para RL hace falta que sea **discreto y reproducible**.
+
+## El brief: decisiones de diseño tomadas por el PM {.smaller}
+
+``` markdown
+## Game design (deliberately simplified so an RL agent can learn it)
+- The world is a discrete grid: width = 20 columns, height = 15 rows.
+- The player moves left/right one cell per tick.
+- Aliens: a block of 3 rows x 8 columns. The whole block moves one cell
+  sideways every N ticks; at the edge it moves down and reverses.
+- One bullet at a time. Points: 30 top row, 20 middle, 10 bottom.
+- ALL randomness goes through a seeded pseudo-random generator so
+  `reset({ seed: 42 })` produces a reproducible episode.
+  This matters for the RL lesson.
+```
+
+``` javascript
+game.step(action)   // action: 0 = nada, 1 = izquierda, 2 = derecha, 3 = disparar
+                    // avanza exactamente UN tick → { state, reward, done }
+game.play() / game.pause()   // modo humano / modo API
+state.grid          // matriz 15x20 de enteros: la observación para el modelo
+```
+
+## Recompensas: definidas antes de escribir código
+
+| Evento                       | Reward |
+|------------------------------|-------:|
+| Alien fila superior          |    +30 |
+| Alien fila media             |    +20 |
+| Alien fila inferior          |    +10 |
+| Eliminar todos los aliens    |   +100 |
+| Perder una vida              |    −50 |
+| Fin del juego (derrota)      |   −100 |
+
+::: {.fragment}
+Esto no es un detalle de implementación. Es la **definición del problema** que el modelo va a aprender.
+:::
+
+## Lo que respondió el ingeniero {.smaller}
+
+> ℹ tests 14, pass 14, fail 0
+
+> My first draft came in at 401 lines, so I tightened `game.js` and `ui.js` and re-ran both checks after. Code excluding README and tests: 327 lines.
+
+Decisiones que tomó solo, y declaró:
+
+-   Los aliens ocupan columnas alternadas (`x = 2, 4, ... 16`) para que el rebote se vea en clase.
+
+-   `reset()` sin argumentos usa semilla 1 (reproducible). El botón "Nueva partida" usa una semilla aleatoria (para humanos).
+
+-   Perder la última vida y matar al último alien en el mismo tick cuenta como derrota.
+
+::: {.fragment}
+Ninguna estaba en el brief. Todas están en el README.
+:::
+
+## Verificación en el browser {.smaller}
+
+Brief a `web-qa`, entre otras cosas: reproducibilidad.
+
+``` javascript
+game.reset({ seed: 7 }); for (let i = 0; i < 50; i++) game.step(i % 4);
+const a = JSON.stringify(game.getState());
+game.reset({ seed: 7 }); for (let i = 0; i < 50; i++) game.step(i % 4);
+const b = JSON.stringify(game.getState());
+a === b;   // esperado: true
+```
+
+Informe:
+
+> `a === b → true`
+
+> Random-agent episode: `[n, done, won, lives, score] → [256, true, false, 3, 100]`. Terminated at tick 256 without any life lost, consistent with the README's "an alien reaches the ship's row" loss condition.
+
+> The `computer` tool's `key` action sends an instant tap, which the game's tick loop can miss. I tested with a genuinely held key instead.
+
+## El ciclo completo {.smaller}
+
+::: columns
+::: {.column width="50%"}
+**Construir**
+
+```{mermaid}
+%%| fig-width: 5
+flowchart TD
+    A[Pedido en prosa] --> B[PM escribe el brief:<br/>archivos, reglas, contrato,<br/>tests, cláusula de cierre]
+    B --> C[Ingeniero escribe<br/>código y tests]
+    C --> D{node --test}
+    D -->|falla| C
+    D -->|pasa| E[Informe con salida cruda<br/>y decisiones declaradas]
+```
+:::
+
+::: {.column width="50%"}
+**Verificar**
+
+```{mermaid}
+%%| fig-width: 5
+flowchart TD
+    E[Informe del ingeniero] --> F[PM lee el informe]
+    F --> G[QA independiente<br/>en el browser]
+    G -->|PASS + desvíos| H[PM reporta al humano]
+    G -->|FAIL| C[Vuelve al ingeniero]
+```
+:::
+:::
+
+## Costos: qué consumió cada agente {.smaller}
+
+| Agente                          | Tokens | Herramientas | Duración |
+|---------------------------------|-------:|-------------:|---------:|
+| javascript-engineer (ta-te-ti)  |   96 K |           24 |    6 min |
+| javascript-engineer (invaders)  |  110 K |           31 |    8 min |
+| web-qa (ta-te-ti)               |  102 K |           55 |   10 min |
+| web-qa (invaders)               |  115 K |           64 |    8 min |
+| local-ops (mudanza de carpeta)  |   43 K |            8 |     35 s |
+
+-   Cada delegación recarga el contexto desde cero. Por eso un brief completo vale más que cinco briefs chicos.
+
+-   El QA gastó más que el ingeniero: verificar es caro, y vale la pena.
+
+## Principios
+
+1.  **La especificación es el producto.** El humano escribió un párrafo; el PM lo convirtió en un contrato. El código salió de ahí.
+
+2.  **Contrato primero.** La API de RL se definió antes de que existiera una línea de código, y es idéntica en los dos juegos.
+
+3.  **Evidencia cruda, no adjetivos.** "Pasan los tests" no vale. La salida de `node --test` sí.
+
+4.  **Separar lógica de interfaz.** `game.js` no toca el DOM: por eso se puede testear en Node y por eso un alumno lo puede leer.
+
+5.  **Los desvíos se declaran.** 310 líneas en vez de 300. `http.server` en vez de `file://`. Todo quedó en el informe.
+
+6.  **Verificación independiente.** Quien escribe el código no es quien lo aprueba.
+
+## Lo que viene
+
+-   Los dos juegos exponen `reset()`, `step()`, `getState()`, `getActions()`.
+
+-   Eso es exactamente lo que necesita un agente de *reinforcement learning*.
+
+-   Próxima clase: entrenar contra estos entornos, en vivo, en el browser.
+
+``` javascript
+// El loop que vamos a reemplazar por un modelo:
+let r = { done: false };
+game.reset({ seed: 1 });
+while (!r.done) r = game.step(Math.floor(Math.random() * 4));
+```
+
+[▶ Jugar a Space Invaders](space-invaders/index.html){target="_blank"}

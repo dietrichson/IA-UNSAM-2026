@@ -1,0 +1,66 @@
+/* style.css — Retro y minimalista: monoespaciada, fondo oscuro, sin animaciones. */
+
+body {
+  background: #101010;
+  color: #e8e8e8;
+  font: 16px "Courier New", Courier, monospace;
+  margin: 0;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+select, button {
+  background: #101010;
+  color: #e8e8e8;
+  border: 1px solid #e8e8e8;
+  font: inherit;
+  padding: 0.3rem 0.6rem;
+}
+
+select:hover, button:hover { background: #e8e8e8; color: #101010; }
+
+/* El tablero es una grilla cuadrada; ui.js fija --size según el tamaño. */
+#board {
+  display: grid;
+  grid-template-columns: repeat(var(--size, 3), 3rem);
+  gap: 2px;
+  background: #e8e8e8;
+  border: 2px solid #e8e8e8;
+}
+
+.cell {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  background: #101010;
+  color: #e8e8e8;
+  border: none;
+  font: inherit;
+  font-size: 1.6rem;
+}
+
+/* Las celdas ya jugadas se deshabilitan, pero tienen que seguir legibles. */
+.cell:disabled { color: #e8e8e8; opacity: 1; }
+
+/* La línea ganadora, en video inverso. */
+.cell.win { background: #e8e8e8; color: #101010; }
+
+#status { margin: 0; font-size: 1.2rem; }
+#score { margin: 0; color: #9a9a9a; }

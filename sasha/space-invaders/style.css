@@ -1,0 +1,46 @@
+/* Estética retro: fondo negro, tipografía monoespaciada, verde y blanco. */
+
+body {
+  background: #000000;
+  color: #39ff14;
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+  margin: 0;
+  padding: 24px 12px;
+}
+h1 {
+  font-size: 20px;
+  letter-spacing: 6px;
+  font-weight: normal;
+  margin: 0 0 16px;
+}
+canvas {
+  border: 2px solid #39ff14;
+  background: #000000;
+  image-rendering: pixelated;
+  max-width: 100%;
+}
+#estado {
+  color: #ffffff;
+  font-size: 16px;
+  white-space: pre;
+  margin: 12px 0;
+}
+button {
+  background: #000000;
+  color: #39ff14;
+  border: 2px solid #39ff14;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+button:hover {
+  background: #39ff14;
+  color: #000000;
+}
+.ayuda {
+  color: #777777;
+  font-size: 13px;
+  margin-top: 12px;
+}
