@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Breakout</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="juego">
+    <!-- Zona superior: una vida = un corazón (los dibuja ui.js) -->
+    <header class="hud">
+      <div id="vidas" class="vidas" role="img" aria-label="Vidas restantes"></div>
+    </header>
+
+    <!-- Marco visible que limita el área de juego -->
+    <div class="marco">
+      <canvas id="lienzo" width="650" height="520"></canvas>
+
+      <!-- Cartel de fin de partida (oculto mientras se juega) -->
+      <div id="cartel" class="cartel" role="dialog" aria-modal="true" aria-labelledby="cartel-titulo" hidden>
+        <div class="cartel__caja">
+          <h2 id="cartel-titulo" class="cartel__titulo"></h2>
+          <button id="cartel-boton" class="cartel__boton" type="button"></button>
+        </div>
+      </div>
+    </div>
+
+    <p class="ayuda">Mové la paleta con el mouse, con las flechas o con A y D. Lanzá la pelota con la barra espaciadora o con un clic.</p>
+  </main>
+
+  <!-- Scripts tradicionales (sin módulos ES) para poder abrir el juego con doble clic -->
+  <script src="game.js"></script>
+  <script src="ui.js"></script>
+</body>
+</html>
