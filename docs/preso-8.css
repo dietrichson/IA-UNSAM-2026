@@ -1,0 +1,16 @@
+/* preso-8.css — ajustes locales de preso-8-2026-09-28.qmd.
+ *
+ * Quarto le pone al SVG de mermaid un `max-width` inline igual al ancho natural
+ * del diagrama (unos 400 px). En una diapositiva de 945 px eso deja el diagrama
+ * a un cuarto del ancho, arriba a la izquierda. Acá se lo lleva al 85% y se lo
+ * centra. El `viewBox` mantiene la proporción, así que el alto acompaña solo y
+ * las etiquetas crecen con el dibujo.
+ */
+
+.reveal svg.mermaid-js {
+  max-width: 85% !important;
+  width: 85%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
