@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Memotest</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <header>
+        <h1>🧠 Memotest</h1>
+        <p class="subtitulo">¡Encontrá todos los pares!</p>
+    </header>
 
+    <section class="panel-controles">
+        <div class="dificultad">
+            <label for="select-dificultad">Dificultad:</label>
+            <select id="select-dificultad">
+                <option value="facil">Fácil (4x2)</option>
+                <option value="medio" selected>Medio (4x4)</option>
+                <option value="dificil">Difícil (6x4)</option>
+                <option value="experto">Experto (6x6)</option>
+            </select>
+        </div>
+        <button id="btn-reiniciar">🔄 Reiniciar</button>
+    </section>
+
+    <section class="estadisticas">
+        <div class="stat">
+            <span class="stat-label">Movimientos</span>
+            <span id="movimientos" class="stat-valor">0</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Pares</span>
+            <span id="pares" class="stat-valor">0 / 8</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Tiempo</span>
+            <span id="tiempo" class="stat-valor">00:00</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Puntaje</span>
+            <span id="puntaje" class="stat-valor">0</span>
+        </div>
+    </section>
+
+    <main>
+        <div id="tablero" class="tablero"></div>
+    </main>
+
+    <div id="modal-ganaste" class="modal oculto">
+        <div class="modal-contenido">
+            <h2>🎉 ¡Ganaste!</h2>
+            <p>Movimientos: <strong id="modal-movimientos">0</strong></p>
+            <p>Tiempo: <strong id="modal-tiempo">00:00</strong></p>
+            <p>Puntaje final: <strong id="modal-puntaje">0</strong></p>
+            <button id="btn-jugar-de-nuevo">Jugar de nuevo</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Hecho con ❤️ para el curso</p>
+    </footer>
+
+    <script src="juego.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>
