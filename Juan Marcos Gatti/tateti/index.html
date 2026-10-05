@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ta-te-ti RL</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #222;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: min(600px, 95vw);
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+        }
+
+        h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .control {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        select,
+        button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            cursor: pointer;
+            background: #222;
+            color: white;
+            border: none;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .status {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .board {
+            display: grid;
+            gap: 6px;
+            width: min(450px, 85vw);
+            margin: 0 auto;
+        }
+
+        .cell {
+            aspect-ratio: 1;
+            border: 2px solid #222;
+            background: #fafafa;
+            font-size: clamp(25px, 8vw, 55px);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .cell:hover {
+            background: #eaeaea;
+        }
+
+        .cell:disabled {
+            cursor: default;
+            color: #222;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        .score {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .reset {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 500px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>Ta-te-ti</h1>
+
+        <div class="controls">
+
+            <div class="control">
+                <label for="size">Tamaño del tablero</label>
+
+                <select id="size">
+                    <option value="3">3 × 3</option>
+                    <option value="4">4 × 4</option>
+                    <option value="5">5 × 5</option>
+                </select>
+            </div>
+
+            <div class="control">
+                <label for="winLength">Cantidad para ganar</label>
+
+                <select id="winLength">
+                    <option value="3">3 en línea</option>
+                    <option value="4">4 en línea</option>
+                    <option value="5">5 en línea</option>
+                </select>
+            </div>
+
+            <div class="control">
+                <label for="opponent">Modo de juego</label>
+
+                <select id="opponent">
+                    <option value="human">Humano vs Humano</option>
+                    <option value="random">Humano vs Aleatorio</option>
+                    <option value="none">Sin oponente automático</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div id="status" class="status">
+            Turno de X
+        </div>
+
+        <div id="board" class="board"></div>
+
+        <div id="result" class="result"></div>
+
+        <div id="score" class="score">
+            X: 0 | O: 0
+        </div>
+
+        <button id="reset" class="reset">
+            Nueva partida
+        </button>
+
+    </main>
+
+    <script src="game.js"></script>
+    <script src="ui.js"></script>
+
+</body>
+</html>
