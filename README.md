@@ -50,6 +50,10 @@ Las presentaciones de cada clase:
 
 El código fuente de cada una está en [`presos/`](./presos/), salvo la presentación de la clase invitada (6), cuya fuente está en el repositorio original del disertante.
 
+## Juegos
+
+Los juegos hechos en clase y los del laboratorio 4 están publicados en [Juegos del seminario](https://dietrichson.github.io/IA-UNSAM-2026/juegos/).
+
 ## Información técnica y laboratorios
 
 Cómo preparar el entorno de trabajo y los laboratorios: [Información técnica y laboratorios](./informacion-tecnica-y-laboratorios.md).

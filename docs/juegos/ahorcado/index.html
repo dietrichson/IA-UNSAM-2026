@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ahorcado</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header>
+        <p class="eyebrow">Juego clásico</p>
+        <h1>Ahorcado</h1>
+      </header>
+
+      <section class="game-board" aria-label="Partida de ahorcado">
+        <div class="drawing" id="drawing" data-errors="0" aria-label="Errores cometidos">
+          <span class="gallows base"></span>
+          <span class="gallows pole"></span>
+          <span class="gallows beam"></span>
+          <span class="gallows rope"></span>
+          <span class="person head"></span>
+          <span class="person body"></span>
+          <span class="person left-arm"></span>
+          <span class="person right-arm"></span>
+          <span class="person left-leg"></span>
+          <span class="person right-leg"></span>
+        </div>
+
+        <p class="word" id="word" aria-live="polite"></p>
+        <p class="message" id="message" aria-live="polite"></p>
+
+        <dl class="game-data">
+          <div>
+            <dt>Errores</dt>
+            <dd id="errors"></dd>
+          </div>
+          <div>
+            <dt>Fallidas</dt>
+            <dd id="wrong-letters"></dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="keyboard" id="keyboard" aria-label="Letras disponibles"></section>
+      <button class="new-game" id="new-game" type="button">Nueva palabra</button>
+    </main>
+
+    <script src="game.js"></script>
+    <script src="ui.js"></script>
+  </body>
+</html>

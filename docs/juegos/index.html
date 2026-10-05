@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Juegos del seminario</title>
+  <style>
+    /* Retro y minimalista: monoespaciada, fondo oscuro, sin animaciones ni assets externos. */
+    body {
+      background: #101010;
+      color: #e8e8e8;
+      font: 16px "Courier New", Courier, monospace;
+      margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    h2 {
+      margin: 0 0 1rem;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-bottom: 1px solid #e8e8e8;
+      padding-bottom: 0.3rem;
+    }
+    section {
+      width: min(720px, 95vw);
+    }
+    a {
+      color: #e8e8e8;
+    }
+    .juegos-clase {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .juegos-clase a {
+      border: 1px solid #e8e8e8;
+      padding: 0.4rem 0.8rem;
+      text-decoration: none;
+    }
+    .juegos-clase a:hover {
+      background: #e8e8e8;
+      color: #101010;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.5rem 0.6rem;
+      border-bottom: 1px solid #333;
+      vertical-align: top;
+    }
+    th {
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .fuente {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <h1>Juegos del seminario</h1>
+
+  <section>
+    <h2>Hechos en clase (14/09)</h2>
+    <div class="juegos-clase">
+      <a href="../tic-tac-toe/index.html">Ta-te-ti</a>
+      <a href="../space-invaders/index.html">Space Invaders</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Laboratorio 4, hechos por estudiantes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Juego</th>
+          <th>Autor</th>
+          <th>Descripción</th>
+          <th>Fuente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="breakout/index.html">Breakout</a></td>
+          <td>María Belén</td>
+          <td>Breakout retro con paleta, pelota y 78 ladrillos en 6 filas de colores.</td>
+          <td class="fuente"><a href="https://github.com/dietrichson/IA-UNSAM-2026/tree/main/Maria%20Belen/Breakout">código</a></td>
+        </tr>
+        <tr>
+          <td><a href="ahorcado/index.html">Ahorcado</a></td>
+          <td>Abril Odicino</td>
+          <td>Ahorcado clásico con teclado en pantalla, contador de errores y letras falladas.</td>
+          <td class="fuente"><a href="https://github.com/dietrichson/IA-UNSAM-2026/tree/main/Abril%20Odicino/ahorcado">código</a></td>
+        </tr>
+        <tr>
+          <td><a href="memotest/index.html">Memotest</a></td>
+          <td>Mujica, Romano, Ortiz Vázquez y Wolfsteller</td>
+          <td>Juego de memoria con cuatro niveles de dificultad, movimientos, tiempo y puntaje.</td>
+          <td class="fuente"><a href="https://github.com/dietrichson/IA-UNSAM-2026/tree/main/Lidia%20Ortiz%20Vazquez%20/memotest">código</a></td>
+        </tr>
+        <tr>
+          <td><a href="tateti/index.html">Ta-te-ti 3x3/4x4/5x5</a></td>
+          <td>Juan Marcos Gatti</td>
+          <td>Ta-te-ti con tableros de 3x3, 4x4 y 5x5 y motor pensado para aprendizaje por refuerzo.</td>
+          <td class="fuente"><a href="https://github.com/dietrichson/IA-UNSAM-2026/tree/main/Juan%20Marcos%20Gatti/tateti">código</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</body>
+</html>
