@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tests Memotest</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1e1e1e; color: #eee; }
+        h1 { color: #4ec9b0; }
+        #resultado { margin-top: 20px; padding: 15px; border-radius: 8px; font-size: 1.2rem; }
+        .ok { background: #2d5016; }
+        .fail { background: #5a1a1a; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Tests del Memotest</h1>
+    <p>Abrí la consola (F12) para ver el detalle.</p>
+    <div id="resultado"></div>
+
+    <script src="juego.js"></script>
+    <script>
+        // Sobrescribimos console para mostrar en pantalla también
+        const logOriginal = console.log;
+        const errOriginal = console.error;
+        console.log = (...args) => { logOriginal(...args); };
+        console.error = (...args) => { errOriginal(...args); };
+    </script>
+    <script src="test.js"></script>
+    <script>
+        const res = window.__testResultado;
+        const div = document.getElementById('resultado');
+        if (res && res.fallados === 0) {
+            div.className = 'ok';
+            div.textContent = `✅ ${res.pasados} tests pasaron correctamente.`;
+        } else if (res) {
+            div.className = 'fail';
+            div.textContent = `❌ ${res.pasados} pasaron, ${res.fallados} fallaron.`;
+        }
+    </script>
+</body>
+</html>

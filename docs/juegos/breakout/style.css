@@ -1,0 +1,169 @@
+/* ==========================================================================
+   style.css — Estética retro y minimalista del Breakout.
+   Paleta corta: fondo índigo oscuro, marfil para marco y textos, rosa para
+   los corazones. Los colores de los ladrillos los define game.js.
+   ========================================================================== */
+
+:root {
+  --fondo: #15122a;
+  --panel: #211c3f;
+  --marfil: #f1ebdc;
+  --marfil-suave: #a9a3bd;
+  --corazon: #ff4d6d;
+  --victoria: #7ee081;
+  --derrota: #ff6b7f;
+  --grosor-marco: 4px;
+  --ancho-juego: 650px;
+  --fuente: "Courier New", Courier, "Lucida Console", monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--fondo);
+  color: var(--marfil);
+  font-family: var(--fuente);
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+.juego {
+  width: min(100%, calc(var(--ancho-juego) + 2 * var(--grosor-marco)));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* --- Zona superior: corazones ------------------------------------------ */
+
+.hud {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.vidas {
+  display: flex;
+  gap: 8px;
+}
+
+.corazon {
+  width: 28px;
+  height: 24px;
+  fill: var(--corazon);
+  shape-rendering: crispEdges;
+}
+
+/* --- Marco y lienzo ---------------------------------------------------- */
+
+.marco {
+  position: relative;
+  border: var(--grosor-marco) solid var(--marfil);
+  background: var(--fondo);
+}
+
+.marco canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  touch-action: none; /* el arrastre con el dedo mueve la paleta, no la página */
+}
+
+/* Líneas de barrido muy tenues, como un monitor antiguo */
+.marco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.12) 0,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* --- Cartel de fin de partida ------------------------------------------ */
+
+.cartel {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(21, 18, 42, 0.86);
+}
+
+.cartel[hidden] {
+  display: none;
+}
+
+.cartel__caja {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 32px 40px;
+  background: var(--panel);
+  border: var(--grosor-marco) solid var(--marfil);
+}
+
+.cartel__titulo {
+  margin: 0;
+  font-size: clamp(28px, 6vw, 44px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.cartel[data-resultado="victoria"] .cartel__titulo {
+  color: var(--victoria);
+}
+
+.cartel[data-resultado="derrota"] .cartel__titulo {
+  color: var(--derrota);
+}
+
+.cartel__boton {
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--fondo);
+  background: var(--marfil);
+  border: var(--grosor-marco) solid var(--marfil);
+  padding: 10px 22px;
+  cursor: pointer;
+}
+
+.cartel__boton:hover {
+  background: var(--fondo);
+  color: var(--marfil);
+}
+
+.cartel__boton:focus-visible {
+  outline: 3px dashed var(--marfil);
+  outline-offset: 4px;
+}
+
+/* --- Ayuda ------------------------------------------------------------- */
+
+.ayuda {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--marfil-suave);
+}
