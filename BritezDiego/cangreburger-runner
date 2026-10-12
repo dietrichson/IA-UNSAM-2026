@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Burger Runner</title>
+  <style>
+    body { margin: 0; overflow: hidden; font-family: sans-serif; }
+    canvas { display: block; }
+    #hud {
+      position: fixed; top: 16px; left: 16px; color: white;
+      text-shadow: 2px 2px 4px black; font-size: 20px;
+    }
+    #hud div { margin-bottom: 4px; }
+    #gameover {
+      position: fixed; inset: 0; display: none;
+      align-items: center; justify-content: center;
+      background: rgba(0,0,0,.7); color: white; font-size: 32px;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <div id="hud">
+    <div>🍔 Nivel: <span id="nivel">1</span></div>
+    <div>🪙 Monedas: <span id="monedas">0</span></div>
+    <div>📏 Distancia: <span id="distancia">0</span> m</div>
+    <div>⚡ Power: <span id="power">—</span></div>
+  </div>
+  <div id="gameover">
+    <div id="gameover-texto">¡Te chocaste!</div>
+    <div style="font-size:20px; margin-top:16px;">Presioná ESPACIO para reintentar</div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
