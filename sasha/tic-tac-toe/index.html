@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ta-te-ti</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Ta-te-ti</h1>
+
+  <div class="controls">
+    <label for="size">Tamaño</label>
+    <select id="size">
+      <option value="3">3 x 3</option>
+      <option value="4">4 x 4</option>
+      <option value="5">5 x 5</option>
+    </select>
+
+    <label for="opponent">Oponente</label>
+    <select id="opponent">
+      <option value="human">Humano</option>
+      <option value="random">Aleatorio</option>
+    </select>
+
+    <button id="new-game" type="button">Nueva partida</button>
+  </div>
+
+  <div id="board"></div>
+
+  <p id="status"></p>
+  <p id="score"></p>
+
+  <script src="game.js"></script>
+  <script src="ui.js"></script>
+</body>
+</html>

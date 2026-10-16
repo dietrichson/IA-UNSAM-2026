@@ -18,6 +18,8 @@ Por ejemplo:
 * Hacer un chatbot para fines específicos
 * Crear un soporte lógico usando IA
 
+La organización del trabajo final (equipos, etapas, carpetas) está en [`trabajo-final/`](./trabajo-final/README.md).
+
 > Si bien esta parte es técnica, no se requiere de conocimientos previos de programación para poder cursar.
 
 En paralelo habrá una serie de charlas en las que exploraremos la historia de IA y veremos ejemplos de su uso real así como sus limitaciones teóricas y prácticas; y los desafíos con los que nos encontramos frente a estas tecnologías. 
@@ -44,8 +46,16 @@ Las presentaciones de cada clase:
 3. [Tunear un modelo LLM](https://dietrichson.github.io/IA-UNSAM-2026/preso-3-2026-08-10.html) — 10/08/2026
 4. [Experimento y RAG](https://dietrichson.github.io/IA-UNSAM-2026/preso-4-2026-08-24.html) — 24/08/2026
 5. [Modelos estadísticos y tokens de LLM](https://dietrichson.github.io/IA-UNSAM-2026/preso-5-2026-08-31.html) — 31/08/2026
+6. [Silicon Sampling](https://dietrichson.github.io/IA-UNSAM-2026/preso-6-2026-09-07.html) — 07/09/2026 — clase invitada de Thiago Donato ([@akathiago](https://github.com/akathiago)); fuente original en [akathiago/clase-silicon-sampling](https://github.com/akathiago/clase-silicon-sampling)
+7. [Programar con agentes: dos videojuegos](https://dietrichson.github.io/IA-UNSAM-2026/preso-7-2026-09-14.html) — 14/09/2026 · juegos: [ta-te-ti](https://dietrichson.github.io/IA-UNSAM-2026/tic-tac-toe/index.html), [Space Invaders](https://dietrichson.github.io/IA-UNSAM-2026/space-invaders/index.html)
+8. [Reinforcement learning: enseñarle a jugar a la IA](https://dietrichson.github.io/IA-UNSAM-2026/preso-8-2026-09-28.html) — 28/09/2026
+9. [Modelos de clasificación](https://dietrichson.github.io/IA-UNSAM-2026/preso-9-2026-10-05.html) — 05/10/2026
 
-El código fuente de cada una está en [`presos/`](./presos/).
+El código fuente de cada una está en [`presos/`](./presos/), salvo la presentación de la clase invitada (6), cuya fuente está en el repositorio original del disertante.
+
+## Juegos
+
+Los juegos hechos en clase y los del laboratorio 4 están publicados en [Juegos del seminario](https://dietrichson.github.io/IA-UNSAM-2026/juegos/).
 
 ## Información técnica y laboratorios
 

@@ -28,5 +28,7 @@ terminal lista para los laboratorios, sin instalación local y sin necesidad de 
 
 - [Laboratorio 1: LLM local con system prompt](./labs/lab-01-llm-system-prompt.md) — ejecutar un LLM local y darle una instrucción de sistema propia.
 - [Laboratorio 2: RAG con Ollama](./labs/lab-02-rag-ollama.md) — recuperación aumentada (RAG) sobre un modelo local.
+- [Laboratorio 3: Silicon sampling](./labs/lab-03-silicon-sampling.md) — generar una muestra sintética con un LLM y analizar dónde y por qué falla frente a datos reales.
+- [Laboratorio 4: Crear software con agentes](./labs/lab-04-software-con-agentes.md) — especificar un programa chico, convertirlo en un prompt y construirlo con un agente, o dejar el pedido como issue para ejecutarlo en clase. Entrega: 21/09/2026.
 
 Se van a ir agregando más laboratorios a medida que avance el seminario (que todavía no empezó).

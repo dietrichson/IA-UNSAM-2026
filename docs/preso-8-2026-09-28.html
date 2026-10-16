@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<script src="preso-8-2026-09-28_files/libs/clipboard/clipboard.min.js"></script>
+<script src="preso-8-2026-09-28_files/libs/quarto-html/tabby.min.js"></script>
+<script src="preso-8-2026-09-28_files/libs/quarto-html/popper.min.js"></script>
+<script src="preso-8-2026-09-28_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="preso-8-2026-09-28_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="preso-8-2026-09-28_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="preso-8-2026-09-28_files/libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="preso-8-2026-09-28_files/libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="preso-8-2026-09-28_files/libs/quarto-contrib/videojs/video-js.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <meta name="author" content="Aleksander Dietrichson, PhD">
+  <meta name="dcterms.date" content="2026-09-28">
+  <title>Reinforcement learning: enseñarle a jugar a la IA</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="preso-8-2026-09-28_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="preso-8-2026-09-28_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="preso-8-2026-09-28_files/libs/revealjs/dist/theme/quarto-4df01d85d5cf19cc6202400f4f043f84.css">
+  <link rel="stylesheet" href="preso-8.css">
+  <link href="preso-8-2026-09-28_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="preso-8-2026-09-28_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="preso-8-2026-09-28_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="preso-8-2026-09-28_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <meta name="mermaid-theme" content="dark">
+  <script src="preso-8-2026-09-28_files/libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="preso-8-2026-09-28_files/libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="preso-8-2026-09-28_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Reinforcement learning: enseñarle a jugar a la IA</h1>
+  <p class="subtitle">Seminario Experimental Inteligencia Artificial</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Aleksander Dietrichson, PhD 
+</div>
+</div>
+</div>
+
+  <p class="date">2026-09-28</p>
+</section>
+<section id="agenda-de-hoy" class="slide level2">
+<h2>Agenda de hoy</h2>
+<ol type="1">
+<li><p>Revisión de entregas (laboratorio 4, en vivo)</p></li>
+<li><p>Qué es <em>reinforcement learning</em></p></li>
+<li><p>Ta-te-ti en R</p></li>
+<li><p>Space Invaders en Python</p></li>
+<li><p>Qué aprendimos</p></li>
+</ol>
+</section>
+<section>
+<section id="revisión-de-entregas" class="title-slide slide level1 center">
+<h1>1. Revisión de entregas</h1>
+
+</section>
+<section id="revisión-de-entregas-1" class="slide level2">
+<h2>Revisión de entregas</h2>
+<ul>
+<li><p>Revisamos los PRs y los issues en vivo, en el repo.</p></li>
+<li><p>Lo que miramos: ¿corre? ¿se entiende? ¿qué le pidieron al modelo?</p></li>
+</ul>
+</section></section>
+<section>
+<section id="qué-es-reinforcement-learning" class="title-slide slide level1 center">
+<h1>2. Qué es reinforcement learning</h1>
+
+</section>
+<section id="cinco-palabras-y-nada-más" class="slide level2">
+<h2>Cinco palabras y nada más</h2>
+<ul>
+<li><p><strong>Agente</strong>: el que decide. Acá, unas 60 líneas de código.</p></li>
+<li><p><strong>Entorno</strong>: el juego. No se toca, no se explica, no se modifica.</p></li>
+<li><p><strong>Estado</strong>: lo que el agente ve en este instante.</p></li>
+<li><p><strong>Acción</strong>: lo que el agente puede hacer.</p></li>
+<li><p><strong>Recompensa</strong>: un número, después de cada acción.</p></li>
+<li><p><strong>Episodio</strong>: una partida, de principio a fin.</p></li>
+</ul>
+<div class="fragment">
+<p>Nadie le explica las reglas al agente. Sólo recibe números, premios y castigos.</p>
+</div>
+</section>
+<section id="el-loop" class="slide level2">
+<h2>El loop</h2>
+<div class="cell" data-reveal="true" data-fig-width="8" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"htmlLabels": false, "flowchart": {"htmlLabels": false}}}%%
+flowchart LR
+    A[Agente] --&gt;|acción| E[Entorno]
+    E --&gt;|estado, reward| A
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li><p><code>reset()</code> → estado inicial.</p></li>
+<li><p><code>step(acción)</code> → <code>(estado, recompensa, done)</code>.</p></li>
+<li><p>Cuando <code>done</code> es verdadero, termina el episodio y se vuelve a <code>reset()</code>.</p></li>
+</ul>
+</section>
+<section id="el-mismo-loop-en-los-dos-juegos" class="slide level2 smaller">
+<h2>El mismo loop, en los dos juegos</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Ta-te-ti</strong>, consola del navegador:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href=""></a>game<span class="op">.</span><span class="fu">reset</span>({ <span class="dt">size</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span> <span class="dt">opponent</span><span class="op">:</span> <span class="st">'random'</span> })</span>
+<span id="cb1-2"><a href=""></a>game<span class="op">.</span><span class="fu">getActions</span>()   <span class="co">// celdas libres</span></span>
+<span id="cb1-3"><a href=""></a>game<span class="op">.</span><span class="fu">step</span>(<span class="dv">4</span>)        <span class="co">// → { state, reward, done }</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p><strong>Space Invaders</strong>, consola del navegador:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href=""></a>game<span class="op">.</span><span class="fu">reset</span>({ <span class="dt">seed</span><span class="op">:</span> <span class="dv">1</span> })</span>
+<span id="cb2-2"><a href=""></a>game<span class="op">.</span><span class="fu">getActions</span>()   <span class="co">// siempre [0, 1, 2, 3]</span></span>
+<span id="cb2-3"><a href=""></a>game<span class="op">.</span><span class="fu">step</span>(<span class="dv">3</span>)        <span class="co">// → { state, reward, done }</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div class="fragment">
+<p>Es el mismo contrato: <code>reset</code>, <code>step</code>, <code>getState</code>, <code>getActions</code>. Se definió en la clase 7, antes de que existiera una línea de código de los juegos. Hoy se ve para qué servía.</p>
+</div>
+</section>
+<section id="explorar-o-explotar" class="slide level2">
+<h2>Explorar o explotar</h2>
+<p>El agente arranca sin saber nada. Si siempre elige lo que ya le salió bien, nunca prueba nada nuevo.</p>
+<p><strong>ε-greedy</strong>: con probabilidad <span class="math inline">\(\varepsilon\)</span> juega al azar; si no, juega lo mejor que conoce.</p>
+<ul>
+<li><p><span class="math inline">\(\varepsilon = 1{,}0\)</span> al empezar: todo al azar.</p></li>
+<li><p><span class="math inline">\(\varepsilon\)</span> baja con el tiempo hasta 0,05 o 0,1.</p></li>
+<li><p>En la <strong>evaluación</strong> se pone <span class="math inline">\(\varepsilon = 0\)</span>: sólo la política aprendida.</p></li>
+</ul>
+<div class="fragment">
+<p>Los dos proyectos de hoy bajan epsilon en línea recta y evalúan siempre en modo <em>greedy</em>.</p>
+</div>
+</section>
+<section id="la-tabla-q" class="slide level2 smaller">
+<h2>La tabla Q</h2>
+<p>Una tabla de consulta: para cada par (estado, acción), un número.</p>
+<p><span class="math display">\[Q(\text{estado}, \text{acción}) = \text{qué tan bueno es hacer eso, ahí}\]</span></p>
+<ul>
+<li><p>Jugar es leer la fila del estado actual y quedarse con el máximo.</p></li>
+<li><p>Aprender es corregir los números de la tabla.</p></li>
+<li><p>No hay red neuronal: la tabla se puede imprimir y leer.</p></li>
+</ul>
+<div class="fragment">
+<p>Hace falta una fila por estado. Toda la clase de hoy es qué pasa cuando los estados no entran.</p>
+</div>
+</section>
+<section id="la-regla-de-actualización" class="slide level2 smaller">
+<h2>La regla de actualización</h2>
+<p><span class="math display">\[Q(s,a) \leftarrow Q(s,a) + \alpha\,[\,r + \gamma \max_{a'} Q(s',a') - Q(s,a)\,]\]</span></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Símbolo</th>
+<th>Qué es</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(s\)</span>, <span class="math inline">\(a\)</span></td>
+<td>Dónde estaba y qué hizo.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(r\)</span></td>
+<td>La recompensa que recibió.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(s'\)</span></td>
+<td>Dónde fue a parar.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\max_{a'} Q(s',a')\)</span></td>
+<td>Lo mejor que se consigue desde ahí.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\gamma\)</span></td>
+<td>Cuánto pesa el futuro frente al premio de ahora.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\alpha\)</span></td>
+<td>Cuánto se corrige el valor viejo.</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Todo lo que sigue son dos implementaciones de esta línea, en dos lenguajes.</p>
+</div>
+</section>
+<section id="la-recompensa-define-el-problema" class="slide level2 smaller">
+<h2>La recompensa define el problema</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Evento</th>
+<th style="text-align: right;">Reward</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Alien fila superior</td>
+<td style="text-align: right;">+30</td>
+</tr>
+<tr class="even">
+<td>Alien fila media</td>
+<td style="text-align: right;">+20</td>
+</tr>
+<tr class="odd">
+<td>Alien fila inferior</td>
+<td style="text-align: right;">+10</td>
+</tr>
+<tr class="even">
+<td>Eliminar todos los aliens</td>
+<td style="text-align: right;">+100</td>
+</tr>
+<tr class="odd">
+<td>Perder una vida</td>
+<td style="text-align: right;">−50</td>
+</tr>
+<tr class="even">
+<td>Fin del juego (derrota)</td>
+<td style="text-align: right;">−100</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>El agente no quiere “jugar bien”: quiere maximizar esa suma. Si la tabla está mal, aprende perfectamente el problema equivocado.</p>
+</div>
+</section></section>
+<section>
+<section id="ta-te-ti-en-r" class="title-slide slide level1 center">
+<h1>3. Ta-te-ti en R</h1>
+
+</section>
+<section id="por-qué-r-y-con-qué-paquete" class="slide level2">
+<h2>Por qué R, y con qué paquete</h2>
+<ul>
+<li><p>Paquete: <strong><code>ReinforcementLearning</code></strong> 1.0.5, de CRAN. Q-learning tabular, API chica y estable.</p></li>
+<li><p>Es el mismo paquete de un proyecto anterior del docente, <a href="https://github.com/chi2labs/x-mas-3"><code>chi2labs/x-mas-3</code></a>.</p></li>
+<li><p>Descartados: <code>MDPtoolbox</code> exige la matriz de transición completa; <code>rlR</code> no está instalable hoy en CRAN.</p></li>
+</ul>
+<div class="fragment">
+<p>El juego está escrito en JavaScript. El agente va a estar escrito en R. Hay que cruzar ese puente.</p>
+</div>
+</section>
+<section id="el-puente-game.js-adentro-de-r" class="slide level2 smaller">
+<h2>El puente: <code>game.js</code> adentro de R</h2>
+<p>El paquete <code>V8</code> corre JavaScript dentro del proceso de R. Sin navegador, sin servidor, sin reescribir el juego.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(V8)</span>
+<span id="cb3-2"><a href=""></a>ct <span class="ot">&lt;-</span> <span class="fu">v8</span>()</span>
+<span id="cb3-3"><a href=""></a>ct<span class="sc">$</span><span class="fu">source</span>(<span class="fu">file.path</span>(script_dir, <span class="st">".."</span>, <span class="st">"tic-tac-toe"</span>, <span class="st">"game.js"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>Tres líneas de <code>train.R</code>. A partir de ahí, las reglas del ta-te-ti están disponibles en R.</p>
+</div>
+<div class="fragment">
+<blockquote>
+<p>Medido en la primera iteración del 3x3: <strong>2.179 partidas por segundo</strong> jugando contra <code>game.js</code> en V8, y <strong>13.176 filas por segundo</strong> en el ajuste.</p>
+</blockquote>
+<p>Jugar no es nunca el problema. El cuello de botella es el ajuste del modelo.</p>
+</div>
+</section>
+<section id="el-entorno-escrito-en-javascript-desde-r" class="slide level2 smaller">
+<h2>El entorno, escrito en JavaScript desde R</h2>
+<p><code>train.R</code> define arriba de <code>game.js</code> un objeto <code>env</code> con las dos funciones de siempre:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href=""></a>reset<span class="op">:</span> <span class="kw">function</span> (size<span class="op">,</span> winLength) {</span>
+<span id="cb4-2"><a href=""></a>  env<span class="op">.</span><span class="at">state</span> <span class="op">=</span> TicTacToe<span class="op">.</span><span class="fu">createState</span>({ <span class="dt">size</span><span class="op">:</span> size<span class="op">,</span> <span class="dt">winLength</span><span class="op">:</span> winLength })<span class="op">;</span></span>
+<span id="cb4-3"><a href=""></a>  <span class="cf">return</span> { <span class="dt">state</span><span class="op">:</span> env<span class="op">.</span><span class="fu">key</span>(env<span class="op">.</span><span class="at">state</span>)<span class="op">,</span> <span class="dt">actions</span><span class="op">:</span> TicTacToe<span class="op">.</span><span class="fu">legalMoves</span>(env<span class="op">.</span><span class="at">state</span>) }<span class="op">;</span></span>
+<span id="cb4-4"><a href=""></a>}<span class="op">,</span></span>
+<span id="cb4-5"><a href=""></a><span class="co">// Juega la celda `action` con X y, si la partida sigue, O responde al azar.</span></span>
+<span id="cb4-6"><a href=""></a>step<span class="op">:</span> <span class="kw">function</span> (action) {</span>
+<span id="cb4-7"><a href=""></a>  TicTacToe<span class="op">.</span><span class="fu">applyMove</span>(env<span class="op">.</span><span class="at">state</span><span class="op">,</span> action)<span class="op">;</span></span>
+<span id="cb4-8"><a href=""></a>  <span class="cf">if</span> (<span class="op">!</span>env<span class="op">.</span><span class="at">state</span><span class="op">.</span><span class="at">done</span>) TicTacToe<span class="op">.</span><span class="fu">applyMove</span>(env<span class="op">.</span><span class="at">state</span><span class="op">,</span> TicTacToe<span class="op">.</span><span class="fu">randomMove</span>(env<span class="op">.</span><span class="at">state</span>))<span class="op">;</span></span>
+<span id="cb4-9"><a href=""></a>  <span class="cf">return</span> { <span class="dt">state</span><span class="op">:</span> env<span class="op">.</span><span class="fu">key</span>(env<span class="op">.</span><span class="at">state</span>)<span class="op">,</span> <span class="dt">reward</span><span class="op">:</span> TicTacToe<span class="op">.</span><span class="fu">reward</span>(env<span class="op">.</span><span class="at">state</span>)<span class="op">,</span></span>
+<span id="cb4-10"><a href=""></a>           <span class="dt">done</span><span class="op">:</span> env<span class="op">.</span><span class="at">state</span><span class="op">.</span><span class="at">done</span><span class="op">,</span> <span class="dt">actions</span><span class="op">:</span> TicTacToe<span class="op">.</span><span class="fu">legalMoves</span>(env<span class="op">.</span><span class="at">state</span>) }<span class="op">;</span></span>
+<span id="cb4-11"><a href=""></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El agente sólo ve turnos de X. La respuesta de O queda adentro de <code>step()</code>.</p>
+</section>
+<section id="cómo-un-tablero-se-vuelve-texto" class="slide level2 smaller">
+<h2>Cómo un tablero se vuelve texto</h2>
+<p>El estado tiene que ser una clave de tabla. Acá es el tablero aplanado, fila por fila:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href=""></a>key<span class="op">:</span> <span class="kw">function</span> (s) {</span>
+<span id="cb5-2"><a href=""></a>  <span class="cf">return</span> s<span class="op">.</span><span class="at">board</span><span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span> (c) { <span class="cf">return</span> c <span class="op">===</span> <span class="dv">0</span> <span class="op">?</span> <span class="st">"."</span> <span class="op">:</span> (c <span class="op">===</span> <span class="dv">1</span> <span class="op">?</span> <span class="st">"X"</span> <span class="op">:</span> <span class="st">"O"</span>)<span class="op">;</span> })<span class="op">.</span><span class="fu">join</span>(<span class="st">""</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href=""></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote>
+<p>El tablero inicial de 3x3 es <code>.........</code>; después de <code>X</code> en el centro y <code>O</code> arriba a la izquierda, <code>O...X....</code>.</p>
+</blockquote>
+<ul>
+<li><p><strong>Action</strong>: el número de celda, como texto (<code>"0"</code> … <code>"8"</code>).</p></li>
+<li><p><strong>Reward</strong>: <code>+1</code> si ganó X, <code>-1</code> si ganó O, <code>0</code> en cualquier otro caso.</p></li>
+<li><p><strong>NextState</strong>: el tablero <strong>después</strong> de la respuesta de O.</p></li>
+</ul>
+</section>
+<section id="una-partida-es-una-tabla-de-datos" class="slide level2 smaller">
+<h2>Una partida es una tabla de datos</h2>
+<p>Eso es exactamente lo que pide <code>ReinforcementLearning()</code>: un <code>data.frame</code> con cuatro columnas.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>State</th>
+<th>Action</th>
+<th style="text-align: right;">Reward</th>
+<th>NextState</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.........</code></td>
+<td><code>4</code></td>
+<td style="text-align: right;">0</td>
+<td><code>O...X....</code></td>
+</tr>
+<tr class="even">
+<td><code>O...X....</code></td>
+<td><code>8</code></td>
+<td style="text-align: right;">0</td>
+<td><code>O.O.X...X</code></td>
+</tr>
+<tr class="odd">
+<td><code>O.O.X...X</code></td>
+<td><code>6</code></td>
+<td style="text-align: right;">1</td>
+<td><code>O.O.X.X.X</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>(Ejemplo de una partida; O contesta al azar, así que cada partida da filas distintas.)</em></p>
+<ul>
+<li><p>Una partida de 3x3 da entre 3 y 5 filas.</p></li>
+<li><p>Un lote de 500 partidas da unas 2.100 filas.</p></li>
+</ul>
+</section>
+<section id="la-política-ε-greedy-en-seis-líneas" class="slide level2 smaller">
+<h2>La política: ε-greedy en seis líneas</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="co"># Q(estado, ·) para las jugadas legales, o NULL si el estado nunca se vio.</span></span>
+<span id="cb6-2"><a href=""></a>q_row <span class="ot">&lt;-</span> <span class="cf">function</span>(model, state, actions) {</span>
+<span id="cb6-3"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(model) <span class="sc">||</span> <span class="sc">!</span><span class="fu">has.key</span>(state, model<span class="sc">$</span>Q_hash)) <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb6-4"><a href=""></a>  row <span class="ot">&lt;-</span> model<span class="sc">$</span>Q_hash[[state]]</span>
+<span id="cb6-5"><a href=""></a>  <span class="fu">vapply</span>(<span class="fu">as.character</span>(actions), <span class="cf">function</span>(a) <span class="cf">if</span> (<span class="fu">has.key</span>(a, row)) row[[a]] <span class="cf">else</span> <span class="dv">0</span>, <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
+<span id="cb6-6"><a href=""></a>}</span>
+<span id="cb6-7"><a href=""></a></span>
+<span id="cb6-8"><a href=""></a><span class="co"># epsilon-greedy: al azar con probabilidad epsilon, y también si el estado es nuevo.</span></span>
+<span id="cb6-9"><a href=""></a>choose_action <span class="ot">&lt;-</span> <span class="cf">function</span>(model, state, actions, epsilon) {</span>
+<span id="cb6-10"><a href=""></a>  q <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">runif</span>(<span class="dv">1</span>) <span class="sc">&lt;</span> epsilon) <span class="cn">NULL</span> <span class="cf">else</span> <span class="fu">q_row</span>(model, state, actions)</span>
+<span id="cb6-11"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(q)) actions[<span class="fu">sample.int</span>(<span class="fu">length</span>(actions), <span class="dv">1</span>L)] <span class="cf">else</span> actions[<span class="fu">which.max</span>(q)]</span>
+<span id="cb6-12"><a href=""></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>El detalle que importa: <strong>si el estado nunca se vio, juega al azar</strong>. En el 3x3 casi no pasa. En el 5x5 pasa casi siempre.</p>
+</div>
+</section>
+<section id="una-iteración" class="slide level2 smaller">
+<h2>Una iteración</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>experience <span class="ot">&lt;-</span> <span class="fu">collect</span>(model, epsilon, K)          <span class="co"># K partidas con ε-greedy</span></span>
+<span id="cb7-2"><a href=""></a></span>
+<span id="cb7-3"><a href=""></a>model <span class="ot">&lt;-</span> <span class="fu">ReinforcementLearning</span>(experience, <span class="at">s =</span> <span class="st">"State"</span>, <span class="at">a =</span> <span class="st">"Action"</span>, <span class="at">r =</span> <span class="st">"Reward"</span>,</span>
+<span id="cb7-4"><a href=""></a>                               <span class="at">s_new =</span> <span class="st">"NextState"</span>, <span class="at">model =</span> model, <span class="at">control =</span> CONTROL,</span>
+<span id="cb7-5"><a href=""></a>                               <span class="at">verbose =</span> <span class="cn">FALSE</span>)   <span class="co"># actualiza la MISMA tabla Q</span></span>
+<span id="cb7-6"><a href=""></a></span>
+<span id="cb7-7"><a href=""></a>rewards <span class="ot">&lt;-</span> <span class="fu">evaluate</span>(model, EVAL_GAMES)            <span class="co"># 1.000 partidas greedy, sin aprender</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Parámetro</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>alpha</code>, <code>gamma</code></td>
+<td>0,2 y 0,9</td>
+</tr>
+<tr class="even">
+<td><code>epsilon</code></td>
+<td>baja en línea recta de 1,0 a 0,1</td>
+</tr>
+<tr class="odd">
+<td>K (partidas por iteración)</td>
+<td>500 en 3x3, 2.000 en 4x4 y 5x5</td>
+</tr>
+<tr class="even">
+<td>Topes</td>
+<td>200.000 partidas <strong>o</strong> 45 minutos</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="el-registro-una-fila-por-iteración" class="slide level2">
+<h2>El registro: una fila por iteración</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"iteration,episodes_cumulative,epsilon,wins,draws,losses,"</span>,</span>
+<span id="cb8-2"><a href=""></a>    <span class="st">"win_rate,mean_reward,q_table_size,wall_time_s</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">file =</span> log_path)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p><code>wins</code> / <code>draws</code> / <code>losses</code>: de las <strong>1.000 partidas de evaluación</strong>, no de las de entrenamiento.</p></li>
+<li><p><code>q_table_size</code>: cuántos estados distintos tiene la tabla Q.</p></li>
+<li><p>El CSV se escribe al terminar cada iteración, así que crece mientras entrena:</p></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href=""></a><span class="fu">tail</span> <span class="at">-f</span> data/log-3x3.csv</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="las-primeras-iteraciones-del-3x3" class="slide level2 smaller">
+<h2>Las primeras iteraciones del 3x3</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href=""></a>iteration,episodes_cumulative,epsilon,wins,draws,losses,win_rate,mean_reward,q_table_size,wall_time_s</span>
+<span id="cb10-2"><a href=""></a>1,500,1.0000,726,116,158,0.7260,0.5680,921,0.95</span>
+<span id="cb10-3"><a href=""></a>2,1000,0.9977,820,91,89,0.8200,0.7310,1422,1.82</span>
+<span id="cb10-4"><a href=""></a>3,1500,0.9955,873,44,83,0.8730,0.7900,1724,2.69</span>
+<span id="cb10-5"><a href=""></a>...</span>
+<span id="cb10-6"><a href=""></a>9,4500,0.9820,902,11,87,0.9020,0.8150,2331,7.96</span>
+<span id="cb10-7"><a href=""></a>10,5000,0.9797,918,47,35,0.9180,0.8830,2358,8.79</span>
+<span id="cb10-8"><a href=""></a>11,5500,0.9774,958,7,35,0.9580,0.9230,2372,9.64</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p><strong>Iteración 10, 5.000 partidas, 8,8 segundos.</strong> Ahí la media móvil de <code>win_rate</code> sobre 3 iteraciones cruza 0,90. Ese es el criterio de convergencia, y por eso hay un CSV: sin registro no se puede decir cuándo aprendió.</p>
+</div>
+</section>
+<section id="y-las-últimas" class="slide level2 smaller">
+<h2>Y las últimas</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a href=""></a>396,198000,0.1090,988,12,0,0.9880,0.9880,2423,341.65</span>
+<span id="cb11-2"><a href=""></a>397,198500,0.1068,984,16,0,0.9840,0.9840,2423,342.52</span>
+<span id="cb11-3"><a href=""></a>398,199000,0.1045,994,6,0,0.9940,0.9940,2423,343.36</span>
+<span id="cb11-4"><a href=""></a>399,199500,0.1023,987,13,0,0.9870,0.9870,2423,344.25</span>
+<span id="cb11-5"><a href=""></a>400,200000,0.1000,997,0,3,0.9970,0.9940,2423,345.10</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p><code>win_rate</code> 0,997: gana 997 de 1.000.</p></li>
+<li><p><code>q_table_size</code> <strong>se estancó en 2.423</strong>. De los 5.478 estados posibles del 3x3, esos son los que se alcanzan jugando contra un oponente al azar.</p></li>
+</ul>
+<div class="fragment">
+<p>La tabla <strong>alcanza</strong>, y se nota: dejó de crecer hace rato.</p>
+</div>
+</section>
+<section id="cuatro-corridas" class="slide level2 smaller">
+<h2>Cuatro corridas</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Tablero</th>
+<th style="text-align: right;">Partidas</th>
+<th style="text-align: right;">Win rate final</th>
+<th>Convergió (≥ 0,90)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3x3</td>
+<td style="text-align: right;">200.000</td>
+<td style="text-align: right;">0,997</td>
+<td>iteración 10, 5.000 partidas</td>
+</tr>
+<tr class="even">
+<td>4x4</td>
+<td style="text-align: right;">200.000</td>
+<td style="text-align: right;">0,812</td>
+<td>no</td>
+</tr>
+<tr class="odd">
+<td>5x5</td>
+<td style="text-align: right;">102.000 (tope 45 min)</td>
+<td style="text-align: right;">0,426</td>
+<td>no</td>
+</tr>
+<tr class="even">
+<td>5x5, <code>winLength</code> 4</td>
+<td style="text-align: right;">136.000 (tope 45 min)</td>
+<td style="text-align: right;">0,862</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>Mismo código, mismo algoritmo, mismos parámetros. Sólo cambia el tamaño del tablero.</p>
+</section>
+<section id="la-curva-de-aprendizaje" class="slide level2">
+<h2>La curva de aprendizaje</h2>
+
+<img data-src="media/preso-8/learning-curve-tateti.png" class="r-stretch"><p>El eje x está en escala logarítmica: si no, las tres corridas grandes quedan aplastadas contra el margen.</p>
+</section>
+<section id="por-qué-el-5x5-no" class="slide level2 smaller">
+<h2>Por qué el 5x5 no</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Tablero</th>
+<th style="text-align: right;">Estados alcanzables</th>
+<th style="text-align: right;">Estados en la tabla Q al final</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3x3</td>
+<td style="text-align: right;">5.478</td>
+<td style="text-align: right;">2.423</td>
+</tr>
+<tr class="even">
+<td>4x4</td>
+<td style="text-align: right;">≈ 10⁷</td>
+<td style="text-align: right;">544.921</td>
+</tr>
+<tr class="odd">
+<td>5x5</td>
+<td style="text-align: right;">≈ 10¹¹</td>
+<td style="text-align: right;">982.721</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>El 4x4 <strong>aprende pero no termina</strong>: 0,37 → 0,81, y la tabla seguía creciendo ~1.000 estados por iteración cuando se acabó el presupuesto.</p></li>
+<li><p>El 5x5 crece ~18.000 estados por iteración. El agente juega casi siempre en posiciones que nunca vio, y en posiciones nuevas juega al azar.</p></li>
+</ul>
+<div class="fragment">
+<p>Una tabla deja de funcionar cuando el espacio de estados explota. Para eso hacen falta métodos que <strong>generalicen</strong> entre estados parecidos, en vez de guardar uno por uno.</p>
+</div>
+</section>
+<section id="el-contraejemplo-útil-5x5-con-winlength-4" class="slide level2">
+<h2>El contraejemplo útil: 5x5 con <code>winLength</code> 4</h2>
+<ul>
+<li><p>Mismo tablero, misma cantidad de estados (937.245 en la tabla).</p></li>
+<li><p>Pero las partidas terminan antes y ganar es más fácil: la curva sube hasta 0,862.</p></li>
+</ul>
+<div class="fragment">
+<p>No cambió el tamaño del problema. Cambió <strong>cuánto tarda en llegar la recompensa</strong>.</p>
+</div>
+</section>
+<section id="el-agente-juega-en-la-página-real" class="slide level2 smaller">
+<h2>El agente juega en la página real</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><code>replay.R</code> abre Chrome con <code>chromote</code> y juega la política aprendida en <code>index.html</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>q_table <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">file.path</span>(script_dir, <span class="st">"data"</span>, <span class="st">"model-3x3.rds"</span>))</span>
+<span id="cb12-2"><a href=""></a></span>
+<span id="cb12-3"><a href=""></a><span class="cf">repeat</span> {</span>
+<span id="cb12-4"><a href=""></a>  state <span class="ot">&lt;-</span> <span class="fu">js</span>(<span class="st">"game.getState()"</span>)</span>
+<span id="cb12-5"><a href=""></a>  <span class="cf">if</span> (<span class="fu">isTRUE</span>(state<span class="sc">$</span>done)) <span class="cf">break</span></span>
+<span id="cb12-6"><a href=""></a>  actions <span class="ot">&lt;-</span> <span class="fu">js</span>(<span class="st">"game.getActions()"</span>)</span>
+<span id="cb12-7"><a href=""></a>  action <span class="ot">&lt;-</span> <span class="fu">greedy_action</span>(q_table, <span class="fu">board_key</span>(state<span class="sc">$</span>board), actions)</span>
+<span id="cb12-8"><a href=""></a>  <span class="fu">invisible</span>(<span class="fu">js</span>(<span class="fu">sprintf</span>(<span class="st">"game.step(%d)"</span>, action)))</span>
+<span id="cb12-9"><a href=""></a>  <span class="fu">Sys.sleep</span>(PAUSE)</span>
+<span id="cb12-10"><a href=""></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:45%;">
+<p><img data-src="media/preso-8/replay-3x3.png"></p>
+</div></div>
+<p>V8 para entrenar (cientos de miles de jugadas), el navegador sólo para mostrar.</p>
+</section>
+<section id="lo-que-salió-mal-y-se-declaró" class="slide level2 smaller">
+<h2>Lo que salió mal, y se declaró</h2>
+<ul>
+<li><p><strong>Guardar el modelo del paquete tardaba más de media hora.</strong> El objeto guarda la tabla Q <em>además</em> como un hash de hashes; serializar medio millón de entornos de R deja archivos de varios GB. Solución: se guarda sólo la matriz Q. La misma tabla ocupa 3 MB.</p></li>
+<li><p><strong>El eje x del gráfico está en escala logarítmica.</strong> Con escala lineal, la convergencia del 3x3 a las 5.000 partidas es un punto pegado al margen izquierdo.</p></li>
+<li><p><strong>El 5x5 se cortó por tiempo con epsilon todavía en 0,55.</strong> Nunca llegó a explotar lo que había aprendido: se quedó explorando hasta el final.</p></li>
+<li><p><strong>El azar de JavaScript no se puede fijar.</strong> <code>set.seed(42)</code> fija la exploración del lado de R, no al oponente. Las curvas se parecen; los números exactos no se repiten.</p></li>
+</ul>
+<div class="fragment">
+<p>Los tres primeros los encontró y los declaró el agente ingeniero. Ninguno estaba en el plan.</p>
+</div>
+</section></section>
+<section>
+<section id="space-invaders-en-python" class="title-slide slide level1 center">
+<h1>4. Space Invaders en Python</h1>
+
+</section>
+<section id="la-pregunta-del-stack" class="slide level2">
+<h2>La pregunta del stack</h2>
+<p>En Python hay un estándar de facto, y conviene nombrarlo:</p>
+<ul>
+<li><p><strong>Gymnasium</strong>: la interfaz. <code>reset()</code>, <code>step()</code>, <code>action_space</code>, <code>observation_space</code>. La usa todo el mundo.</p></li>
+<li><p><strong>Stable-Baselines3</strong>: los algoritmos ya implementados (PPO, DQN, A2C).</p></li>
+<li><p><strong>torch</strong>: la red neuronal abajo de todo. Cientos de megabytes.</p></li>
+</ul>
+<div class="fragment">
+<p>El problema para una clase: un modelo de SB3 no se puede imprimir ni explicar en vivo.</p>
+</div>
+</section>
+<section id="la-decisión" class="slide level2">
+<h2>La decisión</h2>
+<ul>
+<li><p><strong>Camino principal</strong>: Q-learning tabular escrito a mano, unas 60 líneas, sobre un entorno con interfaz Gymnasium. Se lee en cámara.</p></li>
+<li><p><strong>Comparación</strong>: PPO de Stable-Baselines3 sobre la grilla cruda, como “la herramienta estándar”.</p></li>
+</ul>
+<div class="fragment">
+<p>No es escribir todo a mano por deporte. Es tener las dos cosas en la misma pantalla y poder compararlas.</p>
+</div>
+</section>
+<section id="el-puente-node-y-json-por-línea" class="slide level2">
+<h2>El puente: Node y JSON por línea</h2>
+<p><code>game.js</code> ya exporta <code>module.exports</code>, así que corre en Node sin tocarlo.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href=""></a>entrada:  {"cmd":"reset","seed":1}   o   {"cmd":"step","action":2}</span>
+<span id="cb13-2"><a href=""></a>salida:   {"state":{...},"reward":0,"done":false}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>Medido: <strong>30.181 pasos por segundo</strong> a través de <code>env.py</code>. Por Playwright serían unos 300.</p>
+<p>Un episodio dura ~265 ticks; 3.000 episodios son ~790.000 pasos: medio minuto.</p>
+</div>
+</section>
+<section id="el-puente-entero" class="slide level2 smaller">
+<h2>El puente entero</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb14-1"><a href=""></a><span class="kw">const</span> readline <span class="op">=</span> <span class="pp">require</span>(<span class="st">'readline'</span>)<span class="op">;</span></span>
+<span id="cb14-2"><a href=""></a><span class="kw">const</span> SpaceInvaders <span class="op">=</span> <span class="pp">require</span>(<span class="st">'../../space-invaders/game.js'</span>)<span class="op">;</span></span>
+<span id="cb14-3"><a href=""></a></span>
+<span id="cb14-4"><a href=""></a><span class="kw">const</span> game <span class="op">=</span> SpaceInvaders<span class="op">.</span><span class="fu">createGame</span>()<span class="op">;</span></span>
+<span id="cb14-5"><a href=""></a><span class="kw">const</span> rl <span class="op">=</span> readline<span class="op">.</span><span class="fu">createInterface</span>({ <span class="dt">input</span><span class="op">:</span> <span class="bu">process</span><span class="op">.</span><span class="at">stdin</span> })<span class="op">;</span></span>
+<span id="cb14-6"><a href=""></a></span>
+<span id="cb14-7"><a href=""></a>rl<span class="op">.</span><span class="fu">on</span>(<span class="st">'line'</span><span class="op">,</span> <span class="kw">function</span> (line) {</span>
+<span id="cb14-8"><a href=""></a>  <span class="kw">const</span> cmd <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(line)<span class="op">;</span></span>
+<span id="cb14-9"><a href=""></a>  <span class="kw">let</span> out<span class="op">;</span></span>
+<span id="cb14-10"><a href=""></a>  <span class="cf">if</span> (cmd<span class="op">.</span><span class="at">cmd</span> <span class="op">===</span> <span class="st">'reset'</span>) {</span>
+<span id="cb14-11"><a href=""></a>    out <span class="op">=</span> { <span class="dt">state</span><span class="op">:</span> game<span class="op">.</span><span class="fu">reset</span>({ <span class="dt">seed</span><span class="op">:</span> cmd<span class="op">.</span><span class="at">seed</span> })<span class="op">,</span> <span class="dt">reward</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">done</span><span class="op">:</span> <span class="kw">false</span> }<span class="op">;</span></span>
+<span id="cb14-12"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb14-13"><a href=""></a>    out <span class="op">=</span> game<span class="op">.</span><span class="fu">step</span>(cmd<span class="op">.</span><span class="at">action</span>)<span class="op">;</span></span>
+<span id="cb14-14"><a href=""></a>  }</span>
+<span id="cb14-15"><a href=""></a>  <span class="bu">process</span><span class="op">.</span><span class="at">stdout</span><span class="op">.</span><span class="fu">write</span>(<span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(out) <span class="op">+</span> <span class="st">'</span><span class="sc">\n</span><span class="st">'</span>)<span class="op">;</span></span>
+<span id="cb14-16"><a href=""></a>})<span class="op">;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Trece líneas. Es la misma <code>game.js</code> del navegador: el agente entrena contra el juego real, no contra una copia.</p>
+</section>
+<section id="env.py-la-interfaz-gymnasium" class="slide level2 smaller">
+<h2><code>env.py</code>: la interfaz Gymnasium</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a><span class="kw">def</span> reset(<span class="va">self</span>, seed<span class="op">=</span><span class="va">None</span>, options<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb15-2"><a href=""></a>    <span class="cf">if</span> seed <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb15-3"><a href=""></a>        seed <span class="op">=</span> <span class="va">self</span>.episode</span>
+<span id="cb15-4"><a href=""></a>    <span class="va">self</span>.episode <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb15-5"><a href=""></a>    <span class="va">self</span>.ticks <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb15-6"><a href=""></a>    out <span class="op">=</span> <span class="va">self</span>._talk({<span class="st">"cmd"</span>: <span class="st">"reset"</span>, <span class="st">"seed"</span>: <span class="bu">int</span>(seed)})</span>
+<span id="cb15-7"><a href=""></a>    <span class="cf">return</span> <span class="va">self</span>._observation(out[<span class="st">"state"</span>]), <span class="va">self</span>._info(out[<span class="st">"state"</span>])</span>
+<span id="cb15-8"><a href=""></a></span>
+<span id="cb15-9"><a href=""></a><span class="kw">def</span> step(<span class="va">self</span>, action):</span>
+<span id="cb15-10"><a href=""></a>    out <span class="op">=</span> <span class="va">self</span>._talk({<span class="st">"cmd"</span>: <span class="st">"step"</span>, <span class="st">"action"</span>: <span class="bu">int</span>(action)})</span>
+<span id="cb15-11"><a href=""></a>    state <span class="op">=</span> out[<span class="st">"state"</span>]</span>
+<span id="cb15-12"><a href=""></a>    <span class="va">self</span>.ticks <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb15-13"><a href=""></a>    terminated <span class="op">=</span> <span class="bu">bool</span>(out[<span class="st">"done"</span>])</span>
+<span id="cb15-14"><a href=""></a>    truncated <span class="op">=</span> (<span class="kw">not</span> terminated) <span class="kw">and</span> <span class="va">self</span>.ticks <span class="op">&gt;=</span> MAX_TICKS</span>
+<span id="cb15-15"><a href=""></a>    <span class="cf">return</span> (<span class="va">self</span>._observation(state), <span class="bu">float</span>(out[<span class="st">"reward"</span>]),</span>
+<span id="cb15-16"><a href=""></a>            terminated, truncated, <span class="va">self</span>._info(state))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El episodio <em>i</em> usa la semilla <em>i</em>: las corridas se repiten exactas. <code>MAX_TICKS = 3000</code>, porque <code>game.js</code> no tiene tope propio.</p>
+</section>
+<section id="los-cuatro-rasgos" class="slide level2 smaller">
+<h2>Los cuatro rasgos</h2>
+<p><code>compact_features()</code> resume todo el estado del juego en cuatro enteros:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Rasgo</th>
+<th>Valores</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>x</code> de la nave</td>
+<td>0..19</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>columna relativa del alien vivo más cercano</td>
+<td>0 muy a la izquierda, 1 izquierda, 2 <strong>alineado</strong>, 3 derecha, 4 muy a la derecha</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>bomba en la columna de la nave, a ≤ 4 filas</td>
+<td>0 / 1</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>bala nuestra en vuelo</td>
+<td>0 / 1</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">\(20 \times 5 \times 2 \times 2 = 400\)</span> casilleros.</p>
+<div class="fragment">
+<p>Para PPO no hay rasgos: <code>SpaceInvadersEnv(obs="grid")</code> devuelve la grilla 15x20 aplanada, <strong>300 números</strong> en crudo.</p>
+</div>
+</section>
+<section id="más-cercano-no-es-obvio" class="slide level2 smaller">
+<h2>“Más cercano” no es obvio</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>bottom <span class="op">=</span> <span class="bu">max</span>(a[<span class="st">"y"</span>] <span class="cf">for</span> a <span class="kw">in</span> alive)</span>
+<span id="cb16-2"><a href=""></a>near <span class="op">=</span> <span class="bu">min</span>((a <span class="cf">for</span> a <span class="kw">in</span> alive <span class="cf">if</span> a[<span class="st">"y"</span>] <span class="op">==</span> bottom), key<span class="op">=</span><span class="kw">lambda</span> a: <span class="bu">abs</span>(a[<span class="st">"x"</span>] <span class="op">-</span> px))</span>
+<span id="cb16-3"><a href=""></a>dx <span class="op">=</span> near[<span class="st">"x"</span>] <span class="op">-</span> px</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote>
+<p>“Más cercano” es <strong>el alien que está más abajo</strong>, y entre esos el de la columna más cercana. Mirar la fila antes que la columna es lo que hace que apuntar sirva: con una distancia que mezcle las dos, el blanco salta de un alien a otro y el agente nunca aprende a disparar.</p>
+</blockquote>
+<div class="fragment">
+<p>Esta línea es una decisión de diseño del ingeniero, no del plan. Está en el README.</p>
+</div>
+</section>
+<section id="la-regla-de-q-learning-en-python" class="slide level2 smaller">
+<h2>La regla de Q-learning, en Python</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a><span class="cf">if</span> random.random() <span class="op">&lt;</span> epsilon:</span>
+<span id="cb17-2"><a href=""></a>    action <span class="op">=</span> random.randrange(<span class="dv">4</span>)</span>
+<span id="cb17-3"><a href=""></a><span class="cf">else</span>:</span>
+<span id="cb17-4"><a href=""></a>    action <span class="op">=</span> <span class="bu">max</span>(<span class="bu">range</span>(<span class="dv">4</span>), key<span class="op">=</span><span class="kw">lambda</span> a: q[state][a])</span>
+<span id="cb17-5"><a href=""></a>obs, reward, terminated, truncated, info <span class="op">=</span> env.step(action)</span>
+<span id="cb17-6"><a href=""></a>nxt <span class="op">=</span> table_key(obs, args.state)</span>
+<span id="cb17-7"><a href=""></a><span class="co"># Regla de Q-learning: acercar Q(s,a) al premio mas el mejor futuro.</span></span>
+<span id="cb17-8"><a href=""></a>target <span class="op">=</span> reward <span class="cf">if</span> terminated <span class="cf">else</span> reward <span class="op">+</span> GAMMA <span class="op">*</span> <span class="bu">max</span>(q[nxt])</span>
+<span id="cb17-9"><a href=""></a>q[state][action] <span class="op">+=</span> args.alpha <span class="op">*</span> (target <span class="op">-</span> q[state][action])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Y el esquema de exploración:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a>decay_until <span class="op">=</span> <span class="bu">max</span>(<span class="dv">1</span>, <span class="bu">int</span>(<span class="fl">0.8</span> <span class="op">*</span> args.episodes))   <span class="co"># epsilon baja durante el 80% inicial</span></span>
+<span id="cb18-2"><a href=""></a>epsilon <span class="op">=</span> <span class="bu">max</span>(EPS_FINAL, <span class="fl">1.0</span> <span class="op">-</span> (<span class="fl">1.0</span> <span class="op">-</span> EPS_FINAL) <span class="op">*</span> episode <span class="op">/</span> decay_until)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>GAMMA = 0.95</code>, <code>EPS_FINAL = 0.05</code>. La tabla Q es un <code>defaultdict</code>: estado → lista de 4 valores.</p>
+</section>
+<section id="el-registro-una-fila-por-episodio" class="slide level2">
+<h2>El registro: una fila por episodio</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>COLUMNS <span class="op">=</span> [<span class="st">"episode"</span>, <span class="st">"total_steps"</span>, <span class="st">"epsilon"</span>, <span class="st">"episode_reward"</span>, <span class="st">"score"</span>,</span>
+<span id="cb19-2"><a href=""></a>           <span class="st">"aliens_killed"</span>, <span class="st">"lives_left"</span>, <span class="st">"won"</span>, <span class="st">"wall_time_s"</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a>f.flush()  <span class="co"># el CSV crece en vivo: se puede graficar mientras entrena</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p><code>train_sb3.py</code> traduce el CSV del wrapper <code>Monitor</code> de SB3 a <strong>estas mismas columnas</strong>. Un solo script de gráfico para los dos caminos.</p>
+</div>
+</section>
+<section id="primera-corrida-la-del-plan" class="slide level2">
+<h2>Primera corrida: la del plan</h2>
+<p>4 rasgos, 3.000 episodios, α = 0,1.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Episodios</td>
+<td>3.000 (792.321 pasos)</td>
+</tr>
+<tr class="even">
+<td>Tiempo</td>
+<td>29,4 s</td>
+</tr>
+<tr class="odd">
+<td>Mejor media móvil (50)</td>
+<td><strong>251,0</strong></td>
+</tr>
+<tr class="even">
+<td>Azar, de referencia</td>
+<td>174</td>
+</tr>
+<tr class="odd">
+<td>Máximo posible</td>
+<td>580</td>
+</tr>
+<tr class="even">
+<td>Política final, 100 partidas</td>
+<td>187,4 — <strong>0 victorias</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Apenas le gana al azar. El video es más elocuente que la tabla.</p>
+</div>
+</section>
+<section id="el-agente-de-4-rasgos-jugando" class="slide level2">
+<h2>El agente de 4 rasgos jugando</h2>
+<video id="video_shortcode_videojs_video1" width="640" height="480" class="video-js vjs-default-skin vjs-big-play-centered " controls="" preload="auto" data-setup="{}" title=""><source src="media/preso-8/replay-qlearning-4rasgos.webm"></video>
+<p>Pierde con 180 puntos.</p>
+</section>
+<section id="falta-información-en-la-observación" class="slide level2 smaller">
+<h2>¿Falta información en la observación?</h2>
+<p>Primera hipótesis razonable: cuatro números no alcanzan para jugar.</p>
+<p><strong>Se midió.</strong> Una política escrita a mano, sobre <strong>esos mismos cuatro rasgos</strong>:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Política</th>
+<th style="text-align: right;">Puntaje medio</th>
+<th>Victorias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Al azar (200 episodios)</td>
+<td style="text-align: right;">175,1</td>
+<td>0 / 200</td>
+</tr>
+<tr class="even">
+<td>A mano, sobre los 4 rasgos (100 ep.)</td>
+<td style="text-align: right;"><strong>578,7</strong></td>
+<td><strong>99 / 100</strong></td>
+</tr>
+<tr class="odd">
+<td>Máximo posible</td>
+<td style="text-align: right;">580</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>La información <strong>está</strong>. Lo que falla es que el algoritmo la encuentre.</p>
+</div>
+</section>
+<section id="el-barrido-qué-entra-en-la-tabla" class="slide level2 smaller">
+<h2>El barrido: qué entra en la tabla</h2>
+<p>Mismo algoritmo, mismos rasgos disponibles. Lo único que cambia es qué parte se usa como clave de la tabla. Puntaje de la política greedy, promedio de 3 semillas, 5.000 episodios cada una:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>En la tabla</th>
+<th style="text-align: right;">Casilleros</th>
+<th style="text-align: right;">α=0,1</th>
+<th style="text-align: right;">α=0,05</th>
+<th style="text-align: right;">α=0,02</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>4 rasgos</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">243</td>
+<td style="text-align: right;">208</td>
+<td style="text-align: right;">241</td>
+</tr>
+<tr class="even">
+<td>(columna, bomba, bala)</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">209</td>
+<td style="text-align: right;">260</td>
+<td style="text-align: right;">299</td>
+</tr>
+<tr class="odd">
+<td>(columna, bala)</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">420</td>
+<td style="text-align: right;"><strong>468</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>El <code>x</code> de la nave y la bomba <strong>no le hacen falta</strong> a la política óptima, pero multiplican la tabla por 40. La misma decisión hay que acertarla en 400 casilleros en vez de 10, y con que falle en unos pocos la nave pierde la puntería.</p>
+</div>
+</section>
+<section id="sacar-rasgos-no-agregarlos" class="slide level2">
+<h2>Sacar rasgos, no agregarlos</h2>
+<p>El cambio, entero, es una línea:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a><span class="kw">def</span> table_key(obs, mode):</span>
+<span id="cb21-2"><a href=""></a>    <span class="co">"""Que parte de la observacion entra en la tabla. 'full' = los 4 rasgos."""</span></span>
+<span id="cb21-3"><a href=""></a>    <span class="cf">return</span> obs <span class="cf">if</span> mode <span class="op">==</span> <span class="st">"full"</span> <span class="cf">else</span> (obs[<span class="dv">1</span>], obs[<span class="dv">3</span>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href=""></a><span class="ex">python</span> train_qlearning.py <span class="at">--state</span> aim <span class="at">--alpha</span> 0.02 <span class="dt">\</span></span>
+<span id="cb22-2"><a href=""></a>                          <span class="at">--seed</span> 1 <span class="at">--episodes</span> 10000 <span class="at">--out</span> qlearning-aim</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>Resultado: la política greedy saca <strong>580 puntos en 100 de 100 partidas</strong>. El máximo del juego.</p>
+</div>
+</section>
+<section id="la-tabla-q-entera-sin-bala-en-vuelo" class="slide level2 smaller">
+<h2>La tabla Q entera: sin bala en vuelo</h2>
+<p>Diez casilleros en total. Valores de <code>data/qlearning-aim-q-table.json</code>; en negrita, la acción que elige.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Dónde está el alien</th>
+<th style="text-align: right;">nada</th>
+<th style="text-align: right;">izq.</th>
+<th style="text-align: right;">der.</th>
+<th style="text-align: right;">disparar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0 · muy a la izquierda</td>
+<td style="text-align: right;">2,5</td>
+<td style="text-align: right;">4,2</td>
+<td style="text-align: right;">2,8</td>
+<td style="text-align: right;"><strong>17,8</strong></td>
+</tr>
+<tr class="even">
+<td>1 · a la izquierda</td>
+<td style="text-align: right;">8,9</td>
+<td style="text-align: right;"><strong>24,3</strong></td>
+<td style="text-align: right;">10,5</td>
+<td style="text-align: right;">11,6</td>
+</tr>
+<tr class="odd">
+<td>2 · <strong>alineado</strong></td>
+<td style="text-align: right;">15,8</td>
+<td style="text-align: right;">13,6</td>
+<td style="text-align: right;">14,6</td>
+<td style="text-align: right;"><strong>30,8</strong></td>
+</tr>
+<tr class="even">
+<td>3 · a la derecha</td>
+<td style="text-align: right;">10,3</td>
+<td style="text-align: right;">11,0</td>
+<td style="text-align: right;"><strong>23,2</strong></td>
+<td style="text-align: right;">12,2</td>
+</tr>
+<tr class="odd">
+<td>4 · muy a la derecha</td>
+<td style="text-align: right;">7,9</td>
+<td style="text-align: right;">7,6</td>
+<td style="text-align: right;">7,9</td>
+<td style="text-align: right;"><strong>15,4</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="la-tabla-q-entera-con-bala-en-vuelo" class="slide level2 smaller">
+<h2>La tabla Q entera: con bala en vuelo</h2>
+<p>Los otros cinco casilleros. Disparar no sirve: el juego ignora el tiro si ya hay una bala en el aire.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Dónde está el alien</th>
+<th style="text-align: right;">nada</th>
+<th style="text-align: right;">izq.</th>
+<th style="text-align: right;">der.</th>
+<th style="text-align: right;">disparar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0 · muy a la izquierda</td>
+<td style="text-align: right;">7,4</td>
+<td style="text-align: right;"><strong>20,1</strong></td>
+<td style="text-align: right;">7,4</td>
+<td style="text-align: right;">8,5</td>
+</tr>
+<tr class="even">
+<td>1 · a la izquierda</td>
+<td style="text-align: right;"><strong>20,9</strong></td>
+<td style="text-align: right;">17,9</td>
+<td style="text-align: right;">18,1</td>
+<td style="text-align: right;">18,1</td>
+</tr>
+<tr class="odd">
+<td>2 · alineado</td>
+<td style="text-align: right;">17,4</td>
+<td style="text-align: right;">16,4</td>
+<td style="text-align: right;"><strong>23,4</strong></td>
+<td style="text-align: right;">17,3</td>
+</tr>
+<tr class="even">
+<td>3 · a la derecha</td>
+<td style="text-align: right;">13,5</td>
+<td style="text-align: right;">13,6</td>
+<td style="text-align: right;"><strong>18,1</strong></td>
+<td style="text-align: right;">13,5</td>
+</tr>
+<tr class="odd">
+<td>4 · muy a la derecha</td>
+<td style="text-align: right;">10,4</td>
+<td style="text-align: right;">9,9</td>
+<td style="text-align: right;"><strong>21,1</strong></td>
+<td style="text-align: right;">9,8</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="leer-la-política-en-la-tabla" class="slide level2 smaller">
+<h2>Leer la política en la tabla</h2>
+<ul>
+<li><p>El valor más alto de toda la tabla, 30,8, está en <strong>“alineado y sin bala en vuelo → disparar”</strong>. Eso es el juego entero.</p></li>
+<li><p>Con el alien a una o dos columnas a la izquierda, se mueve a la izquierda. A la derecha, a la derecha.</p></li>
+<li><p>Con el alien muy lejos y sin bala, <strong>dispara igual</strong>: el tiro se pierde, pero no cuesta nada (el juego no tiene munición limitada) y deja al agente en los estados “con bala”, que son los que mueven la nave.</p></li>
+</ul>
+<div class="fragment">
+<p>Nadie diseñó eso. Salió de diez números que se corrigieron dos millones setecientas mil veces.</p>
+</div>
+</section>
+<section id="el-agente-de-2-rasgos-jugando" class="slide level2">
+<h2>El agente de 2 rasgos jugando</h2>
+<video id="video_shortcode_videojs_video2" width="640" height="480" class="video-js vjs-default-skin vjs-big-play-centered " controls="" preload="auto" data-setup="{}" title=""><source src="media/preso-8/replay-qlearning.webm"></video>
+<p>580 puntos: mata los 24 aliens y no pierde ninguna vida.</p>
+</section>
+<section id="la-semilla-decide" class="slide level2 smaller">
+<h2>La semilla decide</h2>
+<p>Con <code>--state aim --alpha 0.02 --episodes 10000</code>, cuatro semillas distintas:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Semilla</th>
+<th style="text-align: right;">Puntaje greedy</th>
+<th style="text-align: right;">Victorias (100 partidas)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td style="text-align: right;">401</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td><strong>1</strong></td>
+<td style="text-align: right;"><strong>580</strong></td>
+<td style="text-align: right;"><strong>100</strong></td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td style="text-align: right;">576</td>
+<td style="text-align: right;">99</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td style="text-align: right;">401</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>El resultado es <strong>bimodal</strong>: o el agente encuentra “disparar sólo cuando está alineado” y gana casi siempre, o no la encuentra y se queda a mitad de camino. No hay término medio.</p>
+<p>La corrida que se commiteó usa <code>--seed 1</code>. Eso hay que decirlo en voz alta, no esconderlo en una nota al pie.</p>
+</div>
+</section>
+<section id="por-qué-la-curva-nunca-llega-a-550" class="slide level2 smaller">
+<h2>Por qué la curva nunca llega a 550</h2>
+<p>La política final es perfecta (580 de 580). Su media móvil durante el entrenamiento nunca cruza 550. Las dos cosas son ciertas.</p>
+<ul>
+<li><p>Al final del entrenamiento epsilon sigue en <strong>0,05</strong>: una de cada veinte acciones es al azar.</p></li>
+<li><p>Una política perfecta con esa exploración rinde <strong>515,5</strong> (medido).</p></li>
+</ul>
+<div class="fragment">
+<p>El 5% de ruido cuesta unos 65 puntos. El umbral de 550 sólo se cruza apagando la exploración, que es lo que hace <code>replay.py</code>.</p>
+<p>La curva de entrenamiento y la evaluación greedy son dos números distintos. Hay que reportar los dos.</p>
+</div>
+</section>
+<section id="ppo-con-stable-baselines3" class="slide level2 smaller">
+<h2>PPO con Stable-Baselines3</h2>
+<p>La herramienta estándar, sobre la grilla cruda de 300 números. Tres líneas:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a>env <span class="op">=</span> Monitor(SpaceInvadersEnv(obs<span class="op">=</span><span class="st">"grid"</span>), MONITOR_PATH,</span>
+<span id="cb23-2"><a href=""></a>              info_keywords<span class="op">=</span>(<span class="st">"score"</span>, <span class="st">"aliens_killed"</span>, <span class="st">"lives"</span>, <span class="st">"won"</span>))</span>
+<span id="cb23-3"><a href=""></a>model <span class="op">=</span> PPO(<span class="st">"MlpPolicy"</span>, env, verbose<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb23-4"><a href=""></a>model.learn(total_timesteps<span class="op">=</span>TOTAL_TIMESTEPS)      <span class="co"># 500.000 pasos</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pasos / episodios</td>
+<td>500.000 / 1.808</td>
+</tr>
+<tr class="even">
+<td>Tiempo</td>
+<td>135,1 s</td>
+</tr>
+<tr class="odd">
+<td>Mejor media móvil (50)</td>
+<td>384,6</td>
+</tr>
+<tr class="even">
+<td>Política final, 100 partidas</td>
+<td>353,7 — <strong>3 victorias</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Más cómputo, más biblioteca, red neuronal, observación completa. Peor que una tabla de diez casilleros.</p>
+</div>
+</section>
+<section id="las-tres-curvas" class="slide level2">
+<h2>Las tres curvas</h2>
+
+<img data-src="media/preso-8/learning-curve-invaders.png" class="r-stretch"><p>Izquierda: 4 rasgos, se queda en 250. Centro: 2 rasgos, sube y es ruidosa. Derecha: PPO, sube parejo y se queda en 385.</p>
+</section>
+<section id="los-tres-agentes" class="slide level2">
+<h2>Los tres agentes</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Agente</th>
+<th style="text-align: right;">Episodios</th>
+<th style="text-align: right;">Mejor media móvil</th>
+<th>Greedy, 100 partidas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Q-learning, 4 rasgos</td>
+<td style="text-align: right;">3.000</td>
+<td style="text-align: right;">251</td>
+<td>pierde</td>
+</tr>
+<tr class="even">
+<td>Q-learning, 2 rasgos</td>
+<td style="text-align: right;">10.000</td>
+<td style="text-align: right;">448</td>
+<td><strong>580 puntos, 100/100</strong></td>
+</tr>
+<tr class="odd">
+<td>PPO (SB3)</td>
+<td style="text-align: right;">1.808</td>
+<td style="text-align: right;">385</td>
+<td>3/100</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>El que gana es el que tiene menos estado, menos cómputo y menos biblioteca.</p>
+</div>
+</section>
+<section id="los-dos-finales-uno-al-lado-del-otro" class="slide level2">
+<h2>Los dos finales, uno al lado del otro</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>4 rasgos</strong></p>
+<p><img data-src="media/preso-8/replay-final-4rasgos.png"></p>
+</div><div class="column" style="width:50%;">
+<p><strong>2 rasgos</strong></p>
+<p><img data-src="media/preso-8/replay-final.png"></p>
+</div></div>
+</section></section>
+<section>
+<section id="qué-aprendimos" class="title-slide slide level1 center">
+<h1>5. Qué aprendimos</h1>
+
+</section>
+<section id="la-recompensa-define-el-problema-1" class="slide level2">
+<h2>1. La recompensa define el problema</h2>
+<ul>
+<li><p>La tabla de recompensas del Space Invaders se escribió en la clase 7, antes de que existiera el juego.</p></li>
+<li><p>El agente no persigue “jugar bien”: persigue esa suma.</p></li>
+</ul>
+<div class="fragment">
+<p>Escribir la función de recompensa <strong>es</strong> escribir la especificación. Todo lo demás es optimización.</p>
+</div>
+</section>
+<section id="la-representación-del-estado-decide-si-una-tabla-alcanza" class="slide level2">
+<h2>2. La representación del estado decide si una tabla alcanza</h2>
+<ul>
+<li><p>Ta-te-ti 3x3: 5.478 estados. Converge en 5.000 partidas.</p></li>
+<li><p>Ta-te-ti 5x5: ≈ 10¹¹ estados. No converge nunca.</p></li>
+<li><p>Space Invaders con 4 rasgos: 400 casilleros. No aprende.</p></li>
+<li><p>Space Invaders con 2 rasgos: 10 casilleros. Política perfecta.</p></li>
+</ul>
+<div class="fragment">
+<p>Las dos fallas son la misma falla vista de los dos lados: <strong>demasiados estados para la cantidad de experiencia disponible</strong>.</p>
+</div>
+</section>
+<section id="más-datos-no-arreglan-una-mala-representación" class="slide level2 smaller">
+<h2>3. Más datos no arreglan una mala representación</h2>
+<ul>
+<li><p>Con los 4 rasgos, <strong>30.000 episodios dan lo mismo que 3.000</strong> (~200 puntos).</p></li>
+<li><p>Con <code>(columna, bala)</code> y α = 0,02, 20.000 episodios dan <em>peor</em> resultado que 10.000: la tabla se asienta con más firmeza sobre la política mala.</p></li>
+<li><p>El 4x4 con 200.000 partidas seguía subiendo, y no iba a llegar.</p></li>
+</ul>
+<div class="fragment">
+<p>Cuando una corrida no aprende, la respuesta casi nunca es “corrámosla más tiempo”.</p>
+</div>
+</section>
+<section id="registrar-todo-en-cada-iteración" class="slide level2">
+<h2>4. Registrar todo, en cada iteración</h2>
+<p>Sin el CSV sólo se puede decir “el agente aprendió”. Con el CSV:</p>
+<blockquote>
+<p>Convergió en la iteración 10, después de 5.000 partidas, en 8,8 segundos.</p>
+</blockquote>
+<ul>
+<li><p>Una fila por iteración o por episodio, escrita <strong>mientras corre</strong>.</p></li>
+<li><p>El criterio de convergencia, fijado <strong>antes</strong> de mirar los datos.</p></li>
+<li><p>Los umbrales del Space Invaders (250 / 400 / 550) también estaban en el plan.</p></li>
+</ul>
+</section>
+<section id="la-herramienta-estándar-no-gana-por-ser-estándar" class="slide level2">
+<h2>5. La herramienta estándar no gana por ser estándar</h2>
+<ul>
+<li><p>PPO + torch + 500.000 pasos: 385 de media móvil, 3 victorias de 100.</p></li>
+<li><p>Diez casilleros escritos a mano: 580, 100 de 100.</p></li>
+</ul>
+<div class="fragment">
+<p>PPO no está mal implementado: está resolviendo un problema mucho más difícil, porque le dimos 300 números en crudo en vez de 2. Para problemas grandes eso es exactamente lo que hace falta. Para este, no.</p>
+</div>
+</section>
+<section id="una-interfaz-dos-juegos-dos-lenguajes" class="slide level2">
+<h2>6. Una interfaz, dos juegos, dos lenguajes</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb24-1"><a href=""></a>game<span class="op">.</span><span class="fu">reset</span>(options)   <span class="co">//  → estado inicial</span></span>
+<span id="cb24-2"><a href=""></a>game<span class="op">.</span><span class="fu">step</span>(action)     <span class="co">//  → { state, reward, done }</span></span>
+<span id="cb24-3"><a href=""></a>game<span class="op">.</span><span class="fu">getState</span>()</span>
+<span id="cb24-4"><a href=""></a>game<span class="op">.</span><span class="fu">getActions</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>El mismo contrato sirvió para el ta-te-ti y para el Space Invaders.</p></li>
+<li><p>Y para R (<code>V8</code>) y para Python (Node + JSON por línea) sin cambiar una línea de los juegos.</p></li>
+</ul>
+<div class="fragment">
+<p>Se decidió en la clase 7, antes de escribir código. Es la decisión que más rindió de todo el proyecto.</p>
+</div>
+</section>
+<section id="cómo-se-construyó-esto" class="slide level2 smaller">
+<h2>Cómo se construyó esto</h2>
+<ul>
+<li><p>Los planes se discutieron y se aprobaron como <strong>issues</strong>: <a href="https://github.com/dietrichson/IA-UNSAM-2026/issues/81">#81</a> (R, ta-te-ti) y <a href="https://github.com/dietrichson/IA-UNSAM-2026/issues/82">#82</a> (Python, Space Invaders). Cada uno lista las decisiones y las alternativas descartadas.</p></li>
+<li><p>Un <strong>agente ingeniero por track</strong>, cada uno con su plan aprobado y su propio checkout.</p></li>
+<li><p>Un <strong>agente de QA independiente</strong> recalculó todos los números desde los CSV, sin mirar los informes.</p></li>
+</ul>
+<div class="fragment">
+<p>El hallazgo de “4 rasgos contra 2” <strong>no estaba en el plan</strong>. Salió del ingeniero, que en vez de reportar “el Q-learning no aprende” se puso a buscar por qué: primero probó que los rasgos alcanzaban (la política a mano, 579 puntos) y después barrió las configuraciones de la tabla.</p>
+</div>
+</section>
+<section id="lo-que-viene" class="slide level2">
+<h2>Lo que viene</h2>
+<ul>
+<li><p>Cuando la tabla no alcanza, el paso siguiente es <strong>generalizar</strong>: aproximar <span class="math inline">\(Q\)</span> con una función en vez de guardar una fila por estado.</p></li>
+<li><p>Eso es <em>deep</em> RL, y es lo que hace PPO por debajo.</p></li>
+<li><p>La pregunta que queda abierta: ¿cómo se elige la representación cuando no hay nadie que sepa cuáles son los 2 rasgos que importan?</p></li>
+</ul>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="preso-8-2026-09-28_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="preso-8-2026-09-28_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="preso-8-2026-09-28_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="preso-8-2026-09-28_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="preso-8-2026-09-28_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="preso-8-2026-09-28_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="preso-8-2026-09-28_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="preso-8-2026-09-28_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="preso-8-2026-09-28_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="preso-8-2026-09-28_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copiado");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copiado");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>videojs(video_shortcode_videojs_video1);</script>
+    <script>videojs(video_shortcode_videojs_video2);</script>
+    
+
+</body></html>

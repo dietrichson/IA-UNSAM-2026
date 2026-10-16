@@ -1,0 +1,1470 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Silicon Sampling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Faustina:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+
+<style>
+/* ============================================================
+   Silicon Sampling · deck de clase
+   Identidad: Manual de Identidad Visual UNSAM 2020
+   · color institucional Pantone 645 = rgb(125,160,195)
+   · tipografías Saira (títulos/logotipo) + Faustina (lectura extendida)
+   · trama/grilla como recurso gráfico rector
+   · títulos marginados a la izquierda, interlínea = cuerpo
+   · volantas en versalitas
+   ============================================================ */
+
+:root{
+  --cielo:      #7DA0C3;   /* Pantone 645, color institucional UNSAM */
+  --tinta:      #16202B;   /* neutro con sesgo hacia el cielo */
+  --tinta-suave:#4A5866;
+  --papel:      #F6F8FA;
+  --papel-alto: #FFFFFF;
+  --linea:      #D5DEE7;
+  --trama:      rgba(125,160,195,.16);
+  --naranja:    #FF6E28;   /* secundario UNSAM · reservado al dato real */
+  --naranja-ap: rgba(255,110,40,.10);
+  --cielo-ap:   rgba(125,160,195,.14);
+  --sombra:     0 1px 0 rgba(22,32,43,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --cielo:      #9CBAD6;
+    --tinta:      #EAF0F5;
+    --tinta-suave:#9FB0C0;
+    --papel:      #121A22;
+    --papel-alto: #1A242E;
+    --linea:      #2C3A47;
+    --trama:      rgba(156,186,214,.13);
+    --naranja:    #FF8A52;
+    --naranja-ap: rgba(255,138,82,.14);
+    --cielo-ap:   rgba(156,186,214,.13);
+    --sombra:     0 1px 0 rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --cielo:      #9CBAD6;
+  --tinta:      #EAF0F5;
+  --tinta-suave:#9FB0C0;
+  --papel:      #121A22;
+  --papel-alto: #1A242E;
+  --linea:      #2C3A47;
+  --trama:      rgba(156,186,214,.13);
+  --naranja:    #FF8A52;
+  --naranja-ap: rgba(255,138,82,.14);
+  --cielo-ap:   rgba(156,186,214,.13);
+  --sombra:     0 1px 0 rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+
+body{
+  background:var(--papel);
+  color:var(--tinta);
+  font-family:"Saira","Segoe UI",system-ui,sans-serif;
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* ---------- escenario 16:9 ---------- */
+.stage{
+  position:relative;
+  width:min(100vw, calc((100vh - 36px) * 16 / 9));
+  aspect-ratio:16 / 9;
+  background:var(--papel-alto);
+  overflow:hidden;
+  margin-bottom:36px;
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  container-type:size;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  padding:7cqw 8cqw 8cqw;
+  overflow:auto;              /* red de contención: nada se recorta */
+  background:var(--papel-alto);
+  /* la trama: red de conocimiento (manual UNSAM) */
+  background-image:
+    repeating-linear-gradient(to right, var(--trama) 0 1px, transparent 1px 6.25%),
+    repeating-linear-gradient(to bottom, var(--trama) 0 1px, transparent 1px 11.11%);
+  background-position:0 0;
+}
+.slide.on{display:flex}
+.slide[data-oculta]{display:none}  /* fuera del deck, pero sigue en el archivo */
+@media (prefers-reduced-motion: no-preference){
+  .slide.on{animation:entra .22s ease-out}
+  @keyframes entra{from{opacity:.4}to{opacity:1}}
+}
+
+/* ---------- tipografía ---------- */
+.volanta{
+  font-size:1.4cqw;
+  font-weight:500;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--cielo);
+  margin:0 0 2.2cqh;
+}
+.volanta.naranja{color:var(--naranja)}
+
+h1{
+  font-size:7.2cqw;
+  font-weight:500;
+  line-height:1;              /* manual: interlínea = cuerpo tipográfico */
+  letter-spacing:-.02em;
+  margin:0;
+  text-wrap:balance;
+}
+h2{
+  font-size:4.4cqw;
+  font-weight:500;
+  line-height:1;
+  letter-spacing:-.015em;
+  margin:0 0 4cqh;
+  text-wrap:balance;
+  max-width:24ch;
+}
+h3{
+  font-size:2.5cqw;
+  font-weight:600;
+  line-height:1.1;
+  margin:0 0 1.2cqh;
+}
+p, li{
+  font-size:2.05cqw;
+  line-height:1.45;
+  font-weight:300;
+  margin:0 0 1.6cqh;
+  max-width:62ch;
+}
+strong{font-weight:600}
+em{font-style:italic}
+a{color:inherit;text-decoration:underline;text-decoration-color:var(--cielo);text-underline-offset:.2em}
+
+.lectura{font-family:"Faustina",Georgia,serif;font-weight:400}
+.chico{font-size:1.5cqw;color:var(--tinta-suave);line-height:1.4;font-weight:300;max-width:74ch}
+.dato-num{font-variant-numeric:tabular-nums}
+
+/* ---------- portada ---------- */
+.portada{justify-content:space-between;padding-top:8cqw}
+.portada h1{font-size:8.6cqw;max-width:15ch}
+.portada .bajada{
+  font-family:"Faustina",Georgia,serif;
+  font-size:2.6cqw;
+  font-weight:400;
+  color:var(--tinta-suave);
+  max-width:40ch;
+  margin-top:3cqh;
+  line-height:1.3;
+}
+.pie-portada{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:4cqw;
+  border-top:1px solid var(--linea);
+  padding-top:2.4cqh;
+}
+.pie-portada p{margin:0;font-size:1.6cqw;color:var(--tinta-suave)}
+
+/* isologo oficial UNSAM. El .webp viene con fondo blanco opaco, así que se
+   funde con la hoja por blend: multiply en claro, invertido + screen en oscuro. */
+.marca-unsam{
+  height:12cqw;width:auto;flex:none;margin-bottom:-1.5cqw;
+  mix-blend-mode:multiply;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .marca-unsam{filter:invert(1);mix-blend-mode:screen}
+}
+:root[data-theme="dark"] .marca-unsam{filter:invert(1);mix-blend-mode:screen}
+
+/* marca tipográfica · wordmark de reemplazo, sigue en uso fuera de la portada. */
+.marca{display:flex;align-items:center;gap:1.4cqw}
+.ventana{
+  width:3.4cqw;height:3.4cqw;flex:none;
+  border:.22cqw solid var(--cielo);
+  position:relative;
+}
+.ventana::after{
+  content:"";position:absolute;inset:26%;
+  border-left:.22cqw solid var(--cielo);
+  border-top:.22cqw solid var(--cielo);
+}
+.marca-txt{line-height:1.05}
+.marca-sigla{font-size:2.4cqw;font-weight:500;letter-spacing:.02em;display:block}
+.marca-ley{font-size:1.15cqw;font-weight:300;color:var(--tinta-suave);display:block;letter-spacing:.04em}
+
+/* ---------- separador de bloque ---------- */
+.divisor{
+  background:var(--cielo);
+  background-image:
+    repeating-linear-gradient(to right, rgba(255,255,255,.20) 0 1px, transparent 1px 6.25%),
+    repeating-linear-gradient(to bottom, rgba(255,255,255,.20) 0 1px, transparent 1px 11.11%);
+  color:#0E1720;
+  justify-content:flex-end;
+}
+.divisor .volanta{color:rgba(14,23,32,.62)}
+.divisor h1{color:#0E1720;max-width:20ch}
+
+/* ---------- bloques de contenido ---------- */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:5cqw;align-items:start}
+.cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:3.2cqw;align-items:start}
+.cols p, .cols li, .cols-3 p, .cols-3 li{max-width:none}
+
+ul.lista{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1.7cqh}
+ul.lista li{
+  margin:0;padding-left:2.4cqw;position:relative;font-size:1.95cqw;line-height:1.35;
+}
+ul.lista li::before{
+  content:"";position:absolute;left:0;top:.52em;
+  width:.9cqw;height:.9cqw;border:.16cqw solid var(--cielo);
+}
+ul.lista.contra li::before{border-color:var(--naranja)}
+/* variante numerada · para las opciones que se votan por chat */
+ol.lista{list-style:none;counter-reset:v;padding:0;margin:0;display:flex;flex-direction:column;gap:1.7cqh}
+ol.lista li{
+  counter-increment:v;margin:0;padding-left:2.9cqw;position:relative;font-size:1.95cqw;line-height:1.35;
+}
+ol.lista li::before{
+  content:counter(v);position:absolute;left:0;top:0;
+  font-family:"Saira",sans-serif;font-weight:600;color:var(--cielo);font-variant-numeric:tabular-nums;
+}
+
+/* ficha bibliográfica */
+.ficha{
+  border-left:.3cqw solid var(--cielo);
+  padding:.4cqh 0 .4cqh 2.4cqw;
+  display:flex;flex-direction:column;gap:.9cqh;
+}
+.ficha .titulo-obra{font-family:"Faustina",Georgia,serif;font-size:2.9cqw;line-height:1.15;font-weight:600;margin:0}
+.ficha .autores{font-size:1.8cqw;font-weight:400;color:var(--tinta-suave);margin:0}
+.ficha .refs{font-size:1.4cqw;color:var(--tinta-suave);margin:0;font-weight:300}
+
+/* cita larga */
+blockquote{
+  margin:0;
+  font-family:"Faustina",Georgia,serif;
+  font-size:3.1cqw;
+  line-height:1.28;
+  font-weight:400;
+  max-width:30ch;
+}
+blockquote .cita-fuente{
+  display:block;font-family:"Saira",sans-serif;font-size:1.4cqw;font-weight:400;
+  color:var(--tinta-suave);margin-top:2.6cqh;letter-spacing:.02em;
+}
+
+/* tarjeta de crítica */
+.critica{
+  background:var(--naranja-ap);
+  border-left:.3cqw solid var(--naranja);
+  padding:2.6cqh 2.4cqw;
+}
+.critica h3{color:var(--naranja)}
+.critica p:last-child{margin-bottom:0}
+
+.nota-margen{
+  border-top:1px solid var(--linea);
+  padding-top:1.8cqh;margin-top:auto;
+}
+
+/* ---------- chat / salidas del modelo ---------- */
+.chat{display:flex;flex-direction:column;gap:1.4cqh;overflow:auto;max-height:62cqh;padding-right:1cqw}
+/* rejilla compacta para las slides con muchas salidas del modelo */
+.chat.rejilla{display:grid;grid-template-columns:1fr 1fr;gap:1.2cqh 2.2cqw;max-height:64cqh}
+.chat.rejilla .turno{padding:1.1cqh 1.3cqw}
+.chat.rejilla .turno p{font-size:1.36cqw;line-height:1.32}
+.chat.rejilla .turno .quien{font-size:1.05cqw;margin-bottom:.4cqh}
+.chat.rejilla .turno .rta{font-size:1.28cqw;margin-top:.5cqh}
+/* lista numerada muy compacta (las diez Marcelas) */
+ol.tanda{list-style:none;counter-reset:m;margin:0;padding:0;display:flex;flex-direction:column;gap:.75cqh}
+ol.tanda li{
+  counter-increment:m;margin:0;padding:.55cqh 0 .55cqh 3cqw;position:relative;
+  font-family:"Faustina",Georgia,serif;font-size:1.5cqw;line-height:1.3;font-weight:400;
+  border-bottom:1px solid var(--linea);max-width:none;
+}
+ol.tanda li::before{
+  content:counter(m);position:absolute;left:0;top:.6cqh;
+  font-family:"Saira",sans-serif;font-size:1.25cqw;font-weight:600;color:var(--cielo);
+  font-variant-numeric:tabular-nums;
+}
+.turno{
+  background:var(--cielo-ap);
+  border-left:.22cqw solid var(--cielo);
+  padding:1.5cqh 1.8cqw;
+}
+.turno .quien{
+  font-size:1.25cqw;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--cielo);display:block;margin-bottom:.6cqh;
+}
+.turno p{font-size:1.62cqw;margin:0;line-height:1.36;max-width:none;font-family:"Faustina",Georgia,serif;font-weight:400}
+.turno .rta{font-family:"Saira",sans-serif;font-weight:600;font-size:1.5cqw;margin-top:.7cqh;letter-spacing:.04em}
+.si{color:var(--naranja)}
+.no{color:var(--tinta-suave)}
+
+.prompt-box{
+  background:var(--papel);
+  border:1px solid var(--linea);
+  padding:2.4cqh 2.2cqw;
+  font-family:"Saira",monospace;
+  font-size:1.55cqw;
+  font-weight:300;
+  line-height:1.5;
+  white-space:pre-wrap;
+  overflow:auto;
+  max-height:56cqh;
+}
+
+/* ---------- la tabla de contraste ---------- */
+.contraste{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--linea)}
+.fila{
+  display:grid;
+  grid-template-columns:1.7fr .8fr .8fr 1.5fr;
+  gap:2.4cqw;
+  align-items:center;
+  padding:2.6cqh 0;
+  border-bottom:1px solid var(--linea);
+}
+.fila.cabecera{padding:1.4cqh 0;border-bottom:1px solid var(--tinta)}
+.fila.cabecera span{
+  font-size:1.3cqw;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tinta-suave);
+}
+.fila.cabecera .h-sin{color:var(--cielo)}
+.fila.cabecera .h-real{color:var(--naranja)}
+.fila .rotulo{font-size:1.7cqw;line-height:1.25;font-weight:300}
+.fila .n{font-size:4.2cqw;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.fila .n.sin{color:var(--cielo)}
+.fila .n.real{color:var(--naranja)}
+.fila .veredicto{font-size:1.5cqw;line-height:1.3;font-weight:300;color:var(--tinta-suave)}
+
+/* ---------- número grande ---------- */
+.destacado{display:flex;align-items:baseline;gap:2cqw}
+.destacado .cifra{font-size:13cqw;font-weight:600;line-height:.85;letter-spacing:-.04em;color:var(--naranja);font-variant-numeric:tabular-nums}
+.destacado .cifra.azul{color:var(--cielo)}
+.destacado .glosa{font-size:2.1cqw;font-weight:300;line-height:1.3;max-width:26ch}
+
+/* ---------- línea de tiempo ---------- */
+.tiempo{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:.22cqw solid var(--cielo);margin-top:2cqh}
+.hito{padding:2.4cqh 1.6cqw 0 0;position:relative}
+.hito::before{content:"";position:absolute;top:-.55cqw;left:0;width:.9cqw;height:.9cqw;background:var(--cielo)}
+.hito .anio{font-size:2.3cqw;font-weight:600;line-height:1;display:block;margin-bottom:.9cqh}
+.hito p{font-size:1.4cqw;line-height:1.3;margin:0;max-width:none;font-weight:300}
+.hito.eje::before{background:var(--naranja);width:1.3cqw;height:1.3cqw;top:-.78cqw}
+.hito.eje .anio{color:var(--naranja)}
+
+/* ---------- checklist ---------- */
+.check{display:grid;grid-template-columns:1fr 1fr;gap:0 4cqw}
+.check-col{border-top:.22cqw solid var(--cielo);padding-top:2cqh}
+.check-col.no{border-top-color:var(--naranja)}
+.check-col h3{font-size:1.9cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--cielo);margin-bottom:2cqh}
+.check-col.no h3{color:var(--naranja)}
+
+/* ---------- bibliografía ---------- */
+/* tres voces en paralelo (demo B.2) · texto más chico para que entren */
+.cols-3 .turno p{font-size:1.42cqw;line-height:1.34}
+
+.biblio{columns:2;column-gap:4cqw;font-size:1.18cqw;line-height:1.3}
+.biblio p{margin:0 0 1.5cqh;break-inside:avoid;max-width:none;font-weight:300}
+.biblio .aut{font-weight:500}
+
+/* ---------- HUD ---------- */
+.hud{
+  position:fixed;left:0;right:0;bottom:0;
+  display:flex;align-items:center;gap:14px;
+  padding:8px 14px;
+  font-size:12px;letter-spacing:.06em;
+  color:var(--tinta-suave);
+  background:color-mix(in srgb, var(--papel) 88%, transparent);
+  border-top:1px solid var(--linea);
+}
+.hud .barra{flex:1;height:2px;background:var(--linea);position:relative}
+.hud .barra i{position:absolute;inset:0 auto 0 0;background:var(--cielo);display:block}
+.hud button{
+  font:inherit;letter-spacing:.06em;color:var(--tinta-suave);
+  background:none;border:1px solid var(--linea);padding:3px 9px;cursor:pointer;
+}
+.hud button:hover{color:var(--tinta);border-color:var(--cielo)}
+.hud button:focus-visible, .ov-item:focus-visible{outline:2px solid var(--cielo);outline-offset:2px}
+.hud .cuenta{font-variant-numeric:tabular-nums;min-width:5.5em}
+.hud .crono{font-variant-numeric:tabular-nums;min-width:9.5em}
+.hud .ayuda{opacity:.75}
+
+/* ---------- panel de notas ---------- */
+.notas{
+  position:fixed;right:0;top:0;bottom:33px;width:min(400px,34vw);
+  background:var(--papel);border-left:1px solid var(--linea);
+  padding:22px 22px 30px;overflow:auto;
+  font-size:14.5px;line-height:1.5;color:var(--tinta);
+}
+.notas h4{
+  margin:0 0 12px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--cielo);font-weight:600;
+}
+.notas p{font-size:14.5px;margin:0 0 11px;max-width:none;line-height:1.5;font-weight:300}
+.notas strong{font-weight:600}
+.nota{display:none}
+
+/* ---------- vista general ---------- */
+.overview{
+  position:fixed;inset:0;background:var(--papel);overflow:auto;padding:26px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:12px;align-content:start;
+}
+.ov-item{
+  text-align:left;font:inherit;background:var(--papel-alto);color:var(--tinta);
+  border:1px solid var(--linea);padding:10px 12px;cursor:pointer;
+  display:flex;flex-direction:column;gap:5px;min-height:74px;
+}
+.ov-item:hover{border-color:var(--cielo)}
+.ov-item .ov-n{font-size:10px;letter-spacing:.18em;color:var(--cielo);font-weight:600}
+.ov-item .ov-t{font-size:13px;line-height:1.25;font-weight:400}
+.ov-item[aria-current="true"]{border-color:var(--naranja);border-width:2px}
+.overview[hidden]{display:none}
+
+@media (max-width:700px){
+  .hud .ayuda{display:none}
+  .notas{width:100vw;border-left:none}
+}
+</style>
+
+<div class="stage" id="stage">
+
+<!-- 1 · portada -->
+<section class="slide portada" data-oculta data-block="0" data-titulo="Portada">
+  <div>
+    <h1>Silicon Sampling</h1>
+    <p class="bajada">¿Puede un modelo de lenguaje responder una encuesta en lugar de la gente?</p>
+  </div>
+  <div class="pie-portada">
+    <img class="marca-unsam" src="assets/unsam_3lineas_negro.webp"
+         alt="Universidad Nacional de San Martín">
+    <p><span class="dato-num">2026</span></p>
+  </div>
+  <aside class="nota"><p><strong>No abras con la definición.</strong> Abrí con la slide siguiente y dejá que se equivoquen primero.</p><p>Decí solamente: "Vamos a empezar con un testimonio de trabajo de campo. Léanlo."</p></aside>
+</section>
+
+<!-- 2 · el gancho -->
+<section class="slide" data-block="0" data-titulo="El testimonio">
+  <p class="volanta">Fragmento de entrevista · Trabajo de campo</p>
+  <blockquote class="lectura">
+    “A la mañana pongo la radio mientras me hago el mate. Después, en el celular, por WhatsApp me llega de todo: el grupo de la familia, el grupo de las chicas del turno. A la noche, si llego con ganas, pongo un rato el noticiero.”
+    <span class="cita-fuente">Marcela, 52 años. Auxiliar de enfermería en un hospital público de San Martín.</span>
+  </blockquote>
+  <aside class="nota"><p><strong>Leelo en voz alta.</strong> Despacio.</p><p>Después preguntá, sin adelantar nada: <em>“¿Les suena creíble? ¿Conocen a alguien así?”</em></p><p>Dejá que hablen 60 segundos. Van a decir que sí, y alguien va a decir que se parece a la mamá o a una tía.</p></aside>
+</section>
+
+<!-- 3 · la votación -->
+<section class="slide" data-block="0" data-titulo="La votación">
+  <h2>¿Marcela existe?</h2>
+  <div class="cols">
+    <div>
+      <ol class="lista">
+        <li>Es una entrevista real, hecha por alguien.</li>
+        <li>Es una entrevista real, pero editada.</li>
+        <li>Está inventada.</li>
+      </ol>
+    </div>
+    <div>
+      <p class="chico">Escribí <strong>1</strong>, <strong>2</strong> o <strong>3</strong> en el chat, y contá en una línea qué te hizo elegir esa.</p>
+    </div>
+  </div>
+  <aside class="nota"><p><strong>Contá los votos del chat de verdad y anotá el número.</strong> Lo vas a usar en el cierre.</p><p>En general gana “es real”. Si gana “inventada”, mejor todavía: preguntá <em>“¿qué los hizo sospechar?”</em>: la respuesta suele ser “es demasiado prolija”, y ese es literalmente el hallazgo de la clase.</p></aside>
+</section>
+
+<!-- 4 · la revelación -->
+<section class="slide" data-block="0" data-titulo="La revelación">
+  <p class="volanta naranja">La respuesta</p>
+  <h2>Marcela no existe.</h2>
+  <p>La generó un modelo de lenguaje en once segundos, a partir de una sola línea de descripción: edad, género, ocupación, lugar, nivel educativo.</p>
+  <p>Junto con Marcela salieron otras siete personas. Ninguna existe tampoco.</p>
+  <div class="nota-margen">
+    <p class="chico">Esa práctica tiene nombre desde 2023. Se llama <strong>silicon sampling</strong>: muestreo de silicio.</p>
+  </div>
+  <aside class="nota"><p>Bajá el tono acá. No es un truco de magia, es el problema de la clase.</p><p>La pregunta que sigue no es “¿está bien o está mal?”, sino <strong>“¿qué fue exactamente lo que nos convenció?”</strong></p><p>Respuestas que suelen aparecer: el mate, el grupo del turno, “si llego con ganas”. Es decir: <em>el detalle costumbrista</em>. Anotalo, sirve para la próxima slide.</p></aside>
+</section>
+
+<!-- 5 · la tesis de la clase -->
+<section class="slide" data-block="0" data-titulo="Verosimilitud ≠ validez">
+  <p class="volanta">La tesis de esta clase</p>
+  <h2>Nos convenció porque estaba bien escrita.</h2>
+  <div class="cols">
+    <div>
+      <h3>Verosimilitud</h3>
+      <p>Que un texto <em>parezca</em> el testimonio de una persona real. Es una propiedad del texto.</p>
+    </div>
+    <div>
+      <h3>Validez</h3>
+      <p>Que ese texto <em>diga algo cierto</em> sobre las personas reales. Es una propiedad de la relación entre el texto y el mundo.</p>
+    </div>
+  </div>
+  <div class="nota-margen">
+    <p class="chico">Un modelo de lenguaje está optimizado para lo primero. Nada garantiza lo segundo.</p>
+  </div>
+  <aside class="nota"><p>Esta es la slide que tienen que recordar en tres meses. Decila lenta.</p><p>Si tenés que dejar una sola frase: <strong>“el modelo está entrenado para sonar verosímil, no para tener razón”</strong>.</p></aside>
+</section>
+
+<!-- 6 · el caso real -->
+<section class="slide" data-block="0" data-titulo="El caso que ya se public&oacute;">
+  <p class="volanta naranja">Y esto no es un ejercicio de clase</p>
+  <h2>Ya sali&oacute; publicado, y casi nadie lo not&oacute;</h2>
+  <div class="cols">
+    <div>
+      <p>Un medio de noticias estadounidense, <strong>Axios</strong>, public&oacute; este a&ntilde;o una nota sobre el empeoramiento de la mortalidad materna en su pa&iacute;s.</p>
+      <p>Adentro de esa nota hab&iacute;a un dato suelto: qu&eacute; proporci&oacute;n de la gente todav&iacute;a conf&iacute;a en sus m&eacute;dicos y enfermeras. Ven&iacute;a atribuido a los hallazgos de una consultora, <strong>Aaru</strong>, para una fundaci&oacute;n.</p>
+      <p>Cualquiera que lea eso asume que hubo una encuesta.</p>
+    </div>
+    <div class="critica">
+      <h3>No se le pregunt&oacute; a nadie</h3>
+      <p>El n&uacute;mero sali&oacute; de una muestra sint&eacute;tica. Ni una sola persona fue consultada para producirlo.</p>
+      <p>No estaba mal calculado. Era, directamente, <strong>un n&uacute;mero sin referente</strong>: no resum&iacute;a las respuestas de nadie.</p>
+    </div>
+  </div>
+  <div class="nota-margen">
+    <p class="chico">La nota se viraliz&oacute;, pero no por lo que contaba: por c&oacute;mo se hab&iacute;a fabricado ese dato.</p>
+  </div>
+  <aside class="nota"><p><strong>Preguntales:</strong> <em>&ldquo;leyendo esa nota, &iquest;ustedes lo hubieran notado?&rdquo;</em></p><p>La respuesta honesta es que no. Ese es el punto: la muestra sint&eacute;tica no llega con etiqueta. Llega redactada igual que cualquier otro dato.</p><p>Conectalo con Marcela: <strong>lo mismo que nos pas&oacute; hace cinco minutos ya pas&oacute; en un medio que ellos leer&iacute;an sin sospechar</strong>.</p></aside>
+</section>
+
+<!-- 7 · divisor bloque 1 -->
+<section class="slide divisor" data-block="1" data-titulo="▸ Bloque 1 · Qué es y de dónde sale">
+  <p class="volanta">Bloque 1</p>
+  <h1>Qué es, cómo se hace y de qué paper sale</h1>
+  <aside class="nota"><p>Chequeá el reloj: tendrías que estar arrancando este bloque cerca del minuto 10.</p></aside>
+</section>
+
+<!-- 8 · definición -->
+<section class="slide" data-block="1" data-titulo="Definición">
+  <p class="volanta">Definición operativa</p>
+  <h2>Silicon sampling</h2>
+  <p class="lectura" style="font-size:2.7cqw;line-height:1.35;max-width:38ch">Condicionar un modelo de lenguaje con perfiles sociodemográficos de personas (reales o construidos) para que produzca las respuestas que esas personas <em>habrían dado</em> a un instrumento de investigación.</p>
+  <div class="nota-margen">
+    <p class="chico">El resultado se llama <strong>muestra de silicio</strong>. Se la trata, y ese es el problema, como si fuera una muestra.</p>
+  </div>
+  <aside class="nota"><p>Subrayá el condicional: <strong>“habrían dado”</strong>. Ahí está metida toda la apuesta epistemológica del método.</p><p>Aclará que “silicio” es por el chip, no por nada más.</p></aside>
+</section>
+
+<!-- 9 · los tres pasos -->
+<section class="slide" data-block="1" data-titulo="Cómo se hace: 3 pasos">
+  <h2>Cómo se hace, en tres pasos</h2>
+  <div class="cols-3">
+    <div>
+      <p class="volanta">Paso 1</p>
+      <h3>Backstory</h3>
+      <p>Se le da al modelo una biografía breve: edad, género, lugar, ocupación, educación, ingreso, a veces voto o religión.</p>
+    </div>
+    <div>
+      <p class="volanta">Paso 2</p>
+      <h3>Instrumento</h3>
+      <p>Se le hace la misma pregunta que se le haría a una persona. Idealmente, con la redacción textual del cuestionario original.</p>
+    </div>
+    <div>
+      <p class="volanta">Paso 3</p>
+      <h3>Agregación</h3>
+      <p>Se repite con cientos o miles de backstories y se tabula el resultado como si fuera una encuesta.</p>
+    </div>
+  </div>
+  <aside class="nota"><p>Insistí en que <strong>no hay nada técnico acá</strong>. Es el punto que los desbloquea: cualquiera de ellos puede hacerlo esta noche.</p><p>Y por eso mismo cualquiera puede hacerlo mal.</p></aside>
+</section>
+
+<!-- 10 · el paper -->
+<section class="slide" data-block="1" data-titulo="El paper fundacional">
+  <p class="volanta">El paper del que nace todo</p>
+  <div class="ficha">
+    <p class="titulo-obra">Out of One, Many: Using Language Models to Simulate Human Samples</p>
+    <p class="autores">Lisa P. Argyle, Ethan C. Busby, Nancy Fulda, Joshua R. Gubler, Christopher Rytting &amp; David Wingate</p>
+    <p class="refs"><em>Political Analysis</em>, vol. 31, n.º 3 (2023), pp. 337–351 · doi:10.1017/pan.2023.2 · preprint arXiv:2209.06899 (2022)</p>
+  </div>
+  <p style="margin-top:4cqh">Acuña los dos términos que se usan hasta hoy: <strong>silicon sample</strong> y <strong>fidelidad algorítmica</strong>.</p>
+  <aside class="nota"><p>Es un paper de <em>ciencia política</em>, no de informática. Publicado en la revista de metodología de la disciplina. Eso importa: no es hype de la industria, entró por la puerta metodológica.</p><p>El título es una inversión del lema de Estados Unidos, <em>e pluribus unum</em>. De uno, muchos.</p></aside>
+</section>
+
+<!-- 11 · fidelidad algorítmica -->
+<section class="slide" data-block="1" data-titulo="Fidelidad algorítmica">
+  <h2>El argumento que lo cambió todo</h2>
+  <div class="cols">
+    <div>
+      <p class="volanta">Lo que se creía</p>
+      <p>El sesgo de un modelo es <strong>uniforme</strong>: una propiedad única y pareja del sistema. Es racista, o es sexista, y punto.</p>
+    </div>
+    <div>
+      <p class="volanta naranja">Lo que muestran</p>
+      <p>El sesgo es <strong>fino y está correlacionado con la demografía</strong>. Si lo condicionás bien, el modelo reproduce la distribución de respuestas de subgrupos humanos distintos.</p>
+    </div>
+  </div>
+  <div class="nota-margen">
+    <p class="chico">A esa propiedad la llaman <strong>fidelidad algorítmica</strong>. El giro del paper es astuto: convierte el sesgo, que era el defecto, en el instrumento de medición.</p>
+  </div>
+  <aside class="nota"><p>Este es el corazón intelectual del paper y conviene detenerse.</p><p>Preguntá al curso: <em>“¿qué les parece convertir el sesgo en herramienta?”</em>. Hay algo brillante y algo profundamente incómodo ahí, y las dos cosas son ciertas.</p></aside>
+</section>
+
+<!-- 12 · qué hicieron -->
+<section class="slide" data-block="1" data-titulo="Los tres estudios">
+  <h2>Qué hicieron para probarlo</h2>
+  <ul class="lista">
+    <li>Tomaron <strong>miles de backstories reales</strong> de participantes de encuestas grandes de Estados Unidos, sobre todo del ANES, el estudio electoral nacional.</li>
+    <li>Condicionaron GPT-3 con cada una y le pidieron que respondiera lo mismo que había respondido la persona.</li>
+    <li>Compararon la muestra de silicio contra la muestra humana en tres terrenos: <strong>palabras asociadas a cada partido</strong>, <strong>autoubicación ideológica</strong> y <strong>predicción del voto</strong> en 2012, 2016 y 2020.</li>
+    <li>Conclusión de los autores: la correspondencia va <em>“mucho más allá del parecido superficial”</em>.</li>
+  </ul>
+  <aside class="nota"><p>Detalle que conviene marcar: usaron backstories de <strong>personas reales cuyas respuestas ya conocían</strong>. Eso es lo que hace verificable el ejercicio.</p><p>Y es exactamente lo que <em>no</em> hace nadie que use esto sin cuidado, incluidos nosotros dentro de un rato.</p></aside>
+</section>
+
+<!-- 13 · la cita -->
+<section class="slide" data-block="1" data-titulo="La cita del abstract">
+  <p class="volanta">Argyle et al., 2023 · del abstract</p>
+  <blockquote class="lectura" style="max-width:34ch">
+    “Es matizada, multifacética, y refleja la compleja interacción entre ideas, actitudes y contexto sociocultural que caracteriza a las actitudes humanas.”
+    <span class="cita-fuente">Sobre la información contenida en GPT-3. Traducción propia.</span>
+  </blockquote>
+  <aside class="nota"><p>Leela y dejá silencio.</p><p>Después: <em>“¿Les parece que esto describe un modelo de lenguaje, o describe a una persona?”</em></p><p>La ambigüedad es del texto original, no de la traducción. Eso ya es un dato sobre el campo.</p></aside>
+</section>
+
+<!-- 14 · línea de tiempo -->
+<section class="slide" data-block="1" data-titulo="Genealogía">
+  <h2>De dónde viene y hacia dónde fue</h2>
+  <div class="tiempo">
+    <div class="hito">
+      <span class="anio">2022</span>
+      <p><strong>Aher, Arriaga &amp; Kalai.</strong> “Turing Experiments”: replicar estudios clásicos con humanos simulados. Detectan <em>distorsión de hiperexactitud</em>.</p>
+    </div>
+    <div class="hito eje">
+      <span class="anio">2023</span>
+      <p><strong>Argyle et al.</strong> Nace el término. Y <strong>Horton</strong>: el <em>homo silicus</em> replica experimentos de economía del comportamiento.</p>
+    </div>
+    <div class="hito">
+      <span class="anio">2024</span>
+      <p><strong>Bisbee et al.</strong> La primera refutación fuerte, en la misma revista. Y <strong>Park et al.</strong>: 1.052 personas entrevistadas dos horas cada una.</p>
+    </div>
+    <div class="hito">
+      <span class="anio">2025</span>
+      <p><strong>Wang et al.</strong> en <em>Nature Machine Intelligence</em>: el daño representacional. <strong>Lin</strong>: las seis falacias.</p>
+    </div>
+    <div class="hito">
+      <span class="anio">2026</span>
+      <p><strong>Ashokkumar et al.</strong> en <em>Nature</em>: predicen resultados de experimentos sociales con r = 0,85. El campo sigue abierto.</p>
+    </div>
+  </div>
+  <aside class="nota"><p>Tres años y medio de literatura. Que vean que <strong>no es un tema cerrado</strong>: es una discusión metodológica viva, con papers a favor y en contra publicados en revistas de primer nivel <em>al mismo tiempo</em>.</p><p>Si alguien pregunta “¿pero entonces sirve o no sirve?”, la respuesta honesta es: depende de para qué, y eso es el bloque 2.</p></aside>
+</section>
+
+<!-- 15 · traducción a comunicación -->
+<section class="slide" data-block="1" data-titulo="Qué modela realmente">
+  <p class="volanta">Traducción para estudios de la comunicación</p>
+  <h2>Qué es lo que el modelo modela, en realidad</h2>
+  <div class="cols">
+    <div>
+      <p>Un modelo de lenguaje no aprendió <strong>qué piensa la gente</strong>.</p>
+      <p>Aprendió <strong>cómo se escribe públicamente sobre lo que piensa la gente</strong>: en diarios, foros, redes, novelas, guiones, papers, transcripciones.</p>
+    </div>
+    <div class="critica">
+      <h3>Por qué esto es de ustedes</h3>
+      <p>Un LLM es un <strong>archivo comprimido del discurso público</strong>. Cuando simula a Marcela, no te devuelve a Marcela: te devuelve <em>la manera en que el discurso público habla de las Marcelas</em>.</p>
+      <p>Eso lo vuelve un mal sustituto de una entrevista. Y un objeto de estudio fascinante para una carrera de comunicación.</p>
+    </div>
+  </div>
+  <aside class="nota"><p><strong>Esta es la slide que justifica que esta clase exista en esta carrera y no en otra.</strong></p><p>Un sociólogo ve un problema de muestreo. Ustedes tienen que ver un problema de <em>representación</em>: quién habla, en nombre de quién, con qué voz.</p><p>Si el curso se engancha acá, se puede tirar la pregunta: <em>“¿el modelo estereotipa, o refleja el estereotipo que ya circulaba?”</em>. No tiene respuesta fácil.</p></aside>
+</section>
+
+<!-- 16 · divisor bloque 2 -->
+<section class="slide divisor" data-block="2" data-titulo="▸ Bloque 2 · Pros y contras">
+  <p class="volanta">Bloque 2</p>
+  <h1>Para qué sirve y por qué falla</h1>
+  <aside class="nota"><p>Si llegaste acá pasado el minuto 38, recortá: sacá la slide de las seis falacias y contala en dos frases.</p></aside>
+</section>
+
+<!-- 17 · a favor -->
+<section class="slide" data-block="2" data-titulo="A favor">
+  <p class="volanta">A favor</p>
+  <h2>Seis cosas que sí resuelve</h2>
+  <div class="cols">
+    <ul class="lista">
+      <li><strong>Costo y tiempo.</strong> Ochocientos casos en una tarde, sin financiamiento.</li>
+      <li><strong>Pretest de instrumentos.</strong> Detectar preguntas rotas antes de gastar el campo real.</li>
+      <li><strong>Generación de hipótesis.</strong> Explorar qué podría pasar antes de decidir qué medir.</li>
+    </ul>
+    <ul class="lista">
+      <li><strong>Escenarios contrafácticos.</strong> Preguntas que no se pueden hacer, sobre situaciones que no ocurrieron.</li>
+      <li><strong>Poblaciones difíciles de reclutar.</strong> Como sondeo exploratorio, nunca como reemplazo.</li>
+      <li><strong>Estímulos sensibles.</strong> Pilotear material que sería dañino mostrarle a una persona.</li>
+    </ul>
+  </div>
+  <aside class="nota"><p>Sé genuinamente generoso acá. Si el bloque de contras llega después de una defensa floja, suena a sermón.</p><p>El ítem que más les va a servir es el segundo, el pretest. Anticipalo: <em>“guarden este, vuelve en la demo”</em>.</p></aside>
+</section>
+
+<!-- 18 · contra 1 -->
+<section class="slide" data-block="2" data-titulo="Contra 1 · Sesgo de representación">
+  <p class="volanta naranja">Problema 1 de 6</p>
+  <h2>No representa a todos por igual</h2>
+  <div class="cols">
+    <div>
+      <p>Santurkar y colegas compararon las opiniones de los modelos contra las de <strong>60 grupos demográficos</strong> de Estados Unidos.</p>
+      <p>Encontraron desalineamientos importantes y sistemáticos. Los mayores de 65 años están entre los peor representados.</p>
+    </div>
+    <div class="critica">
+      <h3>Y en Argentina, peor</h3>
+      <p>Ese estudio mide el desajuste dentro del país <em>mejor</em> representado en los datos de entrenamiento.</p>
+      <p>Todo lo que se escribió en el español que se habla en Argentina es una fracción minúscula del corpus. Nadie midió cuánto se degrada acá. Nadie.</p>
+    </div>
+  </div>
+  <p class="chico nota-margen">Santurkar, Durmus, Ladhak, Lee, Liang &amp; Hashimoto (2023). <em>Whose Opinions Do Language Models Reflect?</em> arXiv:2303.17548.</p>
+  <aside class="nota"><p>El dato de los 60 grupos impresiona, pero el remate es el recuadro naranja.</p><p>Decilo así: <strong>“no existe el paper que nos diga cuánto falla esto con argentinos. Si alguno lo quiere escribir, es una tesis.”</strong> Suele haber alguien que anota.</p></aside>
+</section>
+
+<!-- 19 · contra 2 -->
+<section class="slide" data-block="2" data-titulo="Contra 2 · Aplanamiento">
+  <p class="volanta naranja">Problema 2 de 6</p>
+  <h2>Aplana y caricaturiza a los grupos</h2>
+  <div class="cols">
+    <div>
+      <p>Wang, Morgenstern y Dickerson muestran que simular respuestas de personas de distintos orígenes <strong>tergiversa y aplana</strong> a los grupos demográficos de maneras específicamente dañinas.</p>
+      <p>El modelo produce la versión más reconocible de cada grupo, que es otra forma de decir: la más estereotipada.</p>
+    </div>
+    <div class="critica">
+      <h3>Esto ya lo estudiaron</h3>
+      <p>Es el mismo problema que discutieron en representación mediática, con otro soporte. La diferencia es que ahora el estereotipo <strong>viene con formato de dato</strong>, y entra por la puerta de la metodología, no por la del análisis.</p>
+    </div>
+  </div>
+  <p class="chico nota-margen">Wang, Morgenstern &amp; Dickerson (2025). <em>Nature Machine Intelligence</em>, 7, 400–411. Los autores prueban técnicas de mitigación: reducen el daño, no lo eliminan.</p>
+  <aside class="nota"><p>Acá tenés que conectar con lo que ya saben. Nombrá la materia o el autor de representación que hayan visto.</p><p>Frase útil: <strong>“un estereotipo con una tabla al lado es más difícil de discutir que un estereotipo suelto”</strong>.</p></aside>
+</section>
+
+<!-- 20 · contra 3 -->
+<section class="slide" data-block="2" data-titulo="Contra 3 · Colapso de la varianza">
+  <p class="volanta naranja">Problema 3 de 6 · el más importante</p>
+  <h2>Los promedios pueden dar bien y aun así estar todo mal</h2>
+  <p style="max-width:52ch">Bisbee y colegas pidieron a ChatGPT que adoptara distintas “personas” y respondiera qué sentía hacia grupos sociales y políticos.</p>
+  <p style="max-width:52ch">Los <strong>promedios</strong> se acercaban a los de las encuestas reales. Pero la <strong>dispersión</strong> era mucho menor y las <strong>relaciones entre variables</strong> quedaban distorsionadas.</p>
+  <p class="chico nota-margen">Bisbee, Clinton, Dorff, Kenkel &amp; Larson (2024). <em>Synthetic Replacements for Human Survey Data? The Perils of Large Language Models.</em> Political Analysis, 32(4), 401–416.</p>
+  <aside class="nota"><p><strong>Si te tenés que quedar con un solo problema, es este.</strong></p><p>Publicado en <em>la misma revista</em> que el paper de Argyle, un año después. Vale la pena decirlo: así funciona la ciencia, no es una guerra de trincheras.</p><p>Los autores proponen una salida sensata: correr el análisis en paralelo con humanos y con el modelo, y usar la diferencia como control.</p></aside>
+</section>
+
+<!-- 21 · contra 4 -->
+<section class="slide" data-block="2" data-titulo="Contra 4 · Sensibilidad al prompt">
+  <p class="volanta naranja">Problema 4 de 6</p>
+  <h2>La respuesta depende de cómo ordenaste las opciones</h2>
+  <div class="cols">
+    <div>
+      <p>Domínguez-Olmedo, Hardt y Mendler-Dünner encontraron que las respuestas de los modelos a cuestionarios están <strong>dominadas por sesgos de orden y de etiqueta</strong>: cambia el orden de las opciones y cambia la respuesta.</p>
+      <p>Al corregirlo aleatorizando el orden, los modelos derivan hacia respuestas <strong>casi uniformemente aleatorias</strong>.</p>
+    </div>
+    <div>
+      <h3>Además</h3>
+      <ul class="lista contra">
+        <li>Casi nunca contesta <em>“no sé”</em>, <em>“no entiendo la pregunta”</em> ni <em>“prefiero no contestar”</em>, que en una encuesta real son datos.</li>
+        <li>Nunca abandona a mitad del cuestionario.</li>
+        <li>Nunca contesta cualquier cosa por apuro, y eso también existe.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="chico nota-margen">Domínguez-Olmedo, Hardt &amp; Mendler-Dünner (2024). <em>Questioning the Survey Responses of Large Language Models.</em> NeurIPS 2024, arXiv:2306.07951.</p>
+  <aside class="nota"><p>El punto de la derecha es el que más les sirve para pensar como investigadores.</p><p><strong>La no respuesta es un dato.</strong> El silencio de una entrevistada es un dato. El modelo no tiene forma de producirlos, porque siempre tiene algo para decir.</p></aside>
+</section>
+
+<!-- 22 · contra 5 -->
+<section class="slide" data-block="2" data-titulo="Contra 5 · Validación circular">
+  <p class="volanta naranja">Problema 5 de 6</p>
+  <h2>Puede estar copiándose la respuesta</h2>
+  <div class="cols">
+    <div>
+      <p>Si querés validar tu muestra sintética contra una encuesta pública y famosa, tenés un problema: <strong>esa encuesta probablemente estaba en los datos de entrenamiento</strong>.</p>
+      <p>El modelo no la está prediciendo. La está recordando. Y no hay forma de distinguir una cosa de la otra desde afuera.</p>
+    </div>
+    <div class="critica">
+      <h3>Y una vuelta de tuerca de este año</h3>
+      <p>Un trabajo de 2026 argumenta que aun cuando creés estar haciendo un experimento con sujetos simulados, en realidad estás haciendo un <strong>estudio observacional</strong>: la intervención corre la población simulada, así que los grupos dejan de ser comparables.</p>
+    </div>
+  </div>
+  <p class="chico nota-margen">Lin, Yun, Matarić, Canny, Gretton &amp; D’Amour (2026). <em>The Illusion of Intervention: Your LLM-Simulated Experiment is an Observational Study.</em> arXiv:2605.20767.</p>
+  <aside class="nota"><p>Si el curso no tiene formación en diseño experimental, lo de la derecha se explica así:</p><p><em>“Cuando le cambiás el estímulo al modelo, no le cambiás el estímulo a la misma persona. Sin querer, le cambiás la persona.”</em></p><p>Con eso alcanza. No entres en confounding.</p></aside>
+</section>
+
+<!-- 23 · contra 6 -->
+<section class="slide" data-block="2" data-titulo="Contra 6 · No hay nadie ahí">
+  <p class="volanta naranja">Problema 6 de 6</p>
+  <h2>No hay nadie del otro lado</h2>
+  <p style="max-width:52ch">Los cinco problemas anteriores son técnicos y, en principio, mejorables. Este no.</p>
+  <div class="cols" style="margin-top:2cqh">
+    <div>
+      <ul class="lista contra">
+        <li>No hay experiencia vivida.</li>
+        <li>No hay cuerpo, ni casa, ni horario, ni plata que no alcanza.</li>
+        <li>No hay silencio, ni incomodidad, ni la respuesta que se cambia a mitad de camino.</li>
+        <li>No hay nadie que pueda decirte que tu pregunta está mal formulada porque parte de un supuesto que no es el suyo.</li>
+      </ul>
+    </div>
+    <div class="critica">
+      <h3>El argumento propio de esta carrera</h3>
+      <p>Los estudios de recepción se hicieron para mostrar que <strong>el sentido se produce en la situación</strong>, no en el mensaje.</p>
+      <p>Una muestra sintética es un mensaje sin situación. Es exactamente el objeto que la tradición de la que vienen ustedes pasó cuarenta años criticando.</p>
+    </div>
+  </div>
+  <aside class="nota"><p>Bajá la velocidad. Este es el argumento que ellos pueden llevar a una defensa de tesis y ganar.</p><p>Si tenés el nombre de la materia de recepción de la carrera, nombrala. Hall, Morley, Martín-Barbero: el que hayan visto.</p></aside>
+</section>
+
+<!-- 24 · astroturfing -->
+<section class="slide" data-block="2" data-titulo="Astroturfing">
+  <p class="volanta">Un nombre que ustedes ya tienen</p>
+  <h2>Astroturfing, pero de la opini&oacute;n p&uacute;blica</h2>
+  <div class="cols">
+    <div>
+      <p><em>Astroturf</em> es c&eacute;sped sint&eacute;tico. En comunicaci&oacute;n, el t&eacute;rmino nombra a la campa&ntilde;a armada que se hace pasar por movimiento espont&aacute;neo.</p>
+      <p>Si un modelo encuesta a otro modelo, y el resultado se publica en un diario como <strong>lo que piensa la gente</strong>, no hace falta buscar otra categor&iacute;a. Es opini&oacute;n sint&eacute;tica moldeando la percepci&oacute;n p&uacute;blica.</p>
+    </div>
+    <div class="critica">
+      <h3>Lo que se pierde no es la precisi&oacute;n</h3>
+      <p>Desconfiar de las encuestadoras no es nuevo: viene por lo menos desde 2016, cuando los modelos le daban a Clinton una probabilidad alt&iacute;sima de ganar.</p>
+      <p>Pero esa desconfianza ten&iacute;a un piso. La pregunta pod&iacute;a estar sesgada, la muestra pod&iacute;a estar mal armada, mucha gente pod&iacute;a no haber contestado; aun as&iacute;, <strong>alguien hab&iacute;a sido consultado</strong>.</p>
+      <p>Es ese piso el que desaparece.</p>
+    </div>
+  </div>
+  <aside class="nota"><p>Si ya vieron astroturfing en otra materia, apoyate ah&iacute; y no lo expliques: pregunt&aacute; qui&eacute;n se acuerda del t&eacute;rmino y dej&aacute; que lo definan ellos.</p><p><strong>La frase que conviene dejar picando:</strong> el problema no es que la encuesta sint&eacute;tica se equivoque, es que no hay forma de que acierte por la raz&oacute;n correcta.</p></aside>
+</section>
+
+<!-- 25 · Lippmann -->
+<section class="slide" data-block="2" data-titulo="Para qu&eacute; se invent&oacute; la encuesta">
+  <p class="volanta">Para qu&eacute; se invent&oacute; esto, hace cien a&ntilde;os</p>
+  <h2>La encuesta era una herramienta de correcci&oacute;n</h2>
+  <div class="cols">
+    <div>
+      <p>En <em>Public Opinion</em>, de <strong>1922</strong>, Walter Lippmann sostuvo que nos manejamos con im&aacute;genes mentales de la sociedad en la que vivimos, y que esas im&aacute;genes son recortes, no la cosa.</p>
+      <p>Su apuesta era que una democracia necesita instrumentos capaces de <strong>contrastar esas im&aacute;genes contra el mundo</strong>. La encuesta de opini&oacute;n, imperfecta y todo, pod&iacute;a ser uno de ellos.</p>
+    </div>
+    <div class="critica">
+      <h3>Qu&eacute; pasa si la llen&aacute;s de simulaciones</h3>
+      <p>El instrumento deja de corregir la imagen y pasa a confirmarla.</p>
+      <p>Queda hecho de la misma sustancia que ven&iacute;a a controlar: una representaci&oacute;n de la sociedad, en vez de una medici&oacute;n de ella.</p>
+    </div>
+  </div>
+  <div class="nota-margen">
+    <p class="chico">Encuestar es caro y dif&iacute;cil justamente por la parte que el muestreo sint&eacute;tico elimina: ir a preguntarle a la gente. Sacada esa parte, lo que queda ya no es una encuesta.</p>
+  </div>
+  <aside class="nota"><p>Este es el cierre te&oacute;rico del bloque. Si ten&eacute;s un minuto de m&aacute;s, usalo ac&aacute;.</p><p>El argumento vale para la tesis de ellos: <strong>un dato solo sirve para corregir tu hip&oacute;tesis si puede contradecirla</strong>. Una muestra sint&eacute;tica construida con lo que el modelo ya sabe casi nunca puede.</p><p>La discusi&oacute;n lleg&oacute; este a&ntilde;o a las p&aacute;ginas de opini&oacute;n de la prensa internacional, as&iacute; que no es una preocupaci&oacute;n de nicho.</p></aside>
+</section>
+
+<!-- 26 · las seis falacias -->
+<section class="slide" data-block="2" data-titulo="Las seis falacias de Lin">
+  <p class="volanta">Para llevarse anotado</p>
+  <h2>Seis falacias, según Zhicheng Lin</h2>
+  <div class="cols">
+    <ul class="lista contra">
+      <li>Igualar <strong>predecir la próxima palabra</strong> con inteligencia humana.</li>
+      <li>Tratar al modelo como <strong>el humano promedio</strong>.</li>
+      <li>Interpretar la <strong>coincidencia como explicación</strong>.</li>
+    </ul>
+    <ul class="lista contra">
+      <li><strong>Antropomorfizar</strong> el sistema.</li>
+      <li><strong>Esencializar</strong> las identidades.</li>
+      <li>Sustituir <strong>evidencia humana por datos del modelo</strong>.</li>
+    </ul>
+  </div>
+  <div class="nota-margen">
+    <p class="chico">La conclusión del autor no es prohibirlo. Es reclasificarlo: no un reemplazo de participantes, sino una <strong>herramienta pragmática de simulación</strong> (para role-play, prueba rápida de hipótesis y modelado), siempre que las salidas se validen contra datos humanos. Lin (2025), <em>Advances in Methods and Practices in Psychological Science</em>, doi:10.1177/25152459251357566.</p>
+  </div>
+  <aside class="nota"><p>Slide de referencia, no la leas entera. Señalá dos: <strong>“el humano promedio”</strong> y <strong>“esencializar identidades”</strong>, que son las que más les tocan.</p><p>Avisales que está en el handout, así no copian.</p></aside>
+</section>
+
+<!-- 27 · divisor bloque 3 -->
+<section class="slide divisor" data-block="3" data-titulo="▸ Bloque 3 · Aplicaciones hoy">
+  <p class="volanta">Bloque 3</p>
+  <h1>Quién lo está usando, ahora mismo</h1>
+  <aside class="nota"><p>Cambio de tono: salimos de la crítica y volvemos a los hechos. Este bloque es más rápido.</p></aside>
+</section>
+
+<!-- 28 · industria -->
+<section class="slide" data-block="3" data-titulo="La industria">
+  <p class="volanta">Investigación de mercado y UX</p>
+  <h2>La industria ya lo vende, y no termina de creérselo</h2>
+  <div class="cols">
+    <div>
+      <p>Hay decenas de empresas que ofrecen <strong>encuestados sintéticos</strong>: paneles de personas generadas para testear conceptos, publicidades, packaging y mensajes en horas en vez de semanas.</p>
+      <p>Prometen correlaciones altas con datos reales. Casi nunca publican cómo las midieron.</p>
+    </div>
+    <div>
+      <div class="destacado" style="margin-bottom:2.5cqh">
+        <span class="cifra azul">97<span style="font-size:.5em">%</span></span>
+        <span class="glosa">usa IA en alguna parte de su trabajo de investigación</span>
+      </div>
+      <div class="destacado">
+        <span class="cifra">8<span style="font-size:.5em">%</span></span>
+        <span class="glosa">usa participantes sintéticos con regularidad</span>
+      </div>
+    </div>
+  </div>
+  <p class="chico nota-margen"><strong>Cuidado con estas dos cifras.</strong> Salen del <em>State of Synthetic Users Report</em> (User Interviews, 2026): una encuesta de la propia industria a <strong>150 investigadores de UX</strong>. No es una muestra representativa de nada. La usamos porque muestra la brecha entre adopción y confianza, no como estimación poblacional. Que lo diga la clase también enseña algo.</p>
+  <aside class="nota"><p><strong>No te saltees el descargo de abajo.</strong> Es una clase de metodología: si citás una cifra floja sin marcarla, perdés autoridad para todo lo demás.</p><p>De hecho, hacelo explícito: <em>“fíjense que yo también tuve que buscar de dónde salía este número”</em>.</p></aside>
+</section>
+
+<!-- 29 · la economia -->
+<section class="slide" data-block="3" data-titulo="La cuenta que lo explica">
+  <p class="volanta">Por qu&eacute; la industria empuja</p>
+  <h2>La cuenta que explica todo lo dem&aacute;s</h2>
+  <div class="cols">
+    <div>
+      <p>Una encuesta tradicional es cara porque es trabajo humano: llamados, mails, mensajes, seguimientos, gente tocando timbres.</p>
+      <p>Detr&aacute;s de un solo n&uacute;mero que sale en el noticiero puede haber miles de personas consultadas, una por una.</p>
+      <p>El sector de investigaci&oacute;n de mercado mueve alrededor de <strong>150.000 millones de d&oacute;lares</strong> y depende casi enteramente de ese trabajo.</p>
+    </div>
+    <div>
+      <div class="destacado" style="margin-bottom:2.5cqh">
+        <span class="cifra">100</span>
+        <span class="glosa">d&oacute;lares por respondente real, en el extremo alto del rango de la industria, que arranca en 20</span>
+      </div>
+      <div class="destacado">
+        <span class="cifra azul">0,20</span>
+        <span class="glosa">d&oacute;lares por respondente sint&eacute;tico, estimado</span>
+      </div>
+    </div>
+  </div>
+  <div class="nota-margen">
+    <p class="chico"><strong>No lo cuentes como conspiraci&oacute;n.</strong> La presi&oacute;n es econ&oacute;mica y es completamente real: un factor de cien a quinientos en el costo cambia qu&eacute; investigaciones son posibles. El argumento de la clase no es que las empresas mientan, es que <strong>ese ahorro se paga con validez</strong>, y que casi nadie est&aacute; contabilizando ese precio.</p>
+  </div>
+  <aside class="nota"><p>Esta slide es la bisagra del bloque: explica por qu&eacute; esto avanza aunque la evidencia sea floja.</p><p>Si ten&eacute;s la clase despierta, tir&aacute; la pregunta: <em>&ldquo;&iquest;a qui&eacute;n le conviene que esto funcione, y a qui&eacute;n le conviene que se note que no funciona?&rdquo;</em></p><p><strong>Antes de dar la clase:</strong> confirm&aacute; los dos rangos de costo contra una fuente de industria y actualizalos si consegu&iacute;s algo mejor.</p></aside>
+</section>
+
+<!-- 30 · quien firmo con quien -->
+<section class="slide" data-block="3" data-titulo="Las encuestadoras grandes ya entraron">
+  <p class="volanta">No son startups sueltas</p>
+  <h2>Las encuestadoras grandes ya entraron</h2>
+  <div class="cols">
+    <div>
+      <ul class="lista">
+        <li><strong>Ipsos</strong>, una de las mayores consultoras de investigaci&oacute;n de mercado y opini&oacute;n p&uacute;blica del mundo, se ali&oacute; con <strong>Stanford</strong> para desarrollar datos sint&eacute;ticos en investigaci&oacute;n de opini&oacute;n, construyendo gemelos digitales de encuestados reales.</li>
+        <li><strong>Simile</strong>, que arma esos gemelos entren&aacute;ndolos con conversaciones con personas reales, levant&oacute; <strong>100 millones de d&oacute;lares</strong> de inversi&oacute;n y firm&oacute; con <strong>Gallup</strong> para producir mil de ellos.</li>
+      </ul>
+    </div>
+    <div class="critica">
+      <h3>Por qu&eacute; importa que sea Gallup</h3>
+      <p>Gallup corre algunas de las encuestas m&aacute;s citadas del mundo, y su autoridad se construy&oacute; justamente sobre el rigor del muestreo.</p>
+      <p>Que entren ellos marca que esto dej&oacute; de ser un experimento acad&eacute;mico y pas&oacute; a ser infraestructura de la industria.</p>
+    </div>
+  </div>
+  <div class="nota-margen">
+    <p class="chico"><strong>El contraste que conviene tener a mano:</strong> en la v&iacute;spera de la elecci&oacute;n presidencial estadounidense de 2024, la misma consultora del caso de Axios corri&oacute; una simulaci&oacute;n de la elecci&oacute;n y le dio ganadora a Kamala Harris.</p>
+  </div>
+  <aside class="nota"><p>Cerr&aacute; con el dato del margen: es corto, es concreto y no necesita explicaci&oacute;n.</p><p>El punto no es burlarse de un pron&oacute;stico fallado, todos fallan. Es que <strong>una simulaci&oacute;n que falla no te deja aprender por qu&eacute; fall&oacute;</strong>: no hay respondentes a los que volver a preguntarles.</p><p><strong>Antes de dar la clase:</strong> reconfirm&aacute; que estos acuerdos sigan vigentes, que se mueven r&aacute;pido.</p></aside>
+</section>
+
+<!-- 31 · el mejor caso a favor -->
+<section class="slide" data-block="3" data-titulo="El mejor caso a favor">
+  <p class="volanta">El resultado más fuerte a favor, hasta hoy</p>
+  <h2>Predecir experimentos antes de correrlos</h2>
+  <div class="cols">
+    <div>
+      <p>Ashokkumar, Hewitt, Ghezae y Willer armaron un archivo de <strong>70 experimentos preregistrados</strong> con muestras representativas de Estados Unidos: 469 efectos y <strong>119.330 participantes</strong>.</p>
+      <p>Le pidieron a un modelo que simulara cómo respondería una muestra representativa a cada estímulo, y estimaron el efecto comparando condiciones.</p>
+    </div>
+    <div>
+      <div class="destacado" style="margin-bottom:2.5cqh">
+        <span class="cifra azul">0,85</span>
+        <span class="glosa">correlación entre los efectos simulados y los efectos reales</span>
+      </div>
+      <div class="destacado">
+        <span class="cifra azul">0,90</span>
+        <span class="glosa">en estudios sin publicar, que no pudieron estar en el entrenamiento</span>
+      </div>
+    </div>
+  </div>
+  <p class="chico nota-margen">Ashokkumar, Hewitt, Ghezae &amp; Willer (2026). <em>Large language models can predict the results of social science experiments.</em> Nature, 8 de julio de 2026. Iguala o supera la precisión de pronosticadores humanos expertos.</p>
+  <aside class="nota"><p><strong>Sé honesto: este resultado es fuerte y es reciente.</strong> No lo minimices.</p><p>Pero marcá las dos condiciones que lo hacen funcionar, porque ninguna se cumple en una tesis de grado: (1) predice <em>el tamaño del efecto de un experimento</em>, no las opiniones de individuos; (2) es Estados Unidos, con instrumentos en inglés.</p><p>El 0,90 en estudios inéditos es la respuesta al problema de la contaminación de la slide 21. Es un diseño elegante y conviene reconocerlo.</p></aside>
+</section>
+
+<!-- 32 · park -->
+<section class="slide" data-block="3" data-titulo="Lo que hace la diferencia">
+  <h2>Lo que hace la diferencia no es el modelo</h2>
+  <div class="cols">
+    <div>
+      <p>Park y colegas entrevistaron a <strong>1.052 personas</strong> durante <strong>dos horas cada una</strong> y construyeron un agente por persona a partir de esa entrevista.</p>
+      <p>Después compararon las respuestas del agente con las de la persona real, contra un patrón exigente: <strong>la consistencia de cada persona consigo misma</strong> al responder lo mismo dos semanas después.</p>
+    </div>
+    <div>
+      <div class="destacado" style="margin-bottom:2.5cqh">
+        <span class="cifra azul">82–86<span style="font-size:.5em">%</span></span>
+        <span class="glosa">alcanzan los agentes construidos con la entrevista de dos horas</span>
+      </div>
+      <div class="destacado">
+        <span class="cifra">74<span style="font-size:.5em">%</span></span>
+        <span class="glosa">alcanzan los agentes construidos <strong>solo con datos demográficos</strong></span>
+      </div>
+    </div>
+  </div>
+  <p class="chico nota-margen">Park, Zou, Kamphorst, Egan, Shaw, Hill, Cai, Morris, Liang, Willer &amp; Bernstein. arXiv:2411.10109. Publicado originalmente como <em>Generative Agent Simulations of 1,000 People</em>.</p>
+  <aside class="nota"><p><strong>Este es el hallazgo más útil de todo el bloque, y hay que decirlo con todas las letras:</strong></p><p>La cifra de abajo, 74%, es lo que da el silicon sampling clásico: perfil demográfico y nada más. Es exactamente lo que vamos a hacer en la demo, y es exactamente lo que van a hacer ellos en la tarea.</p><p>Lo que cierra la brecha no es un modelo mejor: son <strong>dos horas de entrevista con una persona real</strong>. O sea, trabajo de campo. El atajo requiere el trabajo que pretendía evitar.</p></aside>
+</section>
+
+<!-- 33 · en comunicación -->
+<section class="slide" data-block="3" data-titulo="En comunicación">
+  <h2>Dónde aparece en investigación en comunicación</h2>
+  <div class="cols-3">
+    <div>
+      <h3>Pretest de mensajes</h3>
+      <p>Probar veinte versiones de una campaña con audiencias simuladas para elegir cuáles cuatro se testean con gente.</p>
+    </div>
+    <div>
+      <h3>Análisis de encuadre</h3>
+      <p>Simular cómo distintos públicos leen un mismo titular, para <em>generar</em> las categorías de análisis, no para medirlas.</p>
+    </div>
+    <div>
+      <h3>Recepción exploratoria</h3>
+      <p>Sondear reacciones posibles antes de armar el focus group real y decidir por dónde entrar.</p>
+    </div>
+  </div>
+  <div class="critica" style="margin-top:3.5cqh">
+    <h3>El patrón que comparten los tres usos legítimos</h3>
+    <p>En los tres, el modelo <strong>decide qué se va a preguntar</strong>. En ninguno, el modelo <strong>provee la respuesta</strong>. El trabajo de campo con humanos no desaparece: se hace mejor apuntado.</p>
+  </div>
+  <aside class="nota"><p>Marcá el recuadro con el dedo. Es el mismo patrón que van a ver en la demo C dentro de veinte minutos.</p></aside>
+</section>
+
+<!-- 34 · divisor demo -->
+<section class="slide divisor" data-block="4" data-titulo="▸ Bloque 4 · DEMO en vivo">
+  <p class="volanta">Bloque 4 · En vivo</p>
+  <h1>Hagámoslo, y veamos dónde se rompe</h1>
+  <aside class="nota"><p><strong>Chequeo:</strong> deberías estar cerca del minuto 80. Si vas pasado de 88, salteá la demo B.2.</p><p>Abrí las pestañas ahora. Zoom del navegador al 150%.</p><p>Y decí en voz alta que <strong>lo que salga puede no coincidir con lo que está en las slides</strong>, y que eso es parte de la clase.</p></aside>
+</section>
+
+<!-- 35 · demo A prompt -->
+<section class="slide" data-block="4" data-titulo="Demo A · El prompt">
+  <p class="volanta">Demo A · La muestra ingenua</p>
+  <h2 style="margin-bottom:2.5cqh">Ocho argentinos en un prompt</h2>
+  <div class="prompt-box">Vas a responder como si fueras ocho personas distintas que viven en Argentina.
+Para cada una, respondé en primera persona, con su forma de hablar.
+
+1. Marcela, 52, San Martín (PBA), auxiliar de enfermería, secundario completo.
+2. Brian, 19, José León Suárez, estudiante y repartidor de app.
+3. Silvia, 67, Villa Ballester, jubilada, fue maestra, terciario.
+4. Nicolás, 34, Palermo (CABA), diseñador UX freelance, universitario.
+5. Rocío, 26, San Miguel de Tucumán, empleada de comercio.
+6. Héctor, 58, zona rural de Río Cuarto, productor agropecuario.
+7. Ayelén, 41, Neuquén capital, empleada pública provincial.
+8. Daniel, 30, Rosario, técnico en refrigeración.
+
+P1. ¿Cómo te informás de lo que pasa en el país? ¿Por dónde? (3 líneas)
+P2. ¿Se puede confiar en la mayoría de las noticias la mayor parte
+    del tiempo? Contestá solamente SÍ o NO.
+P3. ¿Te pasa de evitar activamente las noticias? Solamente SÍ o NO.</div>
+  <p class="chico nota-margen"><strong>P2 y P3 están redactadas igual que los ítems del Digital News Report.</strong> Sin esa armonización, la comparación contra el dato real no sería válida. Es el primer error que comete todo el mundo.</p>
+  <aside class="nota"><p>Mostrá el prompt <strong>antes</strong> de enviarlo. Que vean que no hay nada escondido.</p><p>Decí en voz alta lo del descargo: la redacción de P2 y P3 no es casual, está copiada del cuestionario original para que la comparación sea legítima.</p><p>Mientras carga, pediles que anoten dos cosas: qué medios con nombre propio aparecen, y cuál respuesta les suena falsa.</p></aside>
+</section>
+
+<!-- 36 · demo A salida -->
+<section class="slide" data-block="4" data-titulo="Demo A · Las ocho respuestas">
+  <p class="volanta">Demo A · Salida de Claude Opus 5, 4 sep 2026</p>
+  <div class="chat rejilla">
+    <div class="turno"><span class="quien">Marcela · 52 · enfermería · San Martín</span><p>La radio a la mañana, Radio 10 o La Red. Y por WhatsApp me llega de todo: el grupo de la familia, el del turno.</p><p class="rta">P2 <span class="no">NO</span> · P3 <span class="si">SÍ</span></p></div>
+    <div class="turno"><span class="quien">Brian · 19 · repartidor · J. L. Suárez</span><p>Todo por el celu. Me aparece solo en Instagram y TikTok. Diario no leo, la tele tampoco, eso es de mis viejos.</p><p class="rta">P2 <span class="no">NO</span> · P3 <span class="si">SÍ</span></p></div>
+    <div class="turno"><span class="quien">Silvia · 67 · jubilada docente · V. Ballester</span><p>Leo el diario todos los días, Página/12 de toda la vida. Radio Nacional a la mañana y el noticiero a la tarde.</p><p class="rta">P2 <span class="si">SÍ</span> · P3 <span class="no">NO</span></p></div>
+    <div class="turno"><span class="quien">Nicolás · 34 · diseñador UX · Palermo</span><p>Sigo en X, que está cada vez peor pero es donde primero pasan las cosas. Newsletters, Cenital. Tele cero.</p><p class="rta">P2 <span class="no">NO</span> · P3 <span class="si">SÍ</span></p></div>
+    <div class="turno"><span class="quien">Rocío · 26 · comercio · Tucumán</span><p>Instagram, básicamente. Y lo que se comenta en el local, que es como me entero de la mitad de las cosas.</p><p class="rta">P2 <span class="no">NO</span> · P3 <span class="si">SÍ</span></p></div>
+    <div class="turno"><span class="quien">Héctor · 58 · productor agropecuario · Río Cuarto</span><p>La radio, siempre, la AM en la camioneta. Y portales del campo. Los canales de Buenos Aires no cuentan lo de acá.</p><p class="rta">P2 <span class="no">NO</span> · P3 <span class="no">NO</span></p></div>
+    <div class="turno"><span class="quien">Ayelén · 41 · empleada pública · Neuquén</span><p>Los portales de acá, LMNeuquén y Río Negro. Y Facebook, donde está lo del sindicato y lo del barrio.</p><p class="rta">P2 <span class="no">NO</span> · P3 <span class="no">NO</span></p></div>
+    <div class="turno"><span class="quien">Daniel · 30 · técnico · Rosario</span><p>YouTube y TikTok, sobre todo. Para lo de acá, Rosario3. La tele casi nada, salvo que pase algo grave.</p><p class="rta">P2 <span class="no">NO</span> · P3 <span class="si">SÍ</span></p></div>
+  </div>
+  <p class="chico nota-margen">Respuestas abreviadas para proyección. El texto completo, en <code>kit-demo/salidas-pregeneradas.md</code>.</p>
+  <aside class="nota"><p>Esta es la salida de respaldo, por si no hay wifi. Si corriste en vivo, mostrá la tuya.</p><p>Preguntá: <em>“¿alguna les suena falsa?”</em> Muy seguido alguien señala que están <strong>todas demasiado bien contestadas</strong>. Si aparece, es el mejor momento de la clase: acaban de descubrir solos el hallazgo del bloque siguiente.</p><p>Si nadie lo dice, dejalo pasar. Vuelve en la slide 34.</p></aside>
+</section>
+
+<!-- 37 · demo A recuento -->
+<section class="slide" data-oculta data-block="4" data-titulo="Demo A · El recuento">
+  <p class="volanta">Demo A · Tabulación</p>
+  <h2>Nuestra encuesta sintética dice</h2>
+  <div class="cols">
+    <div>
+      <div class="destacado" style="margin-bottom:3cqh">
+        <span class="cifra azul">12,5<span style="font-size:.5em">%</span></span>
+        <span class="glosa">confía en la mayoría de las noticias · 1 de 8</span>
+      </div>
+      <div class="destacado">
+        <span class="cifra azul">62,5<span style="font-size:.5em">%</span></span>
+        <span class="glosa">evita activamente las noticias · 5 de 8</span>
+      </div>
+    </div>
+    <div>
+      <h3>Medios nombrados</h3>
+      <p class="chico" style="font-size:1.6cqw;line-height:1.5">Radio 10 · La Red · WhatsApp · Instagram · TikTok · Página/12 · Radio Nacional · X · Cenital · Infocampo · LMNeuquén · Río Negro · Facebook · YouTube · Rosario3 · “el noticiero” (×3, sin nombre)</p>
+    </div>
+  </div>
+  <aside class="nota"><p>Tabulá en voz alta, contando con los dedos. Que vean lo fácil que es convertir ocho párrafos en dos porcentajes de aspecto científico.</p><p>Frase para tirar acá: <em>“si yo pego estos dos números en una tesis, ¿ustedes los cuestionarían?”</em></p></aside>
+</section>
+
+<!-- 38 · EL CONTRASTE -->
+<section class="slide" data-oculta data-block="4" data-titulo="★ El contraste">
+  <p class="volanta naranja">La slide que importa</p>
+  <h2 style="margin-bottom:3cqh">Ahora, contra los datos reales</h2>
+  <div class="contraste">
+    <div class="fila cabecera">
+      <span>Indicador</span><span class="h-sin">Sintético</span><span class="h-real">Real</span><span>Qué pasó</span>
+    </div>
+    <div class="fila">
+      <span class="rotulo">Confía en la mayoría de las noticias la mayor parte del tiempo</span>
+      <span class="n sin">12,5%</span>
+      <span class="n real">26%</span>
+      <span class="veredicto">El modelo subestima la confianza <strong>a la mitad</strong></span>
+    </div>
+    <div class="fila">
+      <span class="rotulo">Evita activamente las noticias</span>
+      <span class="n sin">62,5%</span>
+      <span class="n real">46%</span>
+      <span class="veredicto">La sobreestima <strong>17 puntos</strong></span>
+    </div>
+    <div class="fila">
+      <span class="rotulo">Menciona Luzu TV, Olga, Gelatina o Blender</span>
+      <span class="n sin">0%</span>
+      <span class="n real">13%</span>
+      <span class="veredicto">No conoce el fenómeno. <strong>19%</strong> entre menores de 35</span>
+    </div>
+  </div>
+  <p class="chico nota-margen">Columna real: Reuters Institute, <em>Digital News Report 2026</em>, capítulo Argentina. Mismo país, mismo año, ítems redactados igual.</p>
+  <aside class="nota"><p><strong>Frená acá. Es la slide central de la clase.</strong></p><p>Y decí lo que no esperaban: la literatura anglosajona avisa de un sesgo <em>complaciente</em>, sujetos más confiados y moderados que los reales. Acá pasó al revés. El modelo hizo argentinos <strong>más desconfiados y más hartos</strong> que los argentinos reales.</p><p>La moraleja no es “el modelo es pesimista”. Es que <strong>el sesgo no tiene una dirección fija que puedas corregir a ojo</strong>: depende del grupo que simules y de qué asociación domina el corpus. Por eso hay que validar caso por caso.</p><p>Lo de Luzu es lo que más les va a quedar: el modelo no sabe qué mira su propia generación.</p></aside>
+</section>
+
+<!-- 39 · lo que no está en la tabla -->
+<section class="slide" data-block="4" data-titulo="★ El error invisible">
+  <p class="volanta naranja">El error más grave no está en la tabla</p>
+  <h2>Cada persona consume exactamente lo que le corresponde</h2>
+  <div class="cols">
+    <div>
+      <p>La jubilada docente lee Página/12 y escucha Radio Nacional. El diseñador de Palermo está en X y suscripto a Cenital. El pibe de 19 está en TikTok. El productor agropecuario escucha AM en la camioneta.</p>
+      <p><strong>Ocho de ocho.</strong> Ni una excepción, ni una contradicción, ni una persona que consuma algo que “no le toca”.</p>
+    </div>
+    <div class="critica">
+      <h3>En los datos reales eso no pasa</h3>
+      <p>Las correlaciones existen, pero son <strong>mucho más ruidosas</strong>: hay jubiladas en TikTok, pibes de 19 que escuchan AM porque el padre la tiene puesta, y gente que no consume nada.</p>
+      <p>El modelo no reproduce la estructura del consumo. Reproduce <strong>el estereotipo de la estructura del consumo</strong>.</p>
+    </div>
+  </div>
+  <p class="chico nota-margen">Es exactamente el hallazgo de <em>Tastes without distinction</em> (Ma, Zhang, Ang &amp; Chen, 2026): sobre 554.940 sustitutos sintéticos contrastados contra una encuesta real de participación cultural, la relación entre gustos y posición social queda “completamente distorsionada”, con las asociaciones de edad y género <strong>caricaturizadas</strong>. Y es el problema 3, el de Bisbee.</p>
+  <aside class="nota"><p>Volvé a la slide 19 si hace falta: <strong>los promedios se acercan, las relaciones se rompen</strong>. Acá lo están viendo con los ojos, no con un estadístico.</p><p>El título del paper de Ma y colegas es un chiste con Bourdieu: <em>La distinción</em> sin distinción. Si vieron Bourdieu, decilo, se ríen.</p></aside>
+</section>
+
+<!-- 40 · demo B -->
+<section class="slide" data-block="4" data-titulo="Demo B · Diez Marcelas">
+  <p class="volanta">Demo B · El experimento de la varianza</p>
+  <h2 style="margin-bottom:2.5cqh">La misma persona, diez veces</h2>
+  <div class="cols">
+    <ol class="tanda">
+      <li>Prendo la radio mientras me hago el mate, para ver el tránsito.</li>
+      <li>Lo primero es el celular, los mensajes del grupo del hospital.</li>
+      <li>Pongo la radio en la cocina mientras preparo el desayuno.</li>
+      <li>Agarro el celular en la cama y miro WhatsApp, siempre hay algo.</li>
+      <li>Radio, siempre radio, desde que me levanto hasta que salgo.</li>
+      <li>Miro el teléfono, los mensajes y alguna noticia reenviada.</li>
+      <li>Escucho la radio mientras me visto, por si hay paro de colectivos.</li>
+      <li>Primero el mate y la radio prendida, la costumbre de siempre.</li>
+      <li>Reviso WhatsApp por si hay algo del trabajo y del grupo familiar.</li>
+      <li>La radio, mientras desayuno. Y en el colectivo miro el celular.</li>
+    </ol>
+    <div>
+      <h3>¿Cuántas Marcelas distintas hay acá?</h3>
+      <p>Dos: la de la radio, 7 de 10, y la del WhatsApp, 3 de 10. Y en el fondo son la misma, porque la mitad hace las dos cosas.</p>
+      <div class="critica" style="margin-top:2.5cqh">
+        <h3>Lo que falta</h3>
+        <p>La que no se entera de nada y no le importa. La que se quedó sin datos el día 20. La que se entera por una compañera del turno noche. La que ese día tenía un problema en casa y no miró nada.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="nota"><p>Leé las diez en voz alta, rápido, sin pausa. El efecto está en la monotonía acumulada: para la séptima ya se ríen.</p><p>Después preguntá: <em>“¿cuántas Marcelas distintas escucharon?”</em></p></aside>
+</section>
+
+<!-- 41 · demo B2 -->
+<section class="slide" data-block="4" data-titulo="Demo B · Tres que no se parecen">
+  <p class="volanta">Demo B · Al revés</p>
+  <h2 style="margin-bottom:2.5cqh">Tres personas que no deberían parecerse en nada</h2>
+  <div class="cols-3">
+    <div class="turno"><span class="quien">Héctor · productor agropecuario</span><p>Los medios de Buenos Aires cuentan la economía desde una oficina. Hablan del dólar todo el día pero no te dicen cómo está el precio de los insumos, que es lo que a nosotros nos mata. Cada uno tira para donde le conviene, según quién le pone la plata.</p></div>
+    <div class="turno"><span class="quien">Nicolás · diseñador UX</span><p>Hay un sesgo estructural bastante evidente: la cobertura económica está escrita para el que ya entiende de finanzas, y responde a los intereses de los anunciantes. Igual el problema no es solo de los medios, la discusión pública está muy polarizada.</p></div>
+    <div class="turno"><span class="quien">Rocío · empleada de comercio</span><p>Lo que veo es que hablan de números que no tienen nada que ver con lo que a mí me pasa cuando voy al supermercado. Y siempre depende del canal, cada uno cuenta lo que le conviene.</p></div>
+  </div>
+  <div class="critica" style="margin-top:3cqh">
+    <p>Los tres dicen <strong>lo mismo</strong> con distinto vocabulario. Los tres identifican intereses económicos detrás de los medios, los tres matizan, ninguno se contradice, ninguno se va de tema, ninguno dice una barbaridad y ninguno contesta “no sé, ni idea”. El modelo no está simulando tres personas: está simulando <strong>tres registros de habla sobre una única opinión</strong>. Aher, Arriaga y Kalai lo llamaron <em>distorsión de hiperexactitud</em>.</p>
+  </div>
+  <aside class="nota"><p>Si vas apurado, esta es la primera slide que se saltea.</p><p>Si la das: el detalle a señalar es que <strong>ninguno de los tres dice una tontería</strong>. En tres personas reales, alguien dice algo desinformado, o cambia de tema, o contesta de mal humor.</p></aside>
+</section>
+
+<!-- 42 · demo C -->
+<section class="slide" data-block="4" data-titulo="Demo C · El uso que sí sirve">
+  <p class="volanta">Demo C · El uso defendible</p>
+  <h2>Le doy mi guía de entrevista y le pido que la destruya</h2>
+  <div class="cols">
+    <div>
+      <div class="prompt-box" style="font-size:1.45cqw;max-height:44cqh">1. ¿Considerás que tenés un consumo mediático crítico?
+2. ¿En qué medida las lógicas algorítmicas
+   condicionan tu dieta informativa?
+3. ¿Cuántas horas diarias dedicás al consumo de noticias?
+4. ¿Confiás en los medios?
+5. ¿Cómo te hace sentir la desinformación?
+6. Contame un día cualquiera tuyo, desde que te
+   levantás hasta que te acostás.</div>
+      <p class="chico" style="margin-top:1.6cqh">Una guía de entrevista de seis preguntas. Podría ser la de cualquiera de ustedes.</p>
+    </div>
+    <div>
+      <h3>Dos pasos</h3>
+      <ul class="lista">
+        <li>Primero le pido que <strong>responda</strong> como Marcela. Las preguntas 1 a 5 dan una línea y media cada una. La 6 da media página.</li>
+        <li>Después le pido que <strong>salga del personaje</strong> y critique la guía como metodólogo: jerga, sesgo, precisión imposible, preguntas cerradas.</li>
+      </ul>
+      <p class="chico" style="margin-top:1.5cqh">El primer paso ya muestra algo sin necesidad de análisis: la pregunta menos “inteligente” de las seis es la que produce material.</p>
+    </div>
+  </div>
+  <aside class="nota"><p>Esta guía está mal a propósito, y conviene admitirlo. Las preguntas 1 a 5 tienen los errores clásicos de una guía de primera tesis.</p><p>Preguntá antes de correr: <em>“¿cuál les parece la peor?”</em>. Casi siempre eligen la 2, la de las lógicas algorítmicas. Y aciertan.</p></aside>
+</section>
+
+<!-- 43 · demo C resultado -->
+<section class="slide" data-block="4" data-titulo="Demo C · El ranking">
+  <p class="volanta">Demo C · Lo que devuelve</p>
+  <h2 style="margin-bottom:2.5cqh">De peor a mejor, según el modelo</h2>
+  <div class="chat rejilla">
+    <div class="turno"><span class="quien">6.º · “lógicas algorítmicas / dieta informativa”</span><p>Jerga pura. No usa ninguna de esas expresiones: te devuelve silencio o una respuesta actuada.</p></div>
+    <div class="turno"><span class="quien">5.º · “¿tenés un consumo mediático crítico?”</span><p>Jerga <em>y</em> tendenciosa: “crítico” es socialmente deseable. Nadie contesta que no.</p></div>
+    <div class="turno"><span class="quien">4.º · “¿cuántas horas diarias?”</span><p>Pide una precisión que nadie tiene. Vas a tabular un número inventado como si fuera un dato.</p></div>
+    <div class="turno"><span class="quien">3.º · “¿confiás en los medios?”</span><p>Cerrada, se contesta en una palabra. Y “los medios” en singular no existe: se confía en unos y no en otros.</p></div>
+    <div class="turno"><span class="quien">2.º · “¿cómo te hace sentir la desinformación?”</span><p>Introduce una categoría tuya, no suya. Ella no piensa su experiencia con esa palabra.</p></div>
+    <div class="turno" style="border-left-color:var(--naranja);background:var(--naranja-ap)"><span class="quien" style="color:var(--naranja)">1.º · “contame un día cualquiera”</span><p>La mejor con diferencia. No presupone nada, no sugiere respuesta y produce material para repreguntar. <strong>Sin cambios.</strong></p></div>
+  </div>
+  <p class="chico nota-margen">El modelo también propone una reescritura para cada una. Están en <code>kit-demo/salidas-pregeneradas.md</code> y en el handout.</p>
+  <aside class="nota"><p>Esta es la salida que se llevan puesta para su tesis. Decilo así de directo.</p><p>Y marcá la asimetría: <strong>el modelo es mucho mejor criticando el instrumento que respondiéndolo.</strong> Tiene sentido: criticar guías de entrevista es una tarea de texto sobre texto, y ahí sí es competente. Responder como Marcela requiere ser Marcela.</p></aside>
+</section>
+
+<!-- 44 · la regla de oro -->
+<section class="slide" data-block="4" data-titulo="★ La regla de oro">
+  <p class="volanta">Si se llevan una sola frase</p>
+  <blockquote class="lectura" style="font-size:4.4cqw;max-width:24ch">El silicon sampling sirve para <strong>generar preguntas</strong>, no para responderlas.</blockquote>
+  <aside class="nota"><p>Silencio de tres segundos antes y después.</p><p>Es la frase que tiene que sobrevivir a la clase.</p></aside>
+</section>
+
+<!-- 45 · divisor cierre -->
+<section class="slide divisor" data-block="5" data-titulo="▸ Bloque 5 · Cierre">
+  <p class="volanta">Bloque 5</p>
+  <h1>Qué hacer con esto en su tesis</h1>
+  <aside class="nota"><p>Minuto 110. Si vas muy pasado, salteá la slide de la declaración metodológica: está entera en el handout.</p></aside>
+</section>
+
+<!-- 46 · checklist -->
+<section class="slide" data-block="5" data-titulo="Cuándo sí, cuándo no">
+  <h2 style="margin-bottom:3cqh">La lista corta</h2>
+  <div class="check">
+    <div class="check-col">
+      <h3>Sí, con cuidado</h3>
+      <ul class="lista">
+        <li>Pretestear tu guía de entrevista o tu cuestionario.</li>
+        <li>Explorar hipótesis antes de decidir qué vas a medir.</li>
+        <li>Generar categorías de análisis que después validás con material real.</li>
+        <li>Ensayar cómo podría reaccionar un público a una pieza, antes del focus group.</li>
+        <li>Estudiar al modelo <strong>como objeto</strong>: qué estereotipos produce y de dónde salen.</li>
+      </ul>
+    </div>
+    <div class="check-col no">
+      <h3>No</h3>
+      <ul class="lista contra">
+        <li>Reemplazar entrevistas o encuestas por respuestas sintéticas.</li>
+        <li>Reportar porcentajes sintéticos como si fueran hallazgos.</li>
+        <li>Estudiar relaciones entre variables: clase y consumo, género y confianza.</li>
+        <li>Hablar en nombre de un grupo del que no tenés datos reales.</li>
+        <li>Simular una población sobre la que no existe ninguna fuente contra la cual validar.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="nota"><p>El último ítem de cada columna es el más importante y suele pasar desapercibido.</p><p>Izquierda: <strong>el modelo como objeto de estudio</strong>. Para una carrera de comunicación, esa es probablemente la mejor tesis que sale de esta clase.</p><p>Derecha: si no hay fuente para validar, no hay forma de saber si está bien. Y sin eso, no es investigación.</p></aside>
+</section>
+
+<!-- 47 · declaración metodológica -->
+<section class="slide" data-block="5" data-titulo="Qué declarar">
+  <h2>Si lo usás, esto va sí o sí en el apartado metodológico</h2>
+  <div class="cols">
+    <ul class="lista">
+      <li><strong>Qué modelo y qué versión exacta</strong>, con la fecha en que lo corriste. Los modelos cambian sin avisar.</li>
+      <li><strong>Los prompts textuales</strong>, completos, en un anexo.</li>
+      <li><strong>Cuántas corridas</strong> hiciste y si descartaste alguna, y por qué.</li>
+    </ul>
+    <ul class="lista">
+      <li><strong>Contra qué fuente humana</strong> validaste, y qué te dio la comparación.</li>
+      <li><strong>Qué rol cumple</strong> en el diseño: exploratorio, pretest, complementario. Nunca probatorio.</li>
+      <li><strong>Qué limitaciones</strong> asumís, en tus palabras, no copiadas de acá.</li>
+    </ul>
+  </div>
+  <div class="critica" style="margin-top:3cqh">
+    <p>Si no podés escribir estos seis puntos con honestidad, la respuesta no es escribirlos igual: es <strong>no usar el método</strong>.</p>
+  </div>
+  <aside class="nota"><p>Punto uno: los modelos cambian sin aviso. Una tesis que dice “usé ChatGPT” es <strong>irreproducible</strong>. Es como decir “usé una encuesta”.</p><p>Punto cuatro es el que separa un trabajo serio de uno que no lo es.</p></aside>
+</section>
+
+<!-- 48 · la tarea -->
+<section class="slide" data-block="5" data-titulo="La tarea">
+  <p class="volanta">Para la próxima</p>
+  <h2>Corran su propia muestra y desconfíen de ella</h2>
+  <div class="cols">
+    <div>
+      <h3>Qué hacer</h3>
+      <ul class="lista">
+        <li>Definan <strong>tres perfiles</strong> sociodemográficos bien distintos entre sí.</li>
+        <li>Córranlos en ChatGPT o Claude, gratis, con <strong>una pregunta de consumo mediático</strong> que les interese.</li>
+        <li>Guarden <strong>todo</strong>: prompts y respuestas, tal cual salieron.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Qué entregar</h3>
+      <ul class="lista">
+        <li>El registro completo, en un anexo.</li>
+        <li><strong>Una carilla</strong> que responda: qué encontraron; qué les resultó sospechosamente homogéneo o estereotipado; contra qué fuente real lo contrastarían; y si lo usarían en su propia tesis, con qué rol y con qué límites.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="chico nota-margen">La consigna completa y la rúbrica están en el campus. <strong>No se evalúa que la muestra sea buena.</strong> Se evalúa que sepan por qué no lo es.</p>
+  <aside class="nota"><p>Decí la última frase con todas las letras, dos veces si hace falta. Siempre hay alguien que intenta que le “salga bien” la muestra y se frustra.</p><p>Recordales que corran los tres perfiles <strong>en chats separados</strong>, para que no se contaminen entre sí. Es el error más común.</p></aside>
+</section>
+
+<!-- 49 · vuelta al principio -->
+<section class="slide" data-block="5" data-titulo="Vuelta al principio">
+  <p class="volanta">Volvamos al pizarrón</p>
+  <h2>¿Cuántos habían votado que Marcela era real?</h2>
+  <p>No importa el número. Importa esto: lo que los convenció no fue la evidencia, fue <strong>el mate, el grupo del turno y el “si llego con ganas”</strong>.</p>
+  <p>Un modelo de lenguaje es extraordinariamente bueno produciendo detalles costumbristas, porque el detalle costumbrista abunda en los textos con los que se entrenó.</p>
+  <div class="critica" style="margin-top:2.5cqh">
+    <p>Su trabajo como investigadores no es detectar si un texto suena real. Es preguntar <strong>de dónde salió, contra qué se puede contrastar y qué pasa si está mal</strong>. Eso vale para una muestra sintética, para una encuesta, para una fuente periodística y para un paper.</p>
+  </div>
+  <aside class="nota"><p>Cerrá acá. Si te sobran dos minutos, dejá que pregunten.</p><p>El remate del recuadro es deliberadamente más grande que el tema de la clase: lo que se llevan no es una opinión sobre el silicon sampling, es un reflejo metodológico.</p></aside>
+</section>
+
+<!-- 50 · bibliografía -->
+<section class="slide" data-block="5" data-titulo="Bibliografía">
+  <p class="volanta">Para leer</p>
+  <div class="biblio">
+    <p><span class="aut">Argyle, L. P., Busby, E. C., Fulda, N., Gubler, J. R., Rytting, C. &amp; Wingate, D.</span> (2023). Out of One, Many: Using Language Models to Simulate Human Samples. <em>Political Analysis</em>, 31(3), 337–351. doi:10.1017/pan.2023.2 · <strong>el fundacional</strong></p>
+    <p><span class="aut">Bisbee, J., Clinton, J. D., Dorff, C., Kenkel, B. &amp; Larson, J. M.</span> (2024). Synthetic Replacements for Human Survey Data? The Perils of Large Language Models. <em>Political Analysis</em>, 32(4), 401–416 · <strong>la refutación</strong></p>
+    <p><span class="aut">Lin, Z.</span> (2025). Six Fallacies in Substituting Large Language Models for Human Participants. <em>Advances in Methods and Practices in Psychological Science</em>. doi:10.1177/25152459251357566 · <strong>el más legible de todos</strong></p>
+    <p><span class="aut">Wang, A., Morgenstern, J. &amp; Dickerson, J. P.</span> (2025). Large language models that replace human participants can harmfully misportray and flatten identity groups. <em>Nature Machine Intelligence</em>, 7, 400–411.</p>
+    <p><span class="aut">Santurkar, S., Durmus, E., Ladhak, F., Lee, C., Liang, P. &amp; Hashimoto, T.</span> (2023). Whose Opinions Do Language Models Reflect? arXiv:2303.17548.</p>
+    <p><span class="aut">Domínguez-Olmedo, R., Hardt, M. &amp; Mendler-Dünner, C.</span> (2024). Questioning the Survey Responses of Large Language Models. NeurIPS 2024. arXiv:2306.07951.</p>
+    <p><span class="aut">Ashokkumar, A., Hewitt, L., Ghezae, I. &amp; Willer, R.</span> (2026). Large language models can predict the results of social science experiments. <em>Nature</em>, 8 de julio de 2026.</p>
+    <p><span class="aut">Park, J. S. et al.</span> (2024–2026). LLM Agents Grounded in Self-Reports Enable General-Purpose Simulation of Individuals. arXiv:2411.10109.</p>
+    <p><span class="aut">Ma, X., Zhang, M., Ang, S. &amp; Chen, M.</span> (2026). Tastes without distinction: silicon samples and the synthetic construction of tastes. arXiv:2606.30085 · <strong>el más cercano a consumos culturales</strong></p>
+    <p><span class="aut">Aher, G., Arriaga, R. I. &amp; Kalai, A. T.</span> (2023). Using Large Language Models to Simulate Multiple Humans and Replicate Human Subject Studies. arXiv:2208.10264.</p>
+    <p><span class="aut">Horton, J. J.</span> (2023). Large Language Models as Simulated Economic Agents: What Can We Learn from Homo Silicus? arXiv:2301.07543.</p>
+    <p><span class="aut">Lin, V., Yun, T., Matarić, M., Canny, J., Gretton, A. &amp; D’Amour, A.</span> (2026). The Illusion of Intervention: Your LLM-Simulated Experiment is an Observational Study. arXiv:2605.20767.</p>
+    <p><span class="aut">Lippmann, W.</span> (1922). <em>Public Opinion</em>. Harcourt, Brace and Company · <strong>por qué existe la encuesta de opinión</strong></p>
+    <p><span class="aut">Reuters Institute</span> (2026). <em>Digital News Report 2026</em>, capítulo Argentina · <strong>fuente de validación</strong></p>
+    <p><span class="aut">SINCA</span>. <em>Encuesta Nacional de Consumos Culturales</em>, ediciones 2013, 2017, 2022 y 2023. Microdatos descargables · <strong>fuente de validación</strong></p>
+  </div>
+  <aside class="nota"><p>Está toda en el handout con los links. No la leas.</p><p>Si te preguntan por dónde empezar: <strong>Lin (2025)</strong>. Es el más legible para alguien sin formación técnica y ordena toda la discusión.</p></aside>
+</section>
+
+</div><!-- /stage -->
+
+<div class="overview" id="overview" hidden></div>
+
+<div class="notas" id="notas" hidden>
+  <h4>Notas del docente</h4>
+  <div id="notas-cuerpo"></div>
+</div>
+
+<div class="hud">
+  <button type="button" id="prev" aria-label="Slide anterior">←</button>
+  <button type="button" id="next" aria-label="Slide siguiente">→</button>
+  <span class="cuenta" id="cuenta">1 / 45</span>
+  <span class="barra"><i id="barra-i" style="width:0%"></i></span>
+  <span class="crono" id="crono">Cronómetro · T</span>
+  <button type="button" id="btn-notas">Notas · N</button>
+  <button type="button" id="btn-ov">Índice · O</button>
+  <span class="ayuda">← → navegar · F pantalla completa</span>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".slide:not([data-oculta])"));
+  var total  = slides.length;
+  var i      = 0;
+
+  var elCuenta = document.getElementById("cuenta");
+  var elBarra  = document.getElementById("barra-i");
+  var elNotas  = document.getElementById("notas");
+  var elCuerpo = document.getElementById("notas-cuerpo");
+  var elOv     = document.getElementById("overview");
+  var elCrono  = document.getElementById("crono");
+
+  /* ---------- navegación ---------- */
+  function pinta(){
+    slides.forEach(function(s, n){ s.classList.toggle("on", n === i); });
+    elCuenta.textContent = (i + 1) + " / " + total;
+    elBarra.style.width = ((i + 1) / total * 100) + "%";
+    var nota = slides[i].querySelector(".nota");
+    elCuerpo.innerHTML = nota ? nota.innerHTML : "<p>·</p>";
+    Array.prototype.forEach.call(elOv.children, function(b, n){
+      b.setAttribute("aria-current", n === i ? "true" : "false");
+    });
+  }
+  function va(n){
+    i = Math.max(0, Math.min(total - 1, n));
+    pinta();
+  }
+
+  /* ---------- índice ---------- */
+  slides.forEach(function(s, n){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "ov-item";
+    b.innerHTML = '<span class="ov-n">' + String(n + 1).padStart(2, "0") +
+                  '</span><span class="ov-t"></span>';
+    b.querySelector(".ov-t").textContent = s.dataset.titulo || "";
+    b.addEventListener("click", function(){
+      va(n);
+      elOv.hidden = true;
+    });
+    elOv.appendChild(b);
+  });
+
+  /* ---------- cronómetro ---------- */
+  var t0 = null, corriendo = false;
+  function dosDig(n){ return (n < 10 ? "0" : "") + n; }
+  setInterval(function(){
+    if (!corriendo || t0 === null) return;
+    var seg = Math.floor((Date.now() - t0) / 1000);
+    var min = Math.floor(seg / 60);
+    elCrono.textContent = dosDig(min) + ":" + dosDig(seg % 60);
+  }, 500);
+
+  function crono(){
+    if (t0 === null){ t0 = Date.now(); corriendo = true; }
+    else if (corriendo){ corriendo = false; elCrono.textContent += " ⏸"; }
+    else { corriendo = true; }
+  }
+
+  /* ---------- eventos ---------- */
+  document.getElementById("prev").addEventListener("click", function(){ va(i - 1); });
+  document.getElementById("next").addEventListener("click", function(){ va(i + 1); });
+  document.getElementById("btn-notas").addEventListener("click", function(){ elNotas.hidden = !elNotas.hidden; });
+  document.getElementById("btn-ov").addEventListener("click", function(){ elOv.hidden = !elOv.hidden; });
+
+  document.addEventListener("keydown", function(e){
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === "ArrowRight" || k === "PageDown" || k === " "){ e.preventDefault(); va(i + 1); }
+    else if (k === "ArrowLeft" || k === "PageUp"){ e.preventDefault(); va(i - 1); }
+    else if (k === "Home"){ e.preventDefault(); va(0); }
+    else if (k === "End"){ e.preventDefault(); va(total - 1); }
+    else if (k === "n" || k === "N"){ elNotas.hidden = !elNotas.hidden; }
+    else if (k === "o" || k === "O"){ elOv.hidden = !elOv.hidden; }
+    else if (k === "t" || k === "T"){ crono(); }
+    else if (k === "f" || k === "F"){
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+    }
+    else if (k === "Escape"){ elOv.hidden = true; }
+  });
+
+  document.getElementById("stage").addEventListener("click", function(e){
+    if (e.target.closest("a") || e.target.closest(".chat") || e.target.closest(".prompt-box")) return;
+    va(i + 1);
+  });
+
+  va(0);
+})();
+</script>
