@@ -1,0 +1,26 @@
+'use strict';
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const api=require('./game.js');
+const {game,LEVELS,ACTIONS,startLevel,resetGame,step,getState,getAvailableActions,getLevelData}=api;
+
+test('API expone las acciones esperadas',()=>assert.deepEqual(getAvailableActions(),['nothing','accelerate','brake','jump']));
+test('hay cinco niveles',()=>{assert.equal(LEVELS.length,5);assert.equal(LEVELS[0].name,'Campo Verde');assert.equal(LEVELS[4].name,'Cumbre Final')});
+test('estado es serializable',()=>{resetGame();assert.doesNotThrow(()=>JSON.stringify(getState()))});
+test('se puede iniciar nivel 1',()=>{game.unlockedLevel=5;assert.equal(startLevel(1),true);const s=getState();assert.equal(s.started,true);assert.equal(s.level,1);assert.equal(s.lives,3)});
+test('acelerar aumenta velocidad',()=>{startLevel(1);const before=getState().velocityX;step('accelerate');assert.ok(getState().velocityX>before)});
+test('frenar no rompe el estado',()=>{startLevel(1);step('accelerate');step('accelerate');const before=getState().velocityX;step('brake');assert.ok(getState().velocityX<before)});
+test('salto modifica velocidad vertical',()=>{startLevel(1);const before=getState();step('jump');const after=getState();assert.ok(after.velocityY<before.velocityY);assert.equal(after.onGround,false)});
+test('gravedad devuelve la bicicleta hacia abajo',()=>{startLevel(1);step('jump');const vy=game.bike.vy;for(let i=0;i<25;i++)step('nothing');assert.ok(game.bike.vy>vy)});
+test('el progreso está entre cero y uno',()=>{startLevel(1);for(let i=0;i<20;i++)step('accelerate');const s=getState();assert.ok(s.progress>=0&&s.progress<=1)});
+test('las monedas tienen contador restante',()=>{startLevel(1);const s=getState();assert.ok(s.remainingCoins>0);assert.equal(s.coinsCollected,0)});
+test('los checkpoints existen',()=>{startLevel(1);const s=getState();assert.ok(s.totalCheckpoints>=5);assert.equal(s.checkpointsPassed,0)});
+test('los niveles superiores pueden iniciarse cuando están desbloqueados',()=>{game.unlockedLevel=5;for(let i=1;i<=5;i++){assert.equal(startLevel(i),true);assert.equal(getState().level,i)}});
+test('un nivel bloqueado no se inicia',()=>{game.unlockedLevel=1;assert.equal(startLevel(3),false);assert.equal(game.level,5)});
+test('acción inválida se normaliza',()=>{game.unlockedLevel=5;startLevel(1);step('volar');assert.equal(getState().lastAction,'nothing')});
+test('reset devuelve al estado no iniciado',()=>{game.unlockedLevel=5;startLevel(2);resetGame();const s=getState();assert.equal(s.started,false);assert.equal(s.gameOver,false);assert.equal(s.levelComplete,false)});
+test('getLevelData devuelve datos correctos',()=>{assert.equal(getLevelData(4).name,'Cañón Extremo');assert.equal(getLevelData(5).difficulty,5)});
+test('step pausado no avanza',()=>{game.unlockedLevel=5;startLevel(1);const x=getState().x;game.paused=true;step('accelerate');assert.equal(getState().x,x);game.paused=false});
+test('vidas se mantienen positivas durante juego normal',()=>{game.unlockedLevel=5;startLevel(1);for(let i=0;i<40;i++)step('accelerate');assert.ok(getState().lives>=0)});
+test('estado contiene obstáculo o null sin romper JSON',()=>{game.unlockedLevel=5;startLevel(1);assert.doesNotThrow(()=>JSON.stringify(getState()));assert.ok('obstacleAhead' in getState())});
+test('todas las acciones son válidas',()=>ACTIONS.forEach(a=>assert.ok(getAvailableActions().includes(a))));

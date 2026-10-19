@@ -18,6 +18,8 @@ Por ejemplo:
 * Hacer un chatbot para fines específicos
 * Crear un soporte lógico usando IA
 
+La organización del trabajo final (equipos, etapas, carpetas) está en [`trabajo-final/`](./trabajo-final/README.md).
+
 > Si bien esta parte es técnica, no se requiere de conocimientos previos de programación para poder cursar.
 
 En paralelo habrá una serie de charlas en las que exploraremos la historia de IA y veremos ejemplos de su uso real así como sus limitaciones teóricas y prácticas; y los desafíos con los que nos encontramos frente a estas tecnologías. 
