@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El caso Salomón 2 — La jueza con IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<!-- ===== INICIO ===== -->
+<section id="titulo" class="pantalla activa"><div class="caja">
+  <h1>El caso <span class="coral">Sa</span><span class="azul">lo</span><span class="verde">món</span></h1>
+  <p class="sub">Defendé a la clienta ante una jueza con criterio propio</p>
+  <div id="elenco" class="elenco"></div>
+  <p>Elegí cómo te presentás:</p>
+  <div class="fila"><button class="chip sel" data-r="ella">Abogada</button><button class="chip" data-r="el">Abogado</button></div>
+  <p>Elegí la dificultad:</p>
+  <div class="fila"><button class="chip sel" data-m="facil">Fácil: opciones</button><button class="chip" data-m="dificil">Difícil: escribís vos</button></div>
+  <p id="estadoIA" class="nota"></p>
+  <button id="bEmp" class="coral">Empezar</button>
+  <p class="aviso">Basado en la sentencia de la Cámara Civil (2018) y en notas periodísticas. Es una reconstrucción educativa: las escenas y voces del juzgado son ficticias y no reemplazan asesoramiento legal.</p>
+</div></section>
+
+<!-- ===== PERSONAJES ===== -->
+<section id="fichas" class="pantalla"><div class="caja ancha">
+  <h2>Los personajes</h2>
+  <div id="cartas" class="cartas"></div>
+  <p id="otros" class="nota"></p>
+  <button id="bVer" class="azul">Ver cómo empezó todo</button>
+</div></section>
+
+<!-- ===== ANIMACIÓN DEL PROGRAMA ===== -->
+<section id="cine" class="pantalla">
+  <div id="est" class="escenario">
+    <svg id="fondo" viewBox="0 0 960 540" width="960" height="540">
+      <defs><linearGradient id="gp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9E6F0"/><stop offset="1" stop-color="#EDE7F4"/></linearGradient></defs>
+      <rect width="960" height="540" fill="url(#gp)"/><rect y="430" width="960" height="110" fill="#CBB79A"/>
+      <circle class="foco" cx="120" cy="36" r="24" fill="#FFF3B0"/><circle class="foco" cx="480" cy="22" r="24" fill="#FFF3B0"/><circle class="foco" cx="840" cy="36" r="24" fill="#FFF3B0"/>
+      <rect x="300" y="40" width="360" height="170" rx="14" fill="#2F3A4A"/>
+      <g class="tvnormal"><rect x="314" y="54" width="332" height="142" rx="6" fill="#8DB5D6"/><rect x="314" y="146" width="110" height="50" fill="#E07A6F"/><rect x="424" y="146" width="112" height="50" fill="#7FB08A"/><rect x="536" y="146" width="110" height="50" fill="#5B8DB8"/><text x="480" y="110" text-anchor="middle" class="tvt">EN VIVO</text></g>
+      <g class="tvcam"><rect x="314" y="54" width="332" height="142" rx="6" fill="#666"/><g id="mosaico"></g><rect x="314" y="54" width="332" height="28" fill="#C9625A"/><text id="bantxt" x="480" y="74" text-anchor="middle" class="tvt">CÁMARA OCULTA</text></g>
+      <rect x="80" y="290" width="330" height="70" rx="16" fill="#C9625A"/>
+    </svg>
+    <div id="personas"></div>
+    <svg id="frente" viewBox="0 0 960 540" width="960" height="540">
+      <rect x="70" y="342" width="350" height="86" rx="18" fill="#E07A6F"/><rect x="58" y="300" width="28" height="128" rx="14" fill="#C9625A"/><rect x="404" y="300" width="28" height="128" rx="14" fill="#C9625A"/>
+      <rect x="600" y="330" width="300" height="100" rx="10" fill="#5B8DB8"/><rect x="600" y="330" width="300" height="14" rx="6" fill="#43698A"/><text x="750" y="395" text-anchor="middle" class="tvt">ESTUDIO</text>
+    </svg>
+    <div id="fecha" class="oculto"></div>
+    <div id="oscuro"></div>
+  </div>
+  <div class="pie">
+    <p id="subt"></p>
+    <div id="puntos"></div>
+    <div class="ctrl"><button id="bAtras" class="sec" aria-label="Anterior">◀</button><button id="bPausa" class="sec" aria-label="Pausa">⏸</button><button id="bAdel" class="azul" aria-label="Siguiente">▶</button><button id="bSalta" class="sec">Ir al juzgado</button></div>
+  </div>
+</section>
+
+<!-- ===== JUZGADO ===== -->
+<section id="juzgado" class="pantalla"><div class="juego">
+  <aside class="reparto"><h3>Los involucrados</h3><div id="foto" class="foto"></div></aside>
+  <div class="mesa">
+    <div class="hud"><span id="qn"></span><span class="medidor"><i id="med"></i></span><span>Solidez del caso</span></div>
+    <div class="sala">
+      <div id="orador" class="orador"></div>
+      <div class="globo">
+        <b id="quien"></b><p id="texto"></p>
+        <div id="ops"></div>
+        <div id="libre" class="oculto"><textarea id="argumento" rows="6" maxlength="1000" placeholder="Escriba su argumento ante la jueza…"></textarea><button id="bEnviar" class="verde">Presentar argumento</button></div>
+        <div id="fb" class="oculto"><p id="fbt"></p><button id="bSig" class="azul">Siguiente</button></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== RESULTADO ===== -->
+<section id="final" class="pantalla"><div class="caja ancha">
+  <h2 id="vTit"></h2>
+  <p id="vTxt"></p>
+  <p id="vCons" class="nota"></p>
+  <p class="puntaje" id="vPts"></p>
+  <ul id="vLista" class="lista"></ul>
+  <button id="bReal" class="azul">¿Qué pasó en la realidad?</button>
+  <button id="bOtra" class="verde">Jugar de nuevo</button>
+  <p class="aviso">Reconstrucción educativa, no es asesoramiento legal. Las preguntas y respuestas son una simplificación del caso.</p>
+</div></section>
+
+<div id="real" class="modal"><div class="panel">
+  <h2>Qué pasó en la realidad</h2>
+  <ol id="linea" class="linea"></ol>
+  <p class="nota">Fuentes: sentencia de la Cámara Civil, Sala B (24/05/2018), nota de La Nación (02/07/2025) y comentario de elDial. Para el texto completo, consultá el fallo original.</p>
+  <button id="bCerrar" class="azul">Cerrar</button>
+</div></div>
+
+<script src="datos.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
