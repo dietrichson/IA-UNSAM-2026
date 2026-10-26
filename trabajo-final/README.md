@@ -15,6 +15,7 @@ GitHub con los tickets de su proyecto.
 | `diego/` | Diego | Trabajo final — Diego |
 | `jeremias/` | Jeremías | Trabajo final — Jeremías |
 | `juan-marcos-gatti/` | Juan Marcos Gatti | Trabajo final — Juan Marcos Gatti |
+| `lucia/` | Lucia | Trabajo final — Lucia |
 
 ## Cómo trabajamos
 
