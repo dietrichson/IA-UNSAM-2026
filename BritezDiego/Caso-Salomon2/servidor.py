@@ -6,15 +6,16 @@ Uso:
     export ANTHROPIC_API_KEY="tu-clave"     (opcional)
     python3 servidor.py
 
-Sin clave, el juego funciona en "modo sin IA" con criterios locales.
+Si no hay clave, usa Ollama (gratis, local) si está encendido; si tampoco, funciona en "modo sin IA".
 La clave NUNCA va en el navegador ni en GitHub: el servidor la lee del entorno.
 """
-import json, math, os, pathlib, re, unicodedata
+import json, math, os, pathlib, re, unicodedata, urllib.request
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 BASE = pathlib.Path(__file__).parent
 MODELO = os.environ.get("MODELO_JUEZA", "claude-haiku-5-5")  # modelo económico; para más calidad: MODELO_JUEZA=claude-sonnet-5-5
 RUBRICA = json.loads((BASE / "rubrica.json").read_text(encoding="utf-8"))
+OLLAMA = os.environ.get("OLLAMA_URL", "http://localhost:11434")  # modelo local gratuito (el del curso)
 BLOQUEADOS = ("/rubrica.json", "/servidor.py", "/corpus")  # lo que el navegador no necesita ver
 
 # ---------------- RAG: búsqueda BM25 sobre los textos de corpus/ ----------------
@@ -73,7 +74,39 @@ Reglas:
 4. No uses las palabras "correcto" ni "incorrecto" y no anticipes la sentencia antes del final.
 5. Respondé SIEMPRE con un único objeto JSON válido y nada más."""
 
+def ollama_modelos():
+    """Modelos instalados en Ollama (vacío si Ollama no está encendido)."""
+    try:
+        with urllib.request.urlopen(OLLAMA + "/api/tags", timeout=2) as r:
+            return [m["name"] for m in json.load(r).get("models", [])]
+    except Exception:
+        return []
+
+def ollama_utiles():
+    """Modelos de Ollama aptos para la jueza: se descartan los de personajes (Bob Esponja, etc.)."""
+    return [m for m in ollama_modelos() if not re.search(r"bob|esponja", m, re.I)]
+
+def proveedor():
+    """Claude si hay clave; si no, Ollama (gratis y local) si hay un modelo apto; si no, None (modo sin IA)."""
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        return "claude"
+    return "ollama" if (os.environ.get("OLLAMA_MODELO") or ollama_utiles()) else None
+
+def modelo_ollama():
+    return os.environ.get("OLLAMA_MODELO") or (ollama_utiles() or [""])[0]
+
+def llamar_ollama(sistema, usuario, max_tokens=800):
+    cuerpo = json.dumps({"model": modelo_ollama(), "stream": False, "format": "json",
+                         "options": {"temperature": 0.3, "num_predict": max_tokens},
+                         "messages": [{"role": "system", "content": sistema}, {"role": "user", "content": usuario}]}).encode("utf-8")
+    pedido = urllib.request.Request(OLLAMA + "/api/chat", data=cuerpo, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(pedido, timeout=240) as r:
+        return json.load(r)["message"]["content"]
+
 def llamar(sistema, usuario, max_tokens=800):
+    return (llamar_claude if proveedor() == "claude" else llamar_ollama)(sistema, usuario, max_tokens)
+
+def llamar_claude(sistema, usuario, max_tokens=800):
     import anthropic  # pip install anthropic
     cliente = anthropic.Anthropic()  # lee ANTHROPIC_API_KEY del entorno
     r = cliente.messages.create(model=MODELO, max_tokens=max_tokens, system=sistema,
@@ -83,7 +116,8 @@ def llamar(sistema, usuario, max_tokens=800):
 def extraer_json(t):
     return json.loads(t[t.index("{"): t.rindex("}") + 1])
 
-usa_ia = lambda: bool(os.environ.get("ANTHROPIC_API_KEY"))
+usa_ia = lambda: proveedor() is not None
+nombre_modelo = lambda: MODELO if proveedor() == "claude" else f"Ollama: {modelo_ollama()}"
 
 # ---------------- Endpoints ----------------
 def evaluar(d):
@@ -155,7 +189,7 @@ class Manejador(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == "/api/estado":
-            return self.responder({"ia": usa_ia(), "modelo": MODELO})
+            return self.responder({"ia": usa_ia(), "modelo": nombre_modelo()})
         if self.path.startswith(BLOQUEADOS):
             return self.send_error(404)
         super().do_GET()
@@ -171,5 +205,5 @@ class Manejador(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     puerto = int(os.environ.get("PORT", 8000))
-    print(f"Juego en http://localhost:{puerto}  |  Jueza: {'con IA (' + MODELO + ')' if usa_ia() else 'MODO SIN IA (falta ANTHROPIC_API_KEY)'}")
+    print(f"Juego en http://localhost:{puerto}  |  Jueza: {'con IA (' + nombre_modelo() + ')' if usa_ia() else 'MODO SIN IA (sin clave de Claude y sin Ollama encendido)'}")
     ThreadingHTTPServer(("0.0.0.0", puerto), Manejador).serve_forever()

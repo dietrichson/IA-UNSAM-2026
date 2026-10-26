@@ -30,3 +30,10 @@ Para cambiar lo que sabe la jueza, editá o agregá archivos `.md` en `corpus/` 
 
 ## Modelo y costo
 Por defecto la jueza usa `claude-haiku-5-5` (económico). Para más calidad: `export MODELO_JUEZA=claude-sonnet-5-5` antes de iniciar.
+
+## Opción gratuita: Ollama
+Si no hay clave de Claude pero Ollama está encendido en el Codespace (puerto 11434), la jueza usa ese modelo local, sin costo.
+Para ver los modelos instalados: `ollama list`. Para elegir uno: `export OLLAMA_MODELO="nombre"` antes de iniciar.
+Los modelos chicos son más lentos y menos precisos que Claude.
+Si el modelo de Ollama es de un personaje (por ejemplo, Bob Esponja), la jueza no lo usa: hace falta el modelo base sobre el que se creó
+(la primera línea `FROM ...` del Modelfile). Descargalo con `ollama pull nombre` y elegilo con `export OLLAMA_MODELO="nombre"`.
