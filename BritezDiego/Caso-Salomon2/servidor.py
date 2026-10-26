@@ -13,7 +13,7 @@ import json, math, os, pathlib, re, unicodedata
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 BASE = pathlib.Path(__file__).parent
-MODELO = os.environ.get("MODELO_JUEZA", "claude-sonnet-5-5")
+MODELO = os.environ.get("MODELO_JUEZA", "claude-haiku-5-5")  # modelo económico; para más calidad: MODELO_JUEZA=claude-sonnet-5-5
 RUBRICA = json.loads((BASE / "rubrica.json").read_text(encoding="utf-8"))
 BLOQUEADOS = ("/rubrica.json", "/servidor.py", "/corpus")  # lo que el navegador no necesita ver
 
@@ -55,6 +55,10 @@ class Indice:
 
 INDICE = Indice(BASE / "corpus")
 
+def rotular(trozos):
+    """Lista legible del material consultado: 'documento: título de la sección'."""
+    return [f"{doc}: {texto.splitlines()[0].lstrip('# ').strip()}" for doc, texto in trozos]
+
 def contexto(trozos):
     return "\n\n".join(f"[{doc}]\n{texto}" for doc, texto in trozos) or "(no se recuperó material)"
 
@@ -87,7 +91,7 @@ def evaluar(d):
     R = RUBRICA[int(d.get("n", 0)) % len(RUBRICA)]
     respuesta = str(d.get("respuesta", ""))[:1200]
     ctx = INDICE.buscar(f"{R['tema']} {R['texto']} {respuesta}", 4)
-    fuentes = sorted({doc for doc, _ in ctx})
+    fuentes = rotular(ctx)
     if usa_ia():
         previo = "\n".join(f"- {h.get('tema')}: {str(h.get('respuesta'))[:250]} (puntos {h.get('puntos')})" for h in d.get("historial", [])[-7:]) or "(es la primera respuesta)"
         usuario = f"""PREGUNTA QUE USTED FORMULÓ: {R['texto']}
@@ -114,7 +118,7 @@ def sentencia(d):
     h = d.get("historial", [])
     pct = round(100 * sum(int(x.get("puntos", 0)) for x in h) / max(2 * len(h), 1))
     ctx = INDICE.buscar(" ".join(str(x.get("respuesta", "")) for x in h)[:1500] + " intimidad libertad de expresion indemnizacion sentencia", 5)
-    fuentes = sorted({doc for doc, _ in ctx})
+    fuentes = rotular(ctx)
     if usa_ia() and h:
         hist = "\n".join(f"{i+1}. {x.get('tema')} (puntos {x.get('puntos')}/2)\n   Respuesta: {str(x.get('respuesta'))[:500]}\n   Su comentario: {x.get('comentario')}" for i, x in enumerate(h))
         usuario = f"""Es el momento de dictar sentencia. Solidez global de la defensa: {pct} %.

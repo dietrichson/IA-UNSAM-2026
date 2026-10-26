@@ -8,6 +8,12 @@ Reconstrucción educativa basada en la sentencia de la Cámara Civil (2018) y no
 - **Difícil:** el mismo relato y las 8 preguntas se responden escribiendo; la jueza (IA) comenta qué tan sólido queda el caso y dicta una sentencia final según todas las respuestas.
 
 ## Cómo ejecutarlo (en Codespaces)
+En la terminal (el panel negro de abajo), un solo comando:
+
+    bash BritezDiego/caso-salomon-2/iniciar.sh
+
+O, a mano:
+
     pip install anthropic
     export ANTHROPIC_API_KEY="tu-clave"      # opcional; sin clave funciona en modo sin IA
     python3 servidor.py
@@ -21,3 +27,6 @@ Abrí el puerto 8000 desde la pestaña Puertos. Para guardar la clave de forma p
 - `datos.js`, `main.js`, `index.html`, `estilos.css`: el juego.
 
 Para cambiar lo que sabe la jueza, editá o agregá archivos `.md` en `corpus/` (secciones con `## Título`) y reiniciá el servidor.
+
+## Modelo y costo
+Por defecto la jueza usa `claude-haiku-5-5` (económico). Para más calidad: `export MODELO_JUEZA=claude-sonnet-5-5` antes de iniciar.

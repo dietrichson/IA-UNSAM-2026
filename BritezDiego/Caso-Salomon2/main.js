@@ -2,7 +2,7 @@
 'use strict';
 
 const $ = id => document.getElementById(id);
-let rol = 'ella', beat = 0, timer = null, pausado = false, q = 0, puntos = 0, resp = [], posBuena = [], modo = 'facil', hist = [];
+let rol = 'ella', beat = 0, timer = null, pausado = false, q = 0, puntos = 0, resp = [], posBuena = [], modo = 'facil', hist = [], iaOn = null;
 const MAX = PREGUNTAS.length * 2;
 
 // ---------- Personaje formal dibujado en SVG ----------
@@ -16,14 +16,14 @@ function persona(o) {
     <ellipse cx="23" cy="106" rx="8" ry="4" fill="#26303F"/><ellipse cx="37" cy="106" rx="8" ry="4" fill="#26303F"/>
     <rect x="6" y="42" width="9" height="34" rx="4.5" fill="${o.saco}"/><rect x="45" y="42" width="9" height="34" rx="4.5" fill="${o.saco}"/>
     <path d="M13 44Q13 38 22 38H38Q47 38 47 44V82H13Z" fill="${o.saco}"/>
-    <path d="M23 38L30 54L37 38Z" fill="#fff"/><path d="M28 46h4l2.5 20-4.5 4-4.5-4z" fill="${o.corbata}"/>
+    <path d="M23 38L30 54L37 38Z" fill="#F1ECE0"/><path d="M28 46h4l2.5 20-4.5 4-4.5-4z" fill="${o.corbata}"/>
     <circle cx="30" cy="24" r="13" fill="#F2C9A5"/>${pelo}
     <circle cx="24.5" cy="25" r="1.6" fill="#222"/><circle cx="35.5" cy="25" r="1.6" fill="#222"/>
     <path class="sonrisa" d="M25.5 31Q30 35 34.5 31" stroke="#9A5A4A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
     <path class="triste" d="M25.5 34Q30 30 34.5 34" stroke="#9A5A4A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
     <circle class="lagrima" cx="24" cy="28" r="1.5" fill="#8DB5D6"/></svg>`;
 }
-const yo = () => ({ g: rol, saco: '#3E4C6B', corbata: '#E07A6F', pelo: rol === 'ella' ? '#5A3A28' : '#3B2A20' });
+const yo = () => ({ g: rol, saco: '#3B4658', corbata: '#7B3B3B', pelo: rol === 'ella' ? '#5A3A28' : '#3B2A20' });
 
 // ---------- Pantallas ----------
 function ir(id) { document.querySelectorAll('.pantalla').forEach(s => s.classList.toggle('activa', s.id === id)); clearTimeout(timer); if (id === 'cine') { escalar(); verBeat(0); } }
@@ -36,8 +36,8 @@ document.querySelectorAll('.chip').forEach(b => b.onclick = () => { // un grupo 
   if (k === 'r') rol = b.dataset.r; else modo = b.dataset.m;
   document.querySelectorAll(`.chip[data-${k}]`).forEach(x => x.classList.toggle('sel', x === b));
 });
-fetch('/api/estado').then(r => r.json()).then(d => { $('estadoIA').textContent = d.ia ? `Jueza con IA conectada (${d.modelo})` : 'Modo sin IA: falta la clave ANTHROPIC_API_KEY; la jueza usa criterios locales.'; })
-  .catch(() => { $('estadoIA').textContent = 'Sin servidor de IA: el modo Difícil necesita ejecutar "python3 servidor.py".'; });
+fetch('/api/estado').then(r => r.json()).then(d => { iaOn = d.ia; $('estadoIA').textContent = d.ia ? `Jueza con IA conectada (${d.modelo})` : 'Modo sin IA: falta la clave ANTHROPIC_API_KEY; la jueza usa criterios locales.'; })
+  .catch(() => { $('estadoIA').textContent = 'Sin servidor de IA: el modo Difícil necesita abrirse con "bash iniciar.sh".'; });
 $('bEmp').onclick = () => {
   const carta = (o, n, r) => `<div class="carta">${persona(o)}<b>${n}</b><span>${r}</span></div>`;
   $('cartas').innerHTML = carta(yo(), rol === 'ella' ? 'Vos, la abogada' : 'Vos, el abogado', 'Defendés a Beatriz y a sus hijas en el juicio.') +
@@ -47,10 +47,6 @@ $('bEmp').onclick = () => {
 $('bVer').onclick = () => ir('cine');
 
 // ---------- Animación del programa (relato narrado) ----------
-// Ilustración animada de los involucrados (inicio y juzgado)
-$('foto').innerHTML = PERSONAJES.map((p, i) => `<figure class="${i < 2 ? 'a' : 'b'}">${persona(p)}<figcaption>${p.nombre}</figcaption></figure>`).join('');
-$('elenco').innerHTML = PERSONAJES.map(p => persona(p)).join('');
-
 (function montarCine() {
   $('personas').innerHTML = PERSONAJES.map(p => `<div class="per ${p.id}${p.pareja ? ' pareja' : ''}" data-id="${p.id}">${persona(p)}</div>`).join('');
   let m = ''; // mosaico borroso: la imagen de la cámara oculta no se muestra
@@ -76,7 +72,13 @@ function verBeat(i) {
 }
 // Mezcla uniforme (Fisher-Yates)
 function mezclar(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; }
-const alJuzgado = () => { clearTimeout(timer); q = 0; puntos = 0; resp = []; hist = []; $('med').style.width = '0'; posBuena = mezclar([0, 1, 2, 0, 1, 2, Math.random() * 3 | 0, Math.random() * 3 | 0]); ir('juzgado'); pregunta(); };
+function montarSala() { // arma el juzgado: jueza al centro, parte actora a la izquierda y parte demandada a la derecha
+  const fig = (o, n, r, id) => `<figure class="fig"${id ? ` id="${id}"` : ''}>${persona(o)}<figcaption><b>${n}</b>${r}</figcaption></figure>`;
+  $('juez').innerHTML = fig(JUEZA, 'La jueza', '', 'f-jueza') + '<div class="estrado">TRIBUNAL</div>';
+  $('izq').querySelector('.fila-p').innerHTML = fig(PERSONAJES[0], 'Beatriz Salomón', 'Actora') + fig(PERSONAJES[1], 'Alberto Ferriols', 'Esposo de la actora') + fig(yo(), 'La defensa (usted)', 'Abogado/a de la actora');
+  $('der').querySelector('.fila-p').innerHTML = fig(PERSONAJES[2], 'Jorge Rial', 'Demandado') + fig(PERSONAJES[3], 'Luis Ventura', 'Demandado') + fig(ABOGADO, 'Abogado de las demandadas', '', 'f-abogado');
+}
+const alJuzgado = () => { clearTimeout(timer); q = 0; puntos = 0; resp = []; hist = []; $('med').style.width = '0'; posBuena = mezclar([0, 1, 2, 0, 1, 2, Math.random() * 3 | 0, Math.random() * 3 | 0]); montarSala(); ir('juzgado'); pregunta(); };
 $('bAtras').onclick = () => verBeat(beat - 1);
 $('bAdel').onclick = () => beat === BEATS.length - 1 ? alJuzgado() : verBeat(beat + 1);
 $('bPausa').onclick = () => { pausado = !pausado; $('bPausa').textContent = pausado ? '▶' : '⏸'; verBeat(beat); };
@@ -86,7 +88,9 @@ $('bSalta').onclick = alJuzgado;
 function pregunta() {
   const P = PREGUNTAS[q], H = P.quien === 'jueza' ? JUEZA : ABOGADO;
   $('qn').textContent = `Pregunta ${q + 1} de ${PREGUNTAS.length}`;
-  $('orador').innerHTML = persona(H) + `<span>${H.nombre}</span>`;
+  const habla = P.quien === 'jueza' ? 'f-jueza' : 'f-abogado'; // quien pregunta se destaca y mueve la boca
+  ['f-jueza', 'f-abogado'].forEach(id => { $(id).classList.toggle('turno', id === habla); $(id).classList.toggle('habla', id === habla); });
+  $('fcons').textContent = ''; $('modoTxt').textContent = (modo === 'dificil' ? '· Modo difícil: argumento escrito' : '· Modo fácil: opciones') + (iaOn === null ? '' : iaOn ? ' · Jueza con IA' : ' · Jueza sin IA');
   $('quien').textContent = H.nombre; $('texto').textContent = P.texto; $('fb').classList.add('oculto'); $('bSig').classList.remove('oculto');
   const libre = modo === 'dificil'; // en el modo difícil se escribe el argumento
   $('ops').classList.toggle('oculto', libre); $('libre').classList.toggle('oculto', !libre);
@@ -115,7 +119,7 @@ async function api(ruta, cuerpo) {
   const r = await fetch(ruta, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) });
   const d = await r.json(); if (!r.ok || d.error) throw new Error(d.error || r.status); return d;
 }
-const citas = f => f && f.length ? `  Fuentes: ${f.join(', ')}.` : '';
+const citas = f => f && f.length ? 'Material consultado por la jueza: ' + f.join(' · ') + '.' : '';
 $('bEnviar').onclick = async () => {
   const txt = $('argumento').value.trim();
   if (txt.length < 20) { $('argumento').placeholder = 'Escriba al menos una o dos oraciones con su argumento.'; return; }
@@ -125,12 +129,12 @@ $('bEnviar').onclick = async () => {
     puntos += r.puntos; resp.push(r.puntos);
     hist.push({ tema: PREGUNTAS[q].tema, respuesta: txt, puntos: r.puntos, comentario: r.comentario });
     $('libre').classList.add('oculto');
-    $('fbt').textContent = r.comentario + citas(r.fuentes) + (r.modo === 'local' ? ' (Modo sin IA)' : '');
+    $('fbt').textContent = r.comentario; $('fcons').textContent = citas(r.fuentes);
     $('med').style.width = (puntos / MAX * 100) + '%';
     $('bSig').textContent = q === PREGUNTAS.length - 1 ? 'Escuchar la sentencia' : 'Siguiente';
   } catch (e) {
     $('bEnviar').disabled = false; $('bEnviar').textContent = 'Presentar argumento';
-    $('fbt').textContent = 'No pude conectar con la jueza. Ejecute "python3 servidor.py" en la carpeta del juego y recargue la página.'; $('bSig').classList.add('oculto');
+    $('fbt').textContent = 'No pude conectar con la jueza. Abra el juego con "bash iniciar.sh" (no con http.server) y recargue la página.'; $('bSig').classList.add('oculto');
   }
   $('fb').classList.remove('oculto');
 };
@@ -145,7 +149,7 @@ async function veredicto() {
     try {
       const s = await api('/api/sentencia', { historial: hist });
       V = { t: s.titulo, c: { favorable: 'verde', parcial: 'azul', rechazada: 'coral' }[s.resultado] || 'azul', x: s.texto };
-      cons = (s.consejo ? 'Consejo de la jueza: ' + s.consejo : '') + citas(s.fuentes);
+      cons = (s.consejo ? 'Consejo de la jueza: ' + s.consejo : '') + '  ' + citas(s.fuentes);
     } catch (e) { cons = 'No pude conectar con la jueza; se muestra la sentencia calculada por puntaje.'; }
   }
   $('vTit').textContent = V.t; $('vTit').className = V.c; $('vTxt').textContent = V.x; $('vCons').textContent = cons;
