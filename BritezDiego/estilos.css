@@ -1,0 +1,75 @@
+/* estilos.css — paleta suave rojo / azul / verde, igual que el juego anterior */
+:root { --coral:#E07A6F; --azul:#5B8DB8; --verde:#7FB08A; --crema:#FAF6EE; --tinta:#2F3A4A; }
+* { box-sizing:border-box; }
+html, body { margin:0; min-height:100%; font-family:'Fredoka','Trebuchet MS',sans-serif; color:var(--tinta); background:var(--crema); }
+.oculto { display:none !important; }
+.coral { color:var(--coral); } .azul { color:var(--azul); } .verde { color:var(--verde); }
+
+.pantalla { display:none; min-height:100vh; padding:18px; background:
+  radial-gradient(circle at 10% 15%, rgba(224,122,111,.30), transparent 45%),
+  radial-gradient(circle at 90% 20%, rgba(91,141,184,.30), transparent 45%),
+  radial-gradient(circle at 50% 100%, rgba(127,176,138,.35), transparent 50%), var(--crema); }
+.pantalla.activa { display:block; }
+.caja { width:min(460px,100%); margin:6vh auto; text-align:center; animation:entra .4s ease-out; }
+.caja.ancha { width:min(760px,100%); margin:3vh auto; }
+@keyframes entra { from { opacity:0; transform:translateY(20px); } }
+h1 { font-size:clamp(2.6rem,11vw,4.6rem); margin:.1em 0; text-shadow:0 4px 0 rgba(47,58,74,.12); }
+h2 { font-size:1.8rem; margin:.2em 0 .5em; } .sub { font-size:1.2rem; opacity:.8; }
+.aviso, .nota { font-size:.8rem; opacity:.7; line-height:1.4; margin-top:1.2em; }
+
+button { font:inherit; font-weight:700; font-size:1.1rem; width:min(300px,86%); margin:.4em auto; padding:.6em 1em; border:0; border-radius:18px; cursor:pointer; color:#fff; display:block; transition:transform .12s; }
+button.coral { background:var(--coral); box-shadow:0 5px 0 #B65F55; } button.azul { background:var(--azul); box-shadow:0 5px 0 #43698A; }
+button.verde { background:var(--verde); box-shadow:0 5px 0 #5E8F6A; } button.sec { background:#fff; color:var(--tinta); box-shadow:0 5px 0 #D8D0BF; }
+button:hover { transform:translateY(-2px); } button:active { transform:translateY(4px); box-shadow:none; }
+button:focus-visible { outline:3px solid var(--tinta); outline-offset:3px; }
+.fila { display:flex; gap:10px; justify-content:center; } .chip { width:auto; background:#fff; color:var(--tinta); box-shadow:0 4px 0 #D8D0BF; margin:.3em 0; }
+.chip.sel { background:var(--azul); color:#fff; box-shadow:0 4px 0 #43698A; }
+
+/* Personajes */
+.cartas { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+.carta { background:#fff; border-radius:20px; padding:12px; box-shadow:0 5px 0 #E4DBC9; }
+.carta svg { height:130px; width:auto; } .carta b { display:block; margin:.3em 0 .1em; } .carta span { font-size:.82rem; opacity:.8; }
+svg { overflow:visible; } .sonrisa { transform-box:fill-box; transform-origin:center; } .triste, .lagrima { display:none; }
+.llora .sonrisa { display:none; } .llora .triste, .llora .lagrima { display:inline; } .lagrima { animation:gota 1.4s ease-in infinite; }
+@keyframes gota { from { transform:translateY(0); opacity:1; } to { transform:translateY(14px); opacity:0; } }
+.habla .sonrisa { animation:habla .3s ease-in-out infinite alternate; } @keyframes habla { to { transform:scaleY(2.2); } }
+
+/* Animación del programa */
+#cine { background:#2F3A4A; padding:0; overflow:hidden; }
+.escenario { position:relative; width:960px; height:540px; margin:0 auto; transform-origin:top center; transform:scale(var(--s,1)); }
+#fondo, #frente { position:absolute; left:0; top:0; } #frente { pointer-events:none; }
+.tvt { font:700 20px Fredoka,sans-serif; fill:#fff; letter-spacing:.08em; }
+.foco { animation:foco 3s ease-in-out infinite; } .foco:nth-of-type(2) { animation-delay:1s; } @keyframes foco { 50% { opacity:.5; } }
+.tvcam { opacity:0; transition:opacity .6s; } .cam .tvcam { opacity:1; } .tvnormal { transition:opacity .6s; } .cam .tvnormal { opacity:0; }
+#personas .per { position:absolute; width:60px; height:110px; transform:scale(1.5); transform-origin:top left; }
+.per svg { animation:resp 3s ease-in-out infinite; } @keyframes resp { 50% { transform:translateY(-3px); } }
+.per.beatriz { left:120px; top:232px; } .per.alberto { left:250px; top:232px; } .per.jorge { left:690px; top:228px; } .per.luis { left:810px; top:228px; }
+.per.pareja { transform:translateX(-560px) scale(1.5); transition:transform 1.8s ease-out; } .ent .per.pareja { transform:scale(1.5); }
+.per.rie { animation:rie .5s ease-in-out infinite alternate; } @keyframes rie { from { rotate:-3deg; } to { rotate:3deg; } }
+#fecha { position:absolute; right:18px; top:16px; background:var(--coral); color:#fff; font-weight:700; padding:6px 14px; border-radius:999px; animation:entra .5s; }
+#oscuro { position:absolute; inset:0; background:rgba(47,58,74,.55); opacity:0; transition:opacity 1s; pointer-events:none; } .osc #oscuro { opacity:1; }
+.pie { position:fixed; left:0; right:0; bottom:0; background:rgba(250,246,238,.97); padding:12px 16px 14px; text-align:center; box-shadow:0 -4px 0 rgba(0,0,0,.15); }
+#subt { margin:0 auto 8px; max-width:760px; font-size:clamp(.95rem,2.6vw,1.15rem); line-height:1.35; min-height:3.9em; }
+.ctrl { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; } .ctrl button { width:auto; margin:.1em 0; padding:.4em 1em; font-size:1rem; }
+#puntos { display:flex; gap:6px; justify-content:center; margin-bottom:6px; } #puntos i { width:10px; height:10px; border-radius:50%; background:#D8D0BF; } #puntos i.on { background:var(--coral); transform:scale(1.3); }
+
+/* Juzgado */
+.hud { display:flex; align-items:center; gap:10px; justify-content:center; font-weight:700; font-size:.9rem; margin-bottom:10px; }
+.medidor { width:140px; height:14px; border-radius:999px; background:#E4DBC9; overflow:hidden; display:inline-block; } .medidor i { display:block; height:100%; width:0; background:linear-gradient(90deg,var(--coral),var(--verde)); transition:width .6s; }
+.sala { display:flex; gap:16px; align-items:flex-start; text-align:left; }
+.orador { flex:0 0 150px; text-align:center; background:linear-gradient(#EFE4CF,#D9C6A5); border-radius:20px; padding:14px 8px 8px; box-shadow:0 5px 0 #C9B58F; }
+.orador svg { height:190px; width:auto; } .orador span { display:block; font-size:.75rem; font-weight:700; margin-top:6px; }
+.globo { flex:1; background:#fff; border-radius:22px; padding:16px 18px; box-shadow:0 5px 0 #E4DBC9; position:relative; }
+.globo::before { content:''; position:absolute; left:-12px; top:50px; border:12px solid transparent; border-right-color:#fff; border-left:0; }
+.globo p { margin:.4em 0 .8em; line-height:1.4; }
+.op { width:100%; text-align:left; background:var(--crema); color:var(--tinta); box-shadow:0 3px 0 #D8D0BF; font-weight:500; font-size:.98rem; margin:.45em 0; }
+.op.mala { background:#F7D9D4; } .op.media { background:#DCE8F3; } .op.buena { background:#D7EBDC; } .op:disabled { cursor:default; transform:none; opacity:.9; }
+#fb { margin-top:.6em; } #fbt { background:var(--crema); border-radius:14px; padding:10px 12px; }
+@media (max-width:560px) { .sala { flex-direction:column; align-items:stretch; } .orador { flex:none; } .orador svg { height:140px; } .globo::before { display:none; } }
+
+/* Resultado */
+.puntaje { font-size:1.3rem; font-weight:700; } .lista { text-align:left; list-style:none; padding:0; max-width:520px; margin:.5em auto 1em; } .lista li { padding:.25em 0; border-bottom:2px dotted #E4DBC9; }
+.modal { position:fixed; inset:0; display:none; place-items:center; padding:16px; z-index:20; background:rgba(47,58,74,.5); } .modal.activo { display:grid; }
+.panel { width:min(520px,100%); max-height:100%; overflow:auto; background:var(--crema); border-radius:24px; padding:20px 22px; box-shadow:0 8px 0 rgba(47,58,74,.25); }
+.linea { padding-left:1.2em; line-height:1.4; } .linea li { margin:.5em 0; } .linea b { color:var(--coral); }
+@media (prefers-reduced-motion:reduce) { * { animation:none !important; transition:none !important; } }
