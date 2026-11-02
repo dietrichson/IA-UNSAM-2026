@@ -1,0 +1,1263 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>El Profe Histérico</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Permanent+Marker&family=Special+Elite&display=swap">
+<style>
+:root {
+  /* Layout: una sola columna sobre un pizarrón verde. Arriba el profe con su globo de texto, en el medio la pregunta con apuestas y comodines, al final un boletín tipeado en papel. */
+  --board: #1c3a31;
+  --board-hi: #244a3e;
+  --chalk: #f2f0e6;
+  --chalk-dim: #aebdb2;
+  --chalk-ghost: rgba(242, 240, 230, 0.08);
+  --yellow: #f4d44c;
+  --red: #ff7a66;
+  --red-bg: rgba(255, 122, 102, 0.16);
+  --ok: #9be3ab;
+  --ok-bg: rgba(155, 227, 171, 0.16);
+  --paper: #ece6d2;
+  --ink: #2a2a35;
+  --ink-dim: #8d8a7c;
+  --stamp: #c4372a;
+  --skin: #f1bd92;
+  --skin-dk: #c98f67;
+  --hair: #3b2a22;
+  --jacket: #34406a;
+  --tie: #e0523f;
+  --lens: #f7f5ee;
+  --mouth-in: #5e1f22;
+  --sweat: #8fd0ee;
+  --f-display: 'Permanent Marker', 'Marker Felt', 'Comic Sans MS', cursive;
+  --f-body: 'Patrick Hand', 'Segoe Print', 'Comic Sans MS', cursive;
+  --f-util: 'Special Elite', 'Courier New', monospace;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background-color: var(--board);
+  color: var(--chalk);
+  font-family: var(--f-body);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding-block: 20px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+section { display: flex; flex-direction: column; gap: 16px; }
+section[hidden] { display: none; }
+
+h1, h2, p { margin: 0; }
+h1, h2 { text-wrap: balance; font-weight: 400; }
+
+.util {
+  font-family: var(--f-util);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--chalk-dim);
+}
+
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px dashed var(--yellow); outline-offset: 3px; }
+
+/* ---------- Botones ---------- */
+.btn {
+  appearance: none;
+  border: 2px solid var(--chalk);
+  background: transparent;
+  color: var(--chalk);
+  font-family: var(--f-body);
+  font-size: 1.15rem;
+  padding: 10px 18px;
+  min-height: 46px;
+  border-radius: 10px 6px 12px 8px;
+  cursor: pointer;
+}
+.btn:hover:not(:disabled) { background: var(--chalk-ghost); }
+.btn:disabled { cursor: default; color: var(--chalk-dim); border-color: var(--chalk-dim); }
+.btn.primary {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--board);
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+.btn.primary:hover:not(:disabled) { background: var(--chalk); border-color: var(--chalk); }
+.btn.sm { font-size: 1rem; padding: 6px 12px; min-height: 40px; }
+.btn.sm.used { text-decoration: line-through; opacity: 0.5; }
+.btn.sm.active { background: var(--yellow); border-color: var(--yellow); color: var(--board); }
+
+/* ---------- Profe ---------- */
+.stage { display: flex; align-items: center; gap: 16px; }
+.av { width: 104px; flex: none; }
+.stage.big .av { width: 150px; }
+.av svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+.profe .skin { fill: var(--skin); }
+.profe .hair { fill: var(--hair); }
+.profe .jacket { fill: var(--jacket); }
+.profe .shirt { fill: var(--chalk); }
+.profe .tie { fill: var(--tie); }
+.profe .shine { fill: #fff; opacity: 0.35; }
+.profe .lens { fill: var(--lens); stroke: var(--hair); stroke-width: 4; }
+.profe .pupil { fill: var(--hair); transform-box: fill-box; transform-origin: center; transition: transform 0.2s; }
+.profe .frame { fill: none; stroke: var(--hair); stroke-width: 4; stroke-linecap: round; }
+.profe .nose { fill: none; stroke: var(--skin-dk); stroke-width: 3; stroke-linecap: round; }
+.profe .brow { stroke: var(--hair); stroke-width: 6; stroke-linecap: round; transform-box: fill-box; transform-origin: center; transition: transform 0.2s; }
+.profe .blush { fill: var(--red); opacity: var(--hys, 0); }
+.profe .tuft { transform-box: fill-box; transform-origin: center; transition: transform 0.3s; }
+.profe[data-hys="hi"] .tuft { transform: scale(1.3); }
+.profe .mouth { display: none; }
+.profe .m-line { fill: none; stroke: var(--hair); stroke-width: 4; stroke-linecap: round; }
+.profe .m-in { fill: var(--mouth-in); }
+.profe .m-teeth { fill: #fff; }
+.profe .m-tongue { fill: #d9626b; }
+.profe[data-mood="neutral"] .m-neutral,
+.profe[data-mood="smug"] .m-smug,
+.profe[data-mood="shout"] .m-shout,
+.profe[data-mood="pain"] .m-pain { display: inline; }
+.profe[data-mood="shout"] .brow.l { transform: rotate(16deg); }
+.profe[data-mood="shout"] .brow.r { transform: rotate(-16deg); }
+.profe[data-mood="shout"] .pupil { transform: scale(0.65); }
+.profe[data-mood="pain"] .brow.l { transform: rotate(-14deg); }
+.profe[data-mood="pain"] .brow.r { transform: rotate(14deg); }
+.profe[data-mood="smug"] .brow.l { transform: translateY(-3px) rotate(-6deg); }
+.profe[data-mood="smug"] .brow.r { transform: translateY(2px) rotate(8deg); }
+.profe .sweat { fill: var(--sweat); opacity: 0; transition: opacity 0.2s; }
+.profe[data-mood="shout"] .sweat,
+.profe[data-mood="pain"] .sweat { opacity: 1; }
+
+.av.shake { animation: shake 0.35s linear 3; }
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  20% { transform: translate(-2px, 1px) rotate(-2deg); }
+  40% { transform: translate(2px, -1px) rotate(2deg); }
+  60% { transform: translate(-2px, -1px) rotate(-1deg); }
+  80% { transform: translate(2px, 1px) rotate(1deg); }
+}
+
+.bubble {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border: 2px dashed var(--chalk-dim);
+  border-radius: 16px 14px 16px 6px;
+  padding: 12px 14px;
+  background: var(--board-hi);
+}
+.bubble::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 28px;
+  width: 14px;
+  height: 14px;
+  background: var(--board-hi);
+  border-left: 2px dashed var(--chalk-dim);
+  border-bottom: 2px dashed var(--chalk-dim);
+  transform: rotate(45deg);
+}
+.bubble p {
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.bubble.pop { animation: pop 0.18s ease-out; }
+@keyframes pop { from { transform: scale(0.96); opacity: 0.4; } to { transform: scale(1); opacity: 1; } }
+.stage.loud .bubble { border-color: var(--red); }
+.stage.loud .bubble p { text-transform: uppercase; }
+
+/* ---------- Pantalla de inicio ---------- */
+.title {
+  font-family: var(--f-display);
+  font-size: clamp(2.6rem, 12vw, 4.2rem);
+  line-height: 0.98;
+}
+.title em {
+  font-style: normal;
+  color: var(--yellow);
+  display: inline-block;
+  transform: rotate(-2deg);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
+}
+.lead { color: var(--chalk-dim); font-size: 1.15rem; }
+
+.card {
+  border: 2px dashed var(--chalk-dim);
+  border-radius: 16px 8px 14px 10px;
+  padding: 16px;
+}
+.rules { display: flex; flex-direction: column; gap: 12px; }
+.rules ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.rules li { padding-left: 1.4em; position: relative; }
+.rules li::before { content: "–"; position: absolute; left: 0; color: var(--yellow); }
+.scale { width: 100%; border-collapse: collapse; font-family: var(--f-util); font-size: 0.9rem; }
+.scale th, .scale td { padding: 6px 4px; text-align: left; border-bottom: 1px dashed var(--chalk-dim); }
+.scale th { color: var(--chalk-dim); font-weight: 400; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72rem; }
+.scale td.n, .scale th.n { text-align: center; font-variant-numeric: tabular-nums; }
+.fine { font-size: 0.95rem; color: var(--chalk-dim); }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field input {
+  font-family: var(--f-body);
+  font-size: 1.2rem;
+  color: var(--chalk);
+  background: rgba(0, 0, 0, 0.22);
+  border: 2px solid var(--chalk-dim);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.field input::placeholder { color: var(--chalk-dim); opacity: 0.8; }
+
+/* ---------- Juego ---------- */
+.board-head { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
+.score { display: flex; flex-direction: column; }
+.score b { font-family: var(--f-display); font-size: 2.8rem; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums; }
+.score.you b { color: var(--yellow); }
+.score.profe { text-align: right; }
+.board-head .mid { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.tag {
+  font-family: var(--f-util);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--chalk-dim);
+  border-radius: 4px;
+  padding: 2px 8px;
+  color: var(--chalk);
+}
+
+.hys { display: flex; flex-direction: column; gap: 6px; }
+.hys-top { display: flex; justify-content: space-between; gap: 8px; }
+.hys-track {
+  position: relative;
+  height: 14px;
+  border: 2px solid var(--chalk-dim);
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--ok), var(--yellow) 55%, var(--red));
+}
+.hys-cover { position: absolute; top: 0; right: 0; bottom: 0; width: 100%; background: var(--board); transition: width 0.4s; }
+
+.q-card { display: flex; flex-direction: column; gap: 14px; }
+.q-text { font-family: var(--f-display); font-size: 1.45rem; line-height: 1.2; overflow-wrap: anywhere; }
+.pbet { display: flex; flex-direction: column; gap: 6px; }
+.pbet-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.pbet-line b { color: var(--yellow); font-weight: 400; font-family: var(--f-display); }
+.pbar { height: 8px; border: 1.5px solid var(--chalk-dim); border-radius: 6px; overflow: hidden; }
+.pbar i { display: block; height: 100%; width: 0; background: var(--chalk); transition: width 0.3s; }
+
+.bets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.bet-opt {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 4px;
+  border: 2px solid var(--chalk-dim);
+  background: transparent;
+  border-radius: 10px 6px 12px 8px;
+  cursor: pointer;
+  min-height: 56px;
+  color: var(--chalk);
+}
+.bet-opt .bn { font-size: 1rem; line-height: 1.1; text-align: center; }
+.bet-opt .bp { font-family: var(--f-util); font-size: 0.78rem; color: var(--chalk-dim); }
+.bet-opt.on { background: var(--yellow); border-color: var(--yellow); color: var(--board); }
+.bet-opt.on .bp { color: var(--board); }
+.bet-opt:disabled { cursor: default; }
+
+.wild { display: flex; flex-wrap: wrap; gap: 8px; }
+.notice-box { display: flex; flex-direction: column; gap: 8px; }
+.notice {
+  border: 1.5px dashed var(--yellow);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--yellow);
+  font-size: 1rem;
+}
+
+.opts { display: grid; gap: 10px; }
+.opt {
+  appearance: none;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 2px solid var(--chalk-dim);
+  border-radius: 12px 8px 14px 8px;
+  background: transparent;
+  color: var(--chalk);
+  cursor: pointer;
+}
+.opt:hover:not(:disabled) { border-color: var(--yellow); }
+.opt:disabled { cursor: default; color: var(--chalk); }
+.opt .ltr { font-family: var(--f-display); color: var(--yellow); font-size: 1.3rem; min-width: 1.4rem; text-align: center; }
+.opt .txt { min-width: 0; overflow-wrap: anywhere; }
+.opt .tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.mini {
+  font-family: var(--f-util);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+}
+.opt.correct { border-color: var(--ok); background: var(--ok-bg); }
+.opt.wrong { border-color: var(--red); background: var(--red-bg); }
+.opt.picked { border-color: var(--yellow); }
+.opt.gone { opacity: 0.28; text-decoration: line-through; }
+
+.vf { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.vf .opt { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 4px; padding: 14px 8px; }
+.vf .opt .big { font-family: var(--f-display); font-size: 1.7rem; color: var(--chalk); line-height: 1; }
+.vf .opt .tags { min-height: 1.2rem; }
+
+.ord-ctl { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.year { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.year input {
+  font-family: var(--f-display);
+  font-size: 1.7rem;
+  width: 7.5ch;
+  text-align: center;
+  color: var(--chalk);
+  background: rgba(0, 0, 0, 0.22);
+  border: 2px solid var(--chalk-dim);
+  border-radius: 10px;
+  padding: 6px 8px;
+}
+.year-hint { margin-top: 8px; }
+
+.result { display: flex; flex-direction: column; gap: 14px; }
+.res-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.res {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 6px;
+  border: 2px dashed var(--chalk-dim);
+  border-radius: 12px 8px 12px 8px;
+  text-align: center;
+}
+.res b { font-family: var(--f-display); font-weight: 400; font-size: 2.3rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.res.pos b { color: var(--ok); }
+.res.neg b { color: var(--red); }
+.res.zero b { color: var(--chalk-dim); }
+.facts { display: flex; flex-direction: column; gap: 8px; }
+.facts p span.v { overflow-wrap: anywhere; }
+.note { color: var(--chalk-dim); font-size: 1.05rem; }
+
+/* ---------- Boletín ---------- */
+.boletin {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 18px;
+  font-family: var(--f-util);
+  transform: rotate(-0.6deg);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.boletin h2 { font-family: var(--f-display); font-size: 1.7rem; color: var(--ink); }
+.boletin .util { color: var(--ink-dim); }
+.tbl { overflow-x: auto; }
+.boletin table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.boletin th, .boletin td { padding: 7px 4px; border-bottom: 1px dashed var(--ink-dim); text-align: left; }
+.boletin th { font-weight: 400; color: var(--ink-dim); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.boletin .n { text-align: center; font-variant-numeric: tabular-nums; }
+.boletin tfoot td { border-bottom: 0; border-top: 2px solid var(--ink); font-weight: 700; }
+.nota { display: flex; align-items: center; gap: 16px; }
+.nota b {
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: 2.8rem;
+  color: var(--stamp);
+  border: 3px solid var(--stamp);
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+  display: grid;
+  place-items: center;
+  transform: rotate(-8deg);
+  flex: none;
+}
+.nota span { font-size: 1.2rem; color: var(--stamp); }
+.bol-stats { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; }
+.end-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+#copy-fb { user-select: all; overflow-wrap: anywhere; }
+
+@media (min-width: 560px) {
+  .av { width: 120px; }
+  .stage.big .av { width: 170px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .av.shake, .bubble.pop { animation: none; }
+  .hys-cover, .pbar i, .profe .brow, .profe .tuft, .profe .pupil { transition: none; }
+}
+</style>
+
+<main class="wrap">
+
+  <!-- INICIO -->
+  <section id="screen-start">
+    <div class="stage big loud">
+      <div class="av" id="avatar-start"></div>
+      <div class="bubble"><p>¡Silencio en el aula! Hoy tomo lección y no quiero ni una mosca.</p></div>
+    </div>
+    <h1 class="title">El Profe <em>Histérico</em></h1>
+    <p class="lead">Cultura general argentina. Vos contra el profe, y el profe no sabe perder.</p>
+
+    <div class="card rules">
+      <ul>
+        <li>10 preguntas de historia, geografía, costumbres y deportes, en cuatro formatos: elegir, posta o mito, ordenar y adivinar el año.</li>
+        <li>Antes de contestar apostás qué tan seguro estás. El profe también apuesta y te avisa cuánto confía en su respuesta.</li>
+        <li>Tenés tres comodines, uno de cada: 50/50, chusmear al profe y doble o nada.</li>
+        <li>Cada error y cada acierto del profe sube el medidor de histeria. Mirá cómo se pone.</li>
+      </ul>
+      <table class="scale">
+        <thead><tr><th>Apuesta</th><th class="n">Acertás</th><th class="n">Fallás</th></tr></thead>
+        <tbody>
+          <tr><td>Tiro al voleo</td><td class="n">+1</td><td class="n">0</td></tr>
+          <tr><td>Más o menos</td><td class="n">+2</td><td class="n">−1</td></tr>
+          <tr><td>Seguro</td><td class="n">+3</td><td class="n">−2</td></tr>
+        </tbody>
+      </table>
+      <p class="fine">El profe es un personaje del juego: acierta más o menos según la dificultad de cada pregunta.</p>
+    </div>
+
+    <div class="field">
+      <label class="util" for="name-input">Tu nombre (el profe lo va a gritar)</label>
+      <input id="name-input" type="text" maxlength="14" autocomplete="given-name" placeholder="Opcional">
+    </div>
+    <button id="start-btn" class="btn primary" type="button">Empezar la clase</button>
+  </section>
+
+  <!-- JUEGO -->
+  <section id="screen-game" hidden>
+    <header class="board-head">
+      <div class="score you"><span class="util">Vos</span><b id="sc-you">0</b></div>
+      <div class="mid"><span class="util" id="round-label"></span><span class="tag" id="cat-label"></span></div>
+      <div class="score profe"><span class="util">Profe</span><b id="sc-profe">0</b></div>
+    </header>
+
+    <div class="hys">
+      <div class="hys-top"><span class="util">Histeria del profe</span><span class="util" id="hys-label"></span></div>
+      <div class="hys-track"><div class="hys-cover" id="hys-cover"></div></div>
+    </div>
+
+    <div class="stage" id="stage-game">
+      <div class="av" id="avatar-game"></div>
+      <div class="bubble" id="bubble"><p id="bubble-text" aria-live="polite"></p></div>
+    </div>
+
+    <article class="card q-card">
+      <div>
+        <p class="util" id="type-label"></p>
+        <p class="q-text" id="q-text"></p>
+      </div>
+
+      <div class="pbet">
+        <div class="pbet-line"><span class="util">El profe apuesta</span><b id="pb-tier"></b><span id="pb-conf" class="util"></span></div>
+        <div class="pbar"><i id="pb-fill"></i></div>
+      </div>
+
+      <div>
+        <p class="util" style="margin-bottom:6px">Tu apuesta</p>
+        <div class="bets" role="group" aria-label="Tu apuesta">
+          <button class="bet-opt" type="button" data-bet="voleo" aria-pressed="false"><span class="bn">Tiro al voleo</span><span class="bp">+1 / 0</span></button>
+          <button class="bet-opt" type="button" data-bet="medio" aria-pressed="true"><span class="bn">Más o menos</span><span class="bp">+2 / −1</span></button>
+          <button class="bet-opt" type="button" data-bet="seguro" aria-pressed="false"><span class="bn">Seguro</span><span class="bp">+3 / −2</span></button>
+        </div>
+      </div>
+
+      <div class="wild" role="group" aria-label="Comodines">
+        <button class="btn sm" type="button" id="wild-fifty">50/50</button>
+        <button class="btn sm" type="button" id="wild-peek">Chusmear al profe</button>
+        <button class="btn sm" type="button" id="wild-dbl" aria-pressed="false">Doble o nada</button>
+      </div>
+
+      <div class="notice-box" id="notice" hidden></div>
+
+      <div id="answer-area"></div>
+    </article>
+
+    <article class="card result" id="result" hidden>
+      <div class="res-row">
+        <div class="res" id="res-you-box"><span class="util">Vos</span><b id="res-you-pts"></b><span class="util" id="res-you-state"></span></div>
+        <div class="res" id="res-profe-box"><span class="util">Profe</span><b id="res-profe-pts"></b><span class="util" id="res-profe-state"></span></div>
+      </div>
+      <div class="facts">
+        <p><span class="util">Respuesta correcta</span><br><span class="v" id="res-correct"></span></p>
+        <p><span class="util">Vos respondiste</span><br><span class="v" id="res-you"></span></p>
+        <p><span class="util">El profe respondió</span><br><span class="v" id="res-profe"></span></p>
+      </div>
+      <p class="note" id="res-note"></p>
+      <button class="btn primary" type="button" id="next-btn">Siguiente pregunta</button>
+    </article>
+  </section>
+
+  <!-- FINAL -->
+  <section id="screen-end" hidden>
+    <div class="stage">
+      <div class="av" id="avatar-end"></div>
+      <div class="bubble"><p id="end-bubble"></p></div>
+    </div>
+
+    <article class="boletin">
+      <h2>Boletín de calificaciones</h2>
+      <p class="util" id="bol-name"></p>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Materia</th><th class="n">Vos</th><th class="n">Profe</th></tr></thead>
+          <tbody id="bol-rows"></tbody>
+          <tfoot><tr><td>Total</td><td class="n" id="bol-you"></td><td class="n" id="bol-profe"></td></tr></tfoot>
+        </table>
+      </div>
+      <div class="nota"><b id="bol-nota"></b><span id="bol-word"></span></div>
+      <div class="bol-stats">
+        <p id="bol-points"></p>
+        <p id="bol-bets"></p>
+        <p id="bol-record"></p>
+      </div>
+    </article>
+
+    <div class="end-actions">
+      <button class="btn primary" type="button" id="again-btn">Pedir revancha</button>
+      <button class="btn" type="button" id="copy-btn">Copiar resultado</button>
+    </div>
+    <p class="util" id="copy-fb" hidden></p>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  function $(id) { return document.getElementById(id); }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function rint(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+  function signed(n) { return n > 0 ? '+' + n : (n < 0 ? '−' + Math.abs(n) : '0'); }
+  function plain(n) { return n < 0 ? '−' + Math.abs(n) : String(n); }
+
+  var CATS = ['Historia', 'Geografía', 'Cultura y costumbres', 'Educación Física'];
+  var TYPE = { mc: 'Elegí la correcta', vf: 'Posta o mito', or: 'Ordená la línea de tiempo', an: 'Adiviná el año' };
+  var TIERN = { voleo: 'Tiro al voleo', medio: 'Más o menos', seguro: 'Seguro' };
+  var TABLE = { voleo: [1, 0], medio: [2, -1], seguro: [3, -2] };
+  var PCORRECT = { 1: 0.9, 2: 0.72, 3: 0.5 };
+
+  /* ---------------- Banco de preguntas ---------------- */
+  var BANK = [
+    // Elegir
+    { t: 'mc', cat: 'Historia', d: 1, q: '¿Quién creó la bandera argentina?', o: ['Manuel Belgrano', 'José de San Martín', 'Mariano Moreno', 'Juan Manuel de Rosas'], a: 0, note: 'Belgrano la izó por primera vez en Rosario, en 1812.' },
+    { t: 'mc', cat: 'Historia', d: 1, q: '¿En qué año se declaró la Independencia, en Tucumán?', o: ['1810', '1816', '1819', '1853'], a: 1, note: 'El Congreso de Tucumán la declaró el 9 de julio de 1816.' },
+    { t: 'mc', cat: 'Historia', d: 2, q: '¿Quién lideró la batalla de San Lorenzo, en 1813?', o: ['José de San Martín', 'Manuel Belgrano', 'Martín Miguel de Güemes', 'Cornelio Saavedra'], a: 0, note: 'Fue el bautismo de fuego de los Granaderos a Caballo.' },
+    { t: 'mc', cat: 'Historia', d: 2, q: '¿Durante qué presidencia se sancionó la ley del voto femenino, en 1947?', o: ['Juan Domingo Perón', 'Hipólito Yrigoyen', 'Domingo F. Sarmiento', 'Julio A. Roca'], a: 0, note: 'La ley 13.010 es de 1947, y las mujeres votaron por primera vez a nivel nacional en 1951.' },
+    { t: 'mc', cat: 'Cultura y costumbres', d: 1, q: '¿Qué plato se come tradicionalmente el 25 de Mayo?', o: ['Locro', 'Milanesa napolitana', 'Asado de tira', 'Sorrentinos'], a: 0, note: 'El locro es el plato patrio por excelencia.' },
+    { t: 'mc', cat: 'Cultura y costumbres', d: 2, q: '¿Quién escribió el poema Martín Fierro?', o: ['José Hernández', 'Ricardo Güiraldes', 'Leopoldo Lugones', 'Jorge Luis Borges'], a: 0, note: 'La ida se publicó en 1872 y La vuelta en 1879.' },
+    { t: 'mc', cat: 'Cultura y costumbres', d: 3, q: '¿Qué argentino ganó el Nobel de Medicina en 1984?', o: ['César Milstein', 'Bernardo Houssay', 'Luis Federico Leloir', 'René Favaloro'], a: 0, note: 'Houssay ganó el de Medicina en 1947 y Leloir el de Química en 1970.' },
+    { t: 'mc', cat: 'Cultura y costumbres', d: 2, q: '¿Qué instrumento es el símbolo del tango?', o: ['Bandoneón', 'Charango', 'Bombo legüero', 'Quena'], a: 0, note: 'El bandoneón llegó de Alemania a fines del siglo XIX.' },
+    { t: 'mc', cat: 'Geografía', d: 1, q: '¿Cuál es la montaña más alta de América?', o: ['Aconcagua', 'Fitz Roy', 'Tronador', 'Lanín'], a: 0, note: 'El Aconcagua, en Mendoza, mide casi 6.960 metros.' },
+    { t: 'mc', cat: 'Geografía', d: 2, q: '¿Cuál de estas ciudades es capital de provincia?', o: ['Rosario', 'Mar del Plata', 'Posadas', 'San Carlos de Bariloche'], a: 2, note: 'Posadas es la capital de Misiones.' },
+    { t: 'mc', cat: 'Geografía', d: 2, q: '¿Qué provincia produce más yerba mate?', o: ['Misiones', 'Corrientes', 'Entre Ríos', 'Chaco'], a: 0, note: 'Misiones concentra la mayor parte de la producción, seguida por Corrientes.' },
+    { t: 'mc', cat: 'Geografía', d: 1, q: '¿En qué provincia están las Cataratas del Iguazú?', o: ['Misiones', 'Corrientes', 'Salta', 'Jujuy'], a: 0, note: 'Están en el Parque Nacional Iguazú, en el norte de Misiones.' },
+    { t: 'mc', cat: 'Educación Física', d: 1, q: '¿Contra quién jugó Argentina la final del Mundial 2022?', o: ['Francia', 'Croacia', 'Países Bajos', 'Brasil'], a: 0, note: 'Fue 3 a 3 y se definió por penales en Qatar.' },
+
+    // Posta o mito
+    { t: 'vf', cat: 'Historia', d: 2, q: 'Buenos Aires fue fundada una sola vez, en 1536.', a: false, note: 'Pedro de Mendoza la fundó en 1536 y Juan de Garay la refundó en 1580.' },
+    { t: 'vf', cat: 'Historia', d: 1, q: 'San Martín cruzó los Andes al frente del Ejército de los Andes en 1817.', a: true, note: 'El cruce empezó en enero de 1817 y terminó con la victoria de Chacabuco.' },
+    { t: 'vf', cat: 'Historia', d: 2, q: 'El Himno Nacional se canta completo, tal como se escribió en 1813.', a: false, note: 'Se canta abreviado: un decreto de 1900 dejó afuera varias estrofas.' },
+    { t: 'vf', cat: 'Cultura y costumbres', d: 2, q: 'Está comprobado que el dulce de leche nació por el descuido de una cocinera de Rosas.', a: false, note: 'Es una leyenda popular, sin pruebas históricas.' },
+    { t: 'vf', cat: 'Cultura y costumbres', d: 2, q: 'El mate se toma con agua hirviendo.', a: false, note: 'Lo ideal es agua caliente, entre 70 y 80 grados. Hirviendo quema la yerba.' },
+    { t: 'vf', cat: 'Cultura y costumbres', d: 2, q: 'La UNESCO declaró al tango Patrimonio Cultural Inmaterial de la Humanidad.', a: true, note: 'Fue en 2009, junto con Uruguay.' },
+    { t: 'vf', cat: 'Cultura y costumbres', d: 2, q: 'El Obelisco se construyó para festejar los 400 años de la primera fundación de Buenos Aires.', a: true, note: 'Se levantó en pocas semanas, en 1936.' },
+    { t: 'vf', cat: 'Geografía', d: 1, q: 'Argentina limita con Perú.', a: false, note: 'Limita con Chile, Bolivia, Paraguay, Brasil y Uruguay.' },
+    { t: 'vf', cat: 'Geografía', d: 3, q: 'Ushuaia es el lugar poblado más austral del planeta.', a: false, note: 'Puerto Williams, en Chile, queda más al sur.' },
+    { t: 'vf', cat: 'Geografía', d: 2, q: 'Argentina es el país de habla hispana con mayor superficie.', a: true, note: 'Supera a México por más de 800.000 km².' },
+    { t: 'vf', cat: 'Educación Física', d: 1, q: 'Argentina ganó el Mundial de fútbol en 1978, 1986 y 2022.', a: true, note: 'Tres estrellas sobre el pecho.' },
+
+    // Ordenar
+    { t: 'or', cat: 'Historia', d: 2, q: 'Del más antiguo al más reciente.', items: [
+      { l: 'Revolución de Mayo', y: 1810 }, { l: 'Declaración de la Independencia', y: 1816 },
+      { l: 'Constitución Nacional', y: 1853 }, { l: 'Ley del voto femenino', y: 1947 } ], note: 'La Constitución original es de 1853.' },
+    { t: 'or', cat: 'Historia', d: 2, q: 'Del más antiguo al más reciente.', items: [
+      { l: 'Refundación de Buenos Aires por Garay', y: 1580 }, { l: 'Virreinato del Río de la Plata', y: 1776 },
+      { l: 'Invasiones inglesas', y: 1806 }, { l: 'Batalla de Tucumán', y: 1812 } ], note: 'El Virreinato se creó en 1776 con capital en Buenos Aires.' },
+    { t: 'or', cat: 'Historia', d: 2, q: 'Del más antiguo al más reciente.', items: [
+      { l: 'Mundial de 1978', y: 1978 }, { l: 'Guerra de Malvinas', y: 1982 },
+      { l: 'Vuelta de la democracia', y: 1983 }, { l: 'Mundial de México', y: 1986 } ], note: 'La democracia volvió el 10 de diciembre de 1983.' },
+    { t: 'or', cat: 'Cultura y costumbres', d: 3, q: 'Del más antiguo al más reciente.', items: [
+      { l: 'Nobel de Medicina a Houssay', y: 1947 }, { l: 'Nobel de Química a Leloir', y: 1970 },
+      { l: 'Nobel de la Paz a Pérez Esquivel', y: 1980 }, { l: 'Nobel de Medicina a Milstein', y: 1984 } ], note: 'Cuatro argentinos, cuatro Nobel.' },
+    { t: 'or', cat: 'Historia', d: 2, q: 'Del más antiguo al más reciente.', items: [
+      { l: 'Presidencia de Sarmiento', y: 1868 }, { l: 'Primera presidencia de Roca', y: 1880 },
+      { l: 'Presidencia de Yrigoyen', y: 1916 }, { l: 'Primera presidencia de Perón', y: 1946 } ], note: 'Yrigoyen fue el primer presidente elegido con voto secreto y obligatorio.' },
+
+    // Adiviná el año
+    { t: 'an', cat: 'Cultura y costumbres', d: 2, q: '¿En qué año murió Carlos Gardel?', a: 1935, tol: 2, note: 'Murió en un accidente aéreo en Medellín, el 24 de junio de 1935.' },
+    { t: 'an', cat: 'Educación Física', d: 2, q: '¿En qué año se fundó el Club Atlético Boca Juniors?', a: 1905, tol: 3, note: 'Lo fundaron jóvenes hijos de inmigrantes italianos en el barrio de La Boca.' },
+    { t: 'an', cat: 'Historia', d: 3, q: '¿En qué año fue el Cordobazo?', a: 1969, tol: 2, note: 'La protesta obrera y estudiantil estalló en Córdoba en mayo de 1969.' },
+    { t: 'an', cat: 'Cultura y costumbres', d: 3, q: '¿En qué año se inauguró la primera línea del subte porteño, la Línea A?', a: 1913, tol: 3, note: 'Fue el primer subte de Latinoamérica y del hemisferio sur.' },
+    { t: 'an', cat: 'Cultura y costumbres', d: 3, q: '¿En qué año se inauguró el actual Teatro Colón?', a: 1908, tol: 2, note: 'Abrió sus puertas el 25 de mayo de 1908 con la ópera Aída.' },
+    { t: 'an', cat: 'Historia', d: 3, q: '¿En qué año se fundó la Universidad de Buenos Aires?', a: 1821, tol: 3, note: 'La impulsó Bernardino Rivadavia.' }
+  ];
+
+  /* ---------------- Frases del profe ---------------- */
+  var PRE = [
+    'A ver, {n}, concentrate.',
+    'Pregunta nueva. Ojo con la letra chica.',
+    'Silencio en el aula.',
+    'Esta me la sé de memoria. ¿Y vos?',
+    'Dejá el celular. Ah, no, es el celular el que juega.',
+    'No mires al compañero. Ah, no hay compañero.'
+  ];
+  var R = {
+    easy: ['Era fácil.', 'Era fácil, {n}. No te agrandes.', 'Hasta mi sobrino lo sabía. Era fácil.'],
+    okok: ['Bien por ahora, {n}. La próxima te la complico.', 'Bien... por ahora.', 'Acertaste. No te acostumbres, que viene una peor.'],
+    uOkpNo: [
+      '¡Eso fue suerte! ¡Pura suerte, {n}! ¡No me mires así!',
+      '¡Estaba mal formulada! ¡Quiero hablar con el director!',
+      '¡Seguro lo googleaste! ¡Mostrame las manos!',
+      'Bien por ahora, {n}... ¡pero esto no queda así!'
+    ],
+    uNoPOk: [
+      '¡Dale, no seas burro, {n}!',
+      '¡Pero {n}! ¿En qué escuela estudiaste?',
+      '¡Dale, {n}, por favor! Eso lo vimos en tercer grado.',
+      '¡Esto va directo a tu legajo!',
+      '¡Yo sí estudié, {n}! ¡Yo sí!',
+      '¡Me estás matando, {n}! ¡Me-es-tás-ma-tan-do!'
+    ],
+    bothNo: [
+      '¡Los dos mal! Es culpa del plan de estudios, no mía.',
+      '¡Eso no cuenta! ¡La pregunta estaba mal redactada!',
+      '¡Falló el manual, {n}! ¡No yo! ¡El manual!',
+      'Dale, no seas burro... y yo tampoco, ¿eh? Fue un error de imprenta.'
+    ]
+  };
+  var END = {
+    win: ['¡Ganaste! ¡No puede ser! Esto lo hablo con el director.', 'Bien... por esta vez. Mañana te tomo oral, {n}.'],
+    lose: ['¡Reprobado, {n}! A mesa de examen en febrero.', '¡Dale, no seas burro! Te quedás de recreo estudiando.'],
+    tie: ['¡Empate! Y encima me tengo que quedar a corregir.']
+  };
+
+  /* ---------------- Estado ---------------- */
+  var state = null;
+
+  function pickGame() {
+    var by = { mc: [], vf: [], or: [], an: [] };
+    BANK.forEach(function (q) { by[q.t].push(q); });
+    var plan = { mc: 4, vf: 2, or: 2, an: 2 };
+    var out = [];
+    Object.keys(plan).forEach(function (k) {
+      out = out.concat(shuffle(by[k].slice()).slice(0, plan[k]));
+    });
+    return shuffle(out);
+  }
+
+  function prepare(q) {
+    var r = { q: q, t: q.t };
+    if (q.t === 'mc') {
+      var idx = shuffle([0, 1, 2, 3]);
+      r.opts = idx.map(function (i) { return q.o[i]; });
+      r.correct = idx.indexOf(q.a);
+    }
+    if (q.t === 'or') {
+      r.sorted = q.items.slice().sort(function (a, b) { return a.y - b.y; });
+      var sh;
+      do { sh = shuffle(q.items.slice()); }
+      while (sh.every(function (it, i) { return it === r.sorted[i]; }));
+      r.shuffled = sh;
+    }
+    var p = PCORRECT[q.d];
+    r.profeOk = Math.random() < p;
+    r.conf = clamp(Math.round(p * 100 + (Math.random() * 18 - 9)), 38, 97);
+    r.profeTier = r.conf >= 80 ? 'seguro' : (r.conf >= 62 ? 'medio' : 'voleo');
+    if (q.t === 'mc') {
+      var wrongs = [0, 1, 2, 3].filter(function (i) { return i !== r.correct; });
+      r.profeAns = r.profeOk ? r.correct : pick(wrongs);
+    } else if (q.t === 'vf') {
+      r.profeAns = r.profeOk ? q.a : !q.a;
+    } else if (q.t === 'or') {
+      var arr = r.sorted.slice();
+      if (!r.profeOk) {
+        var k = rint(0, arr.length - 2);
+        var tmp = arr[k]; arr[k] = arr[k + 1]; arr[k + 1] = tmp;
+      }
+      r.profeAns = arr;
+    } else {
+      r.profeAns = r.profeOk ? q.a : q.a + (Math.random() < 0.5 ? -1 : 1) * (q.tol + rint(5, 25));
+    }
+    return r;
+  }
+
+  function newGame(name, hasName) {
+    state = {
+      name: name || 'che', hasName: !!hasName,
+      rounds: pickGame().map(prepare), i: 0,
+      you: 0, profe: 0, hys: 0,
+      used: { fifty: false, peek: false, dbl: false },
+      act: { fifty: false, peek: false, dbl: false },
+      bet: 'medio', locked: false, seq: [], youAns: null, results: []
+    };
+  }
+  function cur() { return state.rounds[state.i]; }
+
+  /* ---------------- Profe (SVG) ---------------- */
+  function profeSVG() {
+    return '<svg class="profe" viewBox="0 0 200 220" role="img" aria-label="El profe de historia" data-mood="neutral" data-hys="lo">' +
+      '<path class="jacket" d="M16 220 Q16 168 66 158 L134 158 Q184 168 184 220 Z"/>' +
+      '<path class="shirt" d="M84 158 L100 188 L116 158 Z"/>' +
+      '<path class="tie" d="M94 160 L106 160 L103 171 L97 171 Z"/>' +
+      '<path class="tie" d="M97 171 L103 171 L108 204 L100 213 L92 204 Z"/>' +
+      '<rect class="skin" x="88" y="138" width="24" height="24"/>' +
+      '<path class="tuft hair" d="M53 70 C36 58 26 74 38 80 C28 88 40 98 54 92 Z"/>' +
+      '<path class="tuft hair" d="M147 70 C164 58 174 74 162 80 C172 88 160 98 146 92 Z"/>' +
+      '<circle class="skin" cx="49" cy="98" r="9"/><circle class="skin" cx="151" cy="98" r="9"/>' +
+      '<ellipse class="skin" cx="100" cy="92" rx="52" ry="62"/>' +
+      '<ellipse class="shine" cx="84" cy="46" rx="14" ry="6" transform="rotate(-20 84 46)"/>' +
+      '<circle class="blush" cx="66" cy="116" r="9"/><circle class="blush" cx="134" cy="116" r="9"/>' +
+      '<line class="brow l" x1="60" y1="68" x2="92" y2="68"/><line class="brow r" x1="108" y1="68" x2="140" y2="68"/>' +
+      '<line class="frame" x1="61" y1="92" x2="50" y2="90"/><line class="frame" x1="139" y1="92" x2="150" y2="90"/>' +
+      '<path class="frame" d="M95 94 Q100 90 105 94"/>' +
+      '<circle class="lens" cx="78" cy="94" r="17"/><circle class="lens" cx="122" cy="94" r="17"/>' +
+      '<circle class="pupil" cx="78" cy="94" r="5"/><circle class="pupil" cx="122" cy="94" r="5"/>' +
+      '<path class="nose" d="M100 98 Q92 112 101 116"/>' +
+      '<path class="hair" d="M68 121 Q84 110 100 121 Q116 110 132 121 Q116 131 100 125 Q84 131 68 121 Z"/>' +
+      '<g class="mouth m-neutral"><path class="m-line" d="M90 138 Q100 141 110 138"/></g>' +
+      '<g class="mouth m-smug"><path class="m-line" d="M86 135 Q100 149 114 135"/></g>' +
+      '<g class="mouth m-shout"><ellipse class="m-in" cx="100" cy="142" rx="16" ry="11"/><rect class="m-teeth" x="88" y="132" width="24" height="5"/><ellipse class="m-tongue" cx="100" cy="149" rx="8" ry="4"/></g>' +
+      '<g class="mouth m-pain"><path class="m-line" d="M88 147 Q100 134 112 147"/></g>' +
+      '<path class="sweat" d="M154 54 Q161 66 154 72 Q147 66 154 54 Z"/><path class="sweat" d="M46 54 Q53 66 46 72 Q39 66 46 54 Z"/>' +
+      '</svg>';
+  }
+
+  function setMoodOn(avatarEl, mood) {
+    var svg = avatarEl.querySelector('.profe');
+    svg.setAttribute('data-mood', mood);
+  }
+  function setMood(mood) {
+    var av = $('avatar-game');
+    setMoodOn(av, mood);
+    av.classList.remove('shake');
+    if (mood === 'shout' && state.hys >= 70) {
+      void av.offsetWidth;
+      av.classList.add('shake');
+    }
+  }
+
+  function say(text) {
+    var p = $('bubble-text');
+    p.textContent = text.replace(/\{n\}/g, state.name);
+    var b = $('bubble');
+    b.classList.remove('pop');
+    void b.offsetWidth;
+    b.classList.add('pop');
+  }
+
+  /* ---------------- Histeria y marcadores ---------------- */
+  function hysLabel(h) {
+    if (h < 25) return 'Tranquilo';
+    if (h < 50) return 'Nervioso';
+    if (h < 75) return 'Colorado';
+    if (h < 90) return 'Gritando';
+    return 'A punto de explotar';
+  }
+  function updateHys(delta) {
+    state.hys = clamp(state.hys + delta, 0, 100);
+    $('hys-cover').style.width = (100 - state.hys) + '%';
+    $('hys-label').textContent = hysLabel(state.hys);
+    var svg = $('avatar-game').querySelector('.profe');
+    svg.style.setProperty('--hys', (state.hys / 100).toFixed(2));
+    svg.setAttribute('data-hys', state.hys >= 70 ? 'hi' : 'lo');
+    $('stage-game').classList.toggle('loud', state.hys >= 60);
+  }
+  function updateScores() {
+    $('sc-you').textContent = plain(state.you);
+    $('sc-profe').textContent = plain(state.profe);
+  }
+
+  /* ---------------- Pantallas ---------------- */
+  function show(id) {
+    ['screen-start', 'screen-game', 'screen-end'].forEach(function (s) { $(s).hidden = (s !== id); });
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------------- Ronda ---------------- */
+  function formatAns(r, ans, years) {
+    if (r.t === 'mc') return String.fromCharCode(65 + ans) + ') ' + r.opts[ans];
+    if (r.t === 'vf') return ans ? 'Posta' : 'Mito';
+    if (r.t === 'or') {
+      return ans.map(function (x) { return x.l + (years ? ' (' + x.y + ')' : ''); }).join(' → ');
+    }
+    return String(ans);
+  }
+
+  function renderRound() {
+    var r = cur(), q = r.q;
+    state.locked = false;
+    state.act = { fifty: false, peek: false, dbl: false };
+    state.seq = [];
+    state.bet = 'medio';
+    state.youAns = null;
+    $('result').hidden = true;
+    var n = $('notice'); n.innerHTML = ''; n.hidden = true;
+    $('round-label').textContent = 'Pregunta ' + (state.i + 1) + ' de ' + state.rounds.length;
+    $('cat-label').textContent = q.cat;
+    $('type-label').textContent = TYPE[q.t];
+    $('q-text').textContent = q.q;
+    $('pb-tier').textContent = TIERN[r.profeTier];
+    $('pb-conf').textContent = r.conf + '% seguro';
+    $('pb-fill').style.width = r.conf + '%';
+    refreshBet();
+    refreshWild();
+    buildAnswer(r);
+    updateScores();
+    updateHys(0);
+    setMood(state.hys >= 60 ? 'shout' : 'neutral');
+    say(pick(PRE));
+  }
+
+  function refreshBet() {
+    var btns = document.querySelectorAll('.bet-opt');
+    Array.prototype.forEach.call(btns, function (b) {
+      var on = b.getAttribute('data-bet') === state.bet;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.disabled = state.locked;
+    });
+  }
+
+  function refreshWild() {
+    var r = cur();
+    var f = $('wild-fifty'), p = $('wild-peek'), d = $('wild-dbl');
+    f.disabled = state.locked || state.used.fifty || r.t !== 'mc';
+    p.disabled = state.locked || state.used.peek;
+    d.disabled = state.locked || state.used.dbl;
+    f.classList.toggle('used', state.used.fifty);
+    p.classList.toggle('used', state.used.peek);
+    d.classList.toggle('used', state.used.dbl);
+    d.classList.toggle('active', state.act.dbl);
+    d.setAttribute('aria-pressed', state.act.dbl ? 'true' : 'false');
+  }
+
+  function addNotice(text) {
+    var box = $('notice');
+    var p = el('p', 'notice');
+    p.textContent = text;
+    box.appendChild(p);
+    box.hidden = false;
+  }
+
+  function onWild(kind) {
+    if (state.locked) return;
+    var r = cur();
+    if (kind === 'fifty') {
+      if (state.used.fifty || r.t !== 'mc') return;
+      state.used.fifty = true; state.act.fifty = true;
+      var wrongs = shuffle([0, 1, 2, 3].filter(function (i) { return i !== r.correct; })).slice(0, 2);
+      var btns = $('answer-area').querySelectorAll('.opt');
+      wrongs.forEach(function (i) { btns[i].classList.add('gone'); btns[i].disabled = true; });
+      addNotice('50/50: te saqué dos opciones.');
+    } else if (kind === 'peek') {
+      if (state.used.peek) return;
+      state.used.peek = true; state.act.peek = true;
+      addNotice('Chusmeaste: el profe contestaría «' + formatAns(r, r.profeAns, false) + '». Ojo, el profe también falla.');
+      setMood('shout');
+      say('¡Eh! ¡No mires mi hoja, {n}!');
+      updateHys(3);
+    } else if (kind === 'dbl') {
+      if (state.used.dbl) return;
+      state.used.dbl = true; state.act.dbl = true;
+      addNotice('Doble o nada: si acertás ganás el doble, si fallás perdés el doble.');
+      setMood('smug');
+      say('¿Doble o nada? ¡Hay que tener agallas, {n}!');
+    }
+    refreshWild();
+  }
+
+  /* ---------------- Respuestas ---------------- */
+  function buildAnswer(r) {
+    var box = $('answer-area');
+    box.innerHTML = '';
+    var q = r.q;
+    var w, b, i;
+
+    if (r.t === 'mc') {
+      w = el('div', 'opts');
+      r.opts.forEach(function (txt, idx) {
+        var btn = el('button', 'opt');
+        btn.type = 'button';
+        btn.innerHTML = '<span class="ltr">' + String.fromCharCode(65 + idx) + '</span><span class="txt"></span><span class="tags"></span>';
+        btn.querySelector('.txt').textContent = txt;
+        btn.addEventListener('click', function () {
+          if (state.locked) return;
+          state.youAns = idx;
+          resolve(idx === r.correct);
+        });
+        w.appendChild(btn);
+      });
+      box.appendChild(w);
+    }
+
+    if (r.t === 'vf') {
+      w = el('div', 'vf');
+      [[true, 'Posta', 'Es cierto'], [false, 'Mito', 'Es falso']].forEach(function (o) {
+        var btn = el('button', 'opt');
+        btn.type = 'button';
+        btn.setAttribute('data-v', o[0] ? 'true' : 'false');
+        btn.innerHTML = '<span class="big">' + o[1] + '</span><span class="util">' + o[2] + '</span><span class="tags"></span>';
+        btn.addEventListener('click', function () {
+          if (state.locked) return;
+          state.youAns = o[0];
+          resolve(o[0] === q.a);
+        });
+        w.appendChild(btn);
+      });
+      box.appendChild(w);
+    }
+
+    if (r.t === 'or') {
+      w = el('div', 'opts');
+      var btns = [];
+      r.shuffled.forEach(function (item) {
+        var btn = el('button', 'opt');
+        btn.type = 'button';
+        btn.innerHTML = '<span class="ltr">·</span><span class="txt"></span><span class="tags"></span>';
+        btn.querySelector('.txt').textContent = item.l;
+        btn.addEventListener('click', function () {
+          if (state.locked || state.seq.indexOf(item) > -1) return;
+          state.seq.push(item);
+          btn.classList.add('picked');
+          btn.querySelector('.ltr').textContent = state.seq.length;
+          confirmBtn.disabled = state.seq.length !== r.shuffled.length;
+        });
+        btns.push(btn);
+        w.appendChild(btn);
+      });
+      box.appendChild(w);
+
+      var ctl = el('div', 'ord-ctl');
+      var clear = el('button', 'btn sm');
+      clear.type = 'button';
+      clear.textContent = 'Borrar orden';
+      clear.addEventListener('click', function () {
+        if (state.locked) return;
+        state.seq = [];
+        btns.forEach(function (b2) { b2.classList.remove('picked'); b2.querySelector('.ltr').textContent = '·'; });
+        confirmBtn.disabled = true;
+      });
+      var confirmBtn = el('button', 'btn primary');
+      confirmBtn.type = 'button';
+      confirmBtn.textContent = 'Confirmar orden';
+      confirmBtn.disabled = true;
+      confirmBtn.addEventListener('click', function () {
+        if (state.locked || state.seq.length !== r.shuffled.length) return;
+        state.youAns = state.seq.slice();
+        var ok = state.seq.every(function (it, k) { return it === r.sorted[k]; });
+        resolve(ok);
+      });
+      ctl.appendChild(clear);
+      ctl.appendChild(confirmBtn);
+      box.appendChild(ctl);
+      var hint = el('p', 'fine year-hint');
+      hint.textContent = 'Tocá los hechos en orden. El primero que toques es el más antiguo.';
+      box.appendChild(hint);
+    }
+
+    if (r.t === 'an') {
+      w = el('div', 'year');
+      var inp = el('input');
+      inp.id = 'year-input';
+      inp.type = 'number';
+      inp.inputMode = 'numeric';
+      inp.min = '1000';
+      inp.max = '2100';
+      inp.placeholder = '1900';
+      inp.setAttribute('aria-label', 'Año');
+      var go = el('button', 'btn primary');
+      go.type = 'button';
+      go.textContent = 'Tirar año';
+      var submit = function () {
+        if (state.locked) return;
+        var v = parseInt(inp.value, 10);
+        if (isNaN(v) || v < 1000 || v > 2100) {
+          if (!$('notice').querySelector('[data-year]')) {
+            var p = el('p', 'notice');
+            p.setAttribute('data-year', '1');
+            p.textContent = 'Escribí un año de cuatro cifras.';
+            $('notice').appendChild(p);
+            $('notice').hidden = false;
+          }
+          return;
+        }
+        state.youAns = v;
+        resolve(Math.abs(v - q.a) <= q.tol);
+      };
+      go.addEventListener('click', submit);
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') submit(); });
+      w.appendChild(inp);
+      w.appendChild(go);
+      box.appendChild(w);
+      var h2 = el('p', 'fine year-hint');
+      h2.textContent = q.tol > 0 ? 'Cuenta como acierto si te quedás a ' + q.tol + ' años o menos.' : 'Tiene que ser el año exacto.';
+      box.appendChild(h2);
+    }
+  }
+
+  function addTag(btn, text, cls) {
+    var tg = btn.querySelector('.tags');
+    var s = el('span', 'mini ' + (cls || ''));
+    s.textContent = text;
+    tg.appendChild(s);
+  }
+
+  function reaction(userOk, profeOk, d, bet, dbl) {
+    var s;
+    if (userOk && profeOk) s = (d === 1 && Math.random() < 0.65) ? pick(R.easy) : pick(R.okok);
+    else if (userOk && !profeOk) s = pick(R.uOkpNo);
+    else if (!userOk && profeOk) s = pick(R.uNoPOk);
+    else s = pick(R.bothNo);
+    var pre = '';
+    if (!userOk && dbl) pre = '¿Doble o nada? ¡Doble burrada! ';
+    else if (!userOk && bet === 'seguro') pre = '¡Y lo dijiste CON SEGURIDAD! ';
+    return pre + s;
+  }
+
+  function resolve(userOk) {
+    if (state.locked) return;
+    state.locked = true;
+    var r = cur(), q = r.q;
+    var mult = state.act.dbl ? 2 : 1;
+    var uPts = (userOk ? TABLE[state.bet][0] : TABLE[state.bet][1]) * mult;
+    var pPts = r.profeOk ? TABLE[r.profeTier][0] : TABLE[r.profeTier][1];
+    state.you += uPts;
+    state.profe += pPts;
+    state.results.push({ cat: q.cat, userOk: userOk, profeOk: r.profeOk, bet: state.bet });
+
+    // Histeria
+    var dh = 0;
+    if (!userOk) dh += 14;
+    if (!r.profeOk) dh += 20;
+    if (userOk && r.profeOk) dh -= 6;
+    if (userOk && state.bet === 'seguro') dh += 6;
+    updateHys(dh);
+    updateScores();
+
+    // Mostrar aciertos en las opciones
+    var area = $('answer-area');
+    var btns = area.querySelectorAll('.opt');
+    Array.prototype.forEach.call(btns, function (b) { b.disabled = true; });
+    if (r.t === 'mc') {
+      Array.prototype.forEach.call(btns, function (b, i) {
+        if (i === r.correct) b.classList.add('correct');
+        if (i === state.youAns && !userOk) b.classList.add('wrong');
+        if (i === state.youAns) addTag(b, 'VOS');
+        if (i === r.profeAns) addTag(b, 'PROFE');
+      });
+    } else if (r.t === 'vf') {
+      Array.prototype.forEach.call(btns, function (b) {
+        var v = b.getAttribute('data-v') === 'true';
+        if (v === q.a) b.classList.add('correct');
+        if (v === state.youAns && !userOk) b.classList.add('wrong');
+        if (v === state.youAns) addTag(b, 'VOS');
+        if (v === r.profeAns) addTag(b, 'PROFE');
+      });
+    } else {
+      var inp = $('year-input');
+      if (inp) inp.disabled = true;
+      var allBtns = area.querySelectorAll('.btn');
+      Array.prototype.forEach.call(allBtns, function (b) { b.disabled = true; });
+    }
+
+    // Panel de resultado
+    var correctAns = r.t === 'mc' ? r.correct : (r.t === 'vf' ? q.a : (r.t === 'or' ? r.sorted : q.a));
+    $('res-you-pts').textContent = signed(uPts);
+    $('res-profe-pts').textContent = signed(pPts);
+    $('res-you-box').className = 'res ' + (uPts > 0 ? 'pos' : (uPts < 0 ? 'neg' : 'zero'));
+    $('res-profe-box').className = 'res ' + (pPts > 0 ? 'pos' : (pPts < 0 ? 'neg' : 'zero'));
+    $('res-you-state').textContent = (userOk ? 'Acertaste' : 'Fallaste') + (state.act.dbl ? ' · doble' : '');
+    $('res-profe-state').textContent = r.profeOk ? 'Acertó' : 'Falló';
+    $('res-correct').textContent = formatAns(r, correctAns, true);
+    $('res-you').textContent = formatAns(r, state.youAns, false);
+    $('res-profe').textContent = formatAns(r, r.profeAns, false);
+    $('res-note').textContent = q.note || '';
+    $('res-note').hidden = !q.note;
+    $('next-btn').textContent = state.i < state.rounds.length - 1 ? 'Siguiente pregunta' : 'Ver el boletín';
+    $('result').hidden = false;
+
+    // Reacción del profe
+    var mood;
+    if (!userOk && r.profeOk) mood = 'shout';
+    else if (!userOk && !r.profeOk) mood = 'pain';
+    else if (userOk && !r.profeOk) mood = 'shout';
+    else mood = 'smug';
+    setMood(mood);
+    say(reaction(userOk, r.profeOk, q.d, state.bet, state.act.dbl));
+
+    refreshBet();
+    refreshWild();
+    try { $('result').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) { /* sin scroll suave */ }
+  }
+
+  /* ---------------- Final ---------------- */
+  function readBest() {
+    try { var v = localStorage.getItem('profe-historico-best'); return v === null ? null : parseInt(v, 10); } catch (e) { return null; }
+  }
+  function saveBest(v) {
+    try { localStorage.setItem('profe-historico-best', String(v)); } catch (e) { /* sin almacenamiento */ }
+  }
+
+  function notaWord(n) {
+    if (n >= 9) return 'Sobresaliente';
+    if (n >= 7) return 'Muy bueno';
+    if (n === 6) return 'Aprobado';
+    if (n >= 4) return 'A recuperatorio';
+    return 'Desaprobado';
+  }
+
+  function showEnd() {
+    var total = state.results.length;
+    var uOk = state.results.filter(function (x) { return x.userOk; }).length;
+    var pOk = state.results.filter(function (x) { return x.profeOk; }).length;
+
+    var tbody = $('bol-rows');
+    tbody.innerHTML = '';
+    CATS.forEach(function (c) {
+      var rows = state.results.filter(function (x) { return x.cat === c; });
+      if (!rows.length) return;
+      var tr = el('tr');
+      var tdName = el('td'); tdName.textContent = c;
+      var tdU = el('td', 'n'); tdU.textContent = rows.filter(function (x) { return x.userOk; }).length + ' de ' + rows.length;
+      var tdP = el('td', 'n'); tdP.textContent = rows.filter(function (x) { return x.profeOk; }).length + ' de ' + rows.length;
+      tr.appendChild(tdName); tr.appendChild(tdU); tr.appendChild(tdP);
+      tbody.appendChild(tr);
+    });
+    $('bol-you').textContent = uOk + ' de ' + total;
+    $('bol-profe').textContent = pOk + ' de ' + total;
+    $('bol-name').textContent = 'Alumno/a: ' + (state.hasName ? state.name : 'sin nombre') + ' · Curso: Historia, 5.º año';
+    $('bol-nota').textContent = uOk;
+    $('bol-word').textContent = notaWord(uOk);
+    $('bol-points').textContent = 'Puntaje final: vos ' + plain(state.you) + ', el profe ' + plain(state.profe) + '.';
+
+    var sure = state.results.filter(function (x) { return x.bet === 'seguro'; });
+    var sureWon = sure.filter(function (x) { return x.userOk; }).length;
+    $('bol-bets').textContent = sure.length ? 'Apuestas «Seguro» ganadas: ' + sureWon + ' de ' + sure.length + '.' : 'No apostaste «Seguro» ni una vez. Cobarde.';
+
+    var best = readBest();
+    var recText;
+    if (best === null || state.you > best) {
+      recText = best === null ? 'Primer puntaje guardado: ' + plain(state.you) + '.' : 'Récord nuevo: ' + plain(state.you) + ' (antes ' + plain(best) + ').';
+      saveBest(state.you);
+    } else {
+      recText = 'Tu mejor puntaje en este navegador: ' + plain(best) + '.';
+    }
+    $('bol-record').textContent = recText;
+
+    var key = state.you > state.profe ? 'win' : (state.you < state.profe ? 'lose' : 'tie');
+    var line = pick(END[key]).replace(/\{n\}/g, state.name);
+    $('end-bubble').textContent = line;
+    setMoodOn($('avatar-end'), key === 'win' ? 'pain' : (key === 'lose' ? 'smug' : 'neutral'));
+    $('avatar-end').querySelector('.profe').setAttribute('data-hys', key === 'win' ? 'hi' : 'lo');
+    $('avatar-end').querySelector('.profe').style.setProperty('--hys', key === 'win' ? '0.8' : '0.1');
+
+    $('copy-fb').hidden = true;
+    state.copyText = 'Saqué ' + uOk + ' en El Profe Histérico (yo ' + plain(state.you) + ' puntos, el profe ' + plain(state.profe) + '). ¿Te animás a rendirle?';
+    show('screen-end');
+  }
+
+  /* ---------------- Eventos ---------------- */
+  function startGame(name, hasName) {
+    newGame(name, hasName);
+    show('screen-game');
+    renderRound();
+  }
+
+  function init() {
+    ['avatar-start', 'avatar-game', 'avatar-end'].forEach(function (id) { $(id).innerHTML = profeSVG(); });
+    setMoodOn($('avatar-start'), 'shout');
+    $('avatar-start').querySelector('.profe').setAttribute('data-hys', 'hi');
+    $('avatar-start').querySelector('.profe').style.setProperty('--hys', '0.7');
+
+    var begin = function () {
+      var raw = $('name-input').value.replace(/\s+/g, ' ').trim().slice(0, 14);
+      startGame(raw || 'che', !!raw);
+    };
+    $('start-btn').addEventListener('click', begin);
+    $('name-input').addEventListener('keydown', function (e) { if (e.key === 'Enter') begin(); });
+
+    Array.prototype.forEach.call(document.querySelectorAll('.bet-opt'), function (b) {
+      b.addEventListener('click', function () {
+        if (state.locked) return;
+        state.bet = b.getAttribute('data-bet');
+        refreshBet();
+      });
+    });
+    $('wild-fifty').addEventListener('click', function () { onWild('fifty'); });
+    $('wild-peek').addEventListener('click', function () { onWild('peek'); });
+    $('wild-dbl').addEventListener('click', function () { onWild('dbl'); });
+
+    $('next-btn').addEventListener('click', function () {
+      if (state.i < state.rounds.length - 1) {
+        state.i += 1;
+        renderRound();
+        window.scrollTo(0, 0);
+      } else {
+        showEnd();
+      }
+    });
+
+    $('again-btn').addEventListener('click', function () { startGame(state.name, state.hasName); });
+
+    $('copy-btn').addEventListener('click', function () {
+      var fb = $('copy-fb');
+      var showText = function (msg) { fb.textContent = msg; fb.hidden = false; };
+      try {
+        navigator.clipboard.writeText(state.copyText).then(function () {
+          showText('Copiado: ' + state.copyText);
+        }, function () {
+          showText(state.copyText);
+        });
+      } catch (e) {
+        showText(state.copyText);
+      }
+    });
+  }
+
+  init();
+})();
+</script>
+
+</body></html>
