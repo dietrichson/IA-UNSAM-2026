@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Primicia — Un día en Canal RB</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<!-- Ilustraciones reutilizables (cámara, micrófono, papeles, claqueta) -->
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="camara" viewBox="0 0 120 90"><rect x="8" y="22" width="88" height="56" rx="12" fill="#E07A6F"/><rect x="20" y="8" width="38" height="18" rx="6" fill="#E9A59D"/><path d="M96 38l20-10v34l-20-10z" fill="#C9625A"/><circle cx="52" cy="50" r="20" fill="#2F3A4A"/><circle cx="52" cy="50" r="11" fill="#8DB5D6"/><circle cx="47" cy="45" r="3.5" fill="#fff" opacity=".8"/><circle cx="84" cy="34" r="4" fill="#FAF6EE"/></symbol>
+  <symbol id="micro" viewBox="0 0 60 130"><rect x="26" y="52" width="8" height="68" rx="4" fill="#2F3A4A"/><ellipse cx="30" cy="30" rx="22" ry="28" fill="#5B8DB8"/><path d="M12 22h36M10 32h40M12 42h36" stroke="#fff" stroke-width="2.5" opacity=".7"/><rect x="20" y="52" width="20" height="10" rx="4" fill="#E07A6F"/></symbol>
+  <symbol id="papeles" viewBox="0 0 110 110"><rect x="14" y="14" width="70" height="86" rx="6" fill="#E3EDE5" transform="rotate(-8 50 57)"/><rect x="26" y="8" width="70" height="86" rx="6" fill="#fff" stroke="#D5DDD6" stroke-width="2" transform="rotate(5 60 51)"/><g transform="rotate(5 60 51)"><rect x="36" y="20" width="40" height="10" rx="3" fill="#7FB08A"/><path d="M36 42h50M36 52h50M36 62h36M36 72h44" stroke="#9AA6B2" stroke-width="3.5" stroke-linecap="round"/></g></symbol>
+  <symbol id="claqueta" viewBox="0 0 110 100"><rect x="10" y="38" width="90" height="56" rx="6" fill="#2F3A4A"/><path d="M8 20l86-14 6 18-86 14z" fill="#5B8DB8"/><path d="M26 18l10 14M48 14l10 14M70 10l10 14" stroke="#FAF6EE" stroke-width="7"/><path d="M22 58h66M22 72h50" stroke="#FAF6EE" stroke-width="3" opacity=".6"/></symbol>
+</defs></svg>
+
+<!-- ============ PANTALLA DE INICIO ============ -->
+<section id="titulo" class="pantalla activa">
+  <div class="deco d1"><svg><use href="#camara"/></svg></div>
+  <div class="deco d2"><svg><use href="#micro"/></svg></div>
+  <div class="deco d3"><svg><use href="#papeles"/></svg></div>
+  <div class="deco d4"><svg><use href="#claqueta"/></svg></div>
+  <div class="centro">
+    <h1><span class="coral">P</span><span class="azul">r</span><span class="verde">i</span><span class="coral">m</span><span class="azul">i</span><span class="verde">c</span><span class="coral">i</span><span class="azul">a</span></h1>
+    <p class="sub">Un día en Canal RB</p>
+    <button id="bIniciar" class="coral">Iniciar</button>
+    <button id="bReanudar" class="verde oculto">Reanudar</button>
+    <button id="bAyuda" class="azul">Cómo jugar</button>
+  </div>
+</section>
+
+<!-- ============ ELEGIR PERSONAJE ============ -->
+<section id="personaje" class="pantalla">
+  <div class="centro">
+    <h2>Elegí a tu periodista</h2>
+    <div class="opciones">
+      <button class="tarjeta" data-g="el"><span class="dibujo"></span>Él</button>
+      <button class="tarjeta" data-g="ella"><span class="dibujo"></span>Ella</button>
+    </div>
+    <input id="nombre" maxlength="14" placeholder="Nombre del periodista" autocomplete="off">
+    <button id="bEmpezar" class="verde">Empezar</button>
+  </div>
+</section>
+
+<!-- ============ OFICINA DE CANAL RB ============ -->
+<section id="oficina" class="pantalla">
+  <div id="escenario">
+    <svg id="fondo" viewBox="0 0 960 540" width="960" height="540">
+      <rect width="960" height="540" fill="#F1E4CF"/>
+      <rect width="960" height="240" fill="#E9EFF2"/>
+      <rect y="228" width="960" height="14" fill="#C9D3DA"/>
+      <ellipse cx="480" cy="420" rx="230" ry="62" fill="#DCE6EC" opacity=".7"/>
+      <text x="480" y="34" text-anchor="middle" class="logo">CANAL <tspan fill="#E07A6F">R</tspan><tspan fill="#5B8DB8">B</tspan></text>
+      <!-- Puertas: rojo = Redacción, verde = Producción, azul = Al Aire -->
+      <g id="p0" transform="translate(130 0)"><rect y="46" width="120" height="24" rx="6" fill="#E07A6F"/><text x="60" y="63" class="pl">REDACCIÓN</text><rect y="78" width="120" height="152" rx="8" fill="#E07A6F"/><rect x="14" y="92" width="92" height="62" rx="6" fill="#fff" opacity=".35"/><circle cx="102" cy="172" r="6" fill="#FAF6EE"/><text x="60" y="208" class="lock">🔒</text><text x="60" y="138" class="check">✓</text></g>
+      <g id="p1" transform="translate(420 0)"><rect y="46" width="120" height="24" rx="6" fill="#7FB08A"/><text x="60" y="63" class="pl">PRODUCCIÓN</text><rect y="78" width="120" height="152" rx="8" fill="#7FB08A"/><rect x="14" y="92" width="92" height="62" rx="6" fill="#fff" opacity=".35"/><circle cx="102" cy="172" r="6" fill="#FAF6EE"/><text x="60" y="208" class="lock">🔒</text><text x="60" y="138" class="check">✓</text></g>
+      <g id="p2" transform="translate(710 0)"><rect y="46" width="120" height="24" rx="6" fill="#5B8DB8"/><text x="60" y="63" class="pl">AL AIRE</text><rect y="78" width="120" height="152" rx="8" fill="#5B8DB8"/><rect x="14" y="92" width="92" height="62" rx="6" fill="#fff" opacity=".35"/><circle cx="102" cy="172" r="6" fill="#FAF6EE"/><text x="60" y="208" class="lock">🔒</text><text x="60" y="138" class="check">✓</text></g>
+      <!-- Pantallas de TV -->
+      <g transform="translate(290 92)"><rect width="100" height="64" rx="6" fill="#2F3A4A"/><rect x="6" y="6" width="88" height="52" rx="3" fill="#8DB5D6"/><rect x="6" y="38" width="29" height="20" fill="#E07A6F"/><rect x="35" y="38" width="30" height="20" fill="#7FB08A"/><rect x="65" y="38" width="29" height="20" fill="#5B8DB8"/><rect x="40" y="64" width="20" height="8" fill="#2F3A4A"/></g>
+      <g transform="translate(580 92)"><rect width="100" height="64" rx="6" fill="#2F3A4A"/><rect x="6" y="6" width="88" height="52" rx="3" fill="#8DB5D6"/><rect x="6" y="38" width="29" height="20" fill="#5B8DB8"/><rect x="35" y="38" width="30" height="20" fill="#E07A6F"/><rect x="65" y="38" width="29" height="20" fill="#7FB08A"/><rect x="40" y="64" width="20" height="8" fill="#2F3A4A"/></g>
+      <!-- Escritorios -->
+      <g transform="translate(80 320)"><rect x="50" width="60" height="40" rx="4" fill="#2F3A4A"/><rect x="55" y="5" width="50" height="30" rx="2" fill="#8DB5D6"/><rect y="40" width="160" height="26" rx="6" fill="#C99A6B"/><rect x="8" y="66" width="144" height="40" fill="#B5865A"/></g>
+      <g transform="translate(720 320)"><rect x="50" width="60" height="40" rx="4" fill="#2F3A4A"/><rect x="55" y="5" width="50" height="30" rx="2" fill="#8DB5D6"/><rect y="40" width="160" height="26" rx="6" fill="#C99A6B"/><rect x="8" y="66" width="144" height="40" fill="#B5865A"/></g>
+      <!-- Plantas -->
+      <g transform="translate(905 215)"><rect x="-14" y="30" width="28" height="24" rx="4" fill="#C9625A"/><circle cy="16" r="20" fill="#7FB08A"/><circle cx="-14" cy="26" r="13" fill="#6FA37A"/><circle cx="14" cy="26" r="13" fill="#6FA37A"/></g>
+      <g transform="translate(55 215)"><rect x="-14" y="30" width="28" height="24" rx="4" fill="#5B8DB8"/><circle cy="16" r="20" fill="#7FB08A"/><circle cx="-14" cy="26" r="13" fill="#6FA37A"/><circle cx="14" cy="26" r="13" fill="#6FA37A"/></g>
+    </svg>
+    <div id="yo"></div>
+  </div>
+  <div id="hud">
+    <span id="hNombre"></span>
+    <span id="hEstrellas"><i>★</i><i>★</i><i>★</i></span>
+    <button id="bPausa" aria-label="Pausa">⏸</button>
+  </div>
+  <div id="aviso"></div>
+</section>
+
+<!-- ============ VENTANAS EMERGENTES ============ -->
+<div id="pausa" class="modal"><div class="panel">
+  <h2>Pausa</h2>
+  <button id="bReanudar2" class="verde">Reanudar juego</button>
+  <button id="bAyuda2" class="azul">Cómo jugar</button>
+  <button id="bSalir" class="sec">Salir al menú</button>
+</div></div>
+
+<div id="tarea" class="modal"><div class="panel">
+  <h2 id="tTitulo"></h2>
+  <p id="tTexto"></p>
+  <p class="nota">Esta tarea se arma en la próxima fase. Por ahora podés probar el recorrido completo.</p>
+  <button id="bCompletar" class="verde">Marcar como completada (modo prueba)</button>
+  <button id="bVolver" class="sec">Volver a la oficina</button>
+</div></div>
+
+<div id="final" class="modal"><div class="panel">
+  <h2>¡Día completo!</h2>
+  <p id="fMensaje"></p>
+  <button id="bSeguir" class="verde">Volver a la oficina</button>
+  <button id="bMenu" class="sec">Menú principal</button>
+</div></div>
+
+<div id="ayuda" class="modal"><div class="panel">
+  <h2>Cómo jugar</h2>
+  <p>Sos periodista de Canal RB y tenés un día de trabajo por delante.</p>
+  <ul>
+    <li><b>Moverte:</b> usá las flechas o WASD, o tocá (o hacé clic) donde quieras ir.</li>
+    <li><b>Puertas:</b> entrá a Redacción (rojo), Producción (verde) y Al Aire (azul), en ese orden.</li>
+    <li><b>Estrellas:</b> cada tarea completada te da una estrella.</li>
+    <li><b>Pausa:</b> tocá ⏸ o apretá P o Esc. Tu avance se guarda solo.</li>
+    <li>Si una tarea sale mal, la repetís.</li>
+  </ul>
+  <button id="bCerrarAyuda" class="azul">Entendido</button>
+</div></div>
+
+<script src="main.js"></script>
+</body>
+</html>
