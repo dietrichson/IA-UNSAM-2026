@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reto Tuneá a Qwen</title>
+<style>
+/* Trivia estilo Kahoot · mundo visual único (morado vibrante). Layout: una pantalla a la vez, centrada. */
+:root{
+  color-scheme: dark;
+  --bg1:#46178f; --bg2:#7209b7; --bg3:#3a0ca3;
+  --ink:#ffffff; --soft:#e7dcff; --card:#ffffff; --cardink:#241046;
+  --red:#e2453c; --blue:#1368ce; --gold:#d8a300; --green:#26890c; --violet:#8a5cff;
+  --ok:#26890c; --bad:#e2453c;
+  --gut: max(16px, env(safe-area-inset-left,0px));
+  --gutR: max(16px, env(safe-area-inset-right,0px));
+  --radius:18px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100%;
+  background:linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg3));
+  color:var(--ink);
+  font-family:"Trebuchet MS","Segoe UI",system-ui,-apple-system,sans-serif;
+  display:flex;flex-direction:column;
+}
+.wrap{flex:1;width:100%;max-width:860px;margin:0 auto;
+  padding:18px var(--gutR) 28px var(--gut);display:flex;flex-direction:column}
+h1,h2,h3{margin:0;line-height:1.1;text-wrap:balance}
+button{font-family:inherit;cursor:pointer}
+.screen[hidden]{display:none!important}
+.screen{animation:pop .3s cubic-bezier(.2,.8,.3,1)}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:focus-visible{outline:3px solid #fff;outline-offset:2px}
+
+/* ---------- INICIO ---------- */
+.start{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:24px 0}
+.badge{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px}
+.title{font-size:clamp(40px,10vw,76px);font-weight:900;letter-spacing:-1px;
+  text-shadow:0 6px 0 rgba(0,0,0,.18)}
+.title .q{color:#ffd23f}
+.tag{font-size:clamp(16px,3.6vw,20px);color:var(--soft);max-width:30ch}
+.shapes-deco{display:flex;gap:12px;margin:6px 0}
+.shapes-deco span{width:34px;height:34px;display:grid;place-items:center;border-radius:10px}
+.howto{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:16px;
+  padding:14px 18px;max-width:420px;font-size:14.5px;color:var(--soft);text-align:left}
+.howto b{color:#fff}
+.play{margin-top:8px;background:#ffd23f;color:#3a0ca3;border:none;border-radius:999px;
+  font-size:22px;font-weight:900;padding:16px 42px;box-shadow:0 8px 0 #c9a200;transition:.12s}
+.play:hover{transform:translateY(-2px);box-shadow:0 10px 0 #c9a200}
+.play:active{transform:translateY(4px);box-shadow:0 3px 0 #c9a200}
+
+/* ---------- JUEGO ---------- */
+.hud{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.hud .pill{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:999px;
+  padding:7px 14px;font-weight:800;font-size:14px}
+.hud .score b{color:#ffd23f} .hud .streak b{color:#ff9f1c}
+.timebar{height:12px;background:rgba(255,255,255,.16);border-radius:999px;overflow:hidden;margin:8px 0 14px}
+.timebar .fill{height:100%;width:100%;background:linear-gradient(90deg,#ffd23f,#ff9f1c);transition:width 1s linear}
+.timebar .fill.low{background:linear-gradient(90deg,#ff6b6b,#e2453c)}
+.qcard{background:var(--card);color:var(--cardink);border-radius:var(--radius);padding:22px 20px;
+  text-align:center;font-size:clamp(19px,3.6vw,26px);font-weight:800;box-shadow:0 14px 34px rgba(0,0,0,.28);
+  min-height:96px;display:flex;align-items:center;justify-content:center}
+.timer-ring{display:flex;align-items:center;justify-content:center;margin:12px 0}
+.timer-ring .num{width:54px;height:54px;border-radius:50%;background:#fff;color:#3a0ca3;display:grid;place-items:center;
+  font-size:24px;font-weight:900;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+@media(max-width:520px){.answers{grid-template-columns:1fr}}
+.ans{display:flex;align-items:center;gap:12px;border:none;border-radius:14px;padding:18px 16px;
+  color:#fff;font-size:17px;font-weight:800;text-align:left;box-shadow:0 6px 0 rgba(0,0,0,.22);transition:.1s;min-width:0}
+.ans:hover{filter:brightness(1.07);transform:translateY(-2px)}
+.ans:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.22)}
+.ans[disabled]{cursor:default}
+.ans.dim{opacity:.35;filter:grayscale(.3)}
+.ans.correct{outline:4px solid #baffc9;box-shadow:0 0 0 4px #26890c, 0 6px 0 rgba(0,0,0,.22)}
+.ans.wrong{outline:4px solid #ffc9c9}
+.ans .shape{width:26px;height:26px;flex:none;display:grid;place-items:center}
+.a-red{background:var(--red)} .a-blue{background:var(--blue)} .a-gold{background:var(--gold)} .a-green{background:var(--green)}
+.ans .txt{min-width:0;overflow-wrap:anywhere}
+.mark{margin-left:auto;font-size:22px;font-weight:900}
+/* formas */
+.sh-tri{width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:22px solid #fff}
+.sh-dia{width:20px;height:20px;background:#fff;transform:rotate(45deg)}
+.sh-cir{width:22px;height:22px;background:#fff;border-radius:50%}
+.sh-sq{width:20px;height:20px;background:#fff;border-radius:3px}
+
+.feedback{margin-top:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+  border-radius:14px;padding:14px 16px;font-size:15px;color:#fff}
+.feedback.good{background:rgba(38,137,12,.3);border-color:#7bd36a}
+.feedback.bad{background:rgba(226,69,60,.28);border-color:#ff9a94}
+.feedback .verdict{font-weight:900;font-size:18px;display:block;margin-bottom:4px}
+.feedback .pts{color:#ffd23f;font-weight:800}
+.next{margin-top:14px;width:100%;background:#ffd23f;color:#3a0ca3;border:none;border-radius:14px;
+  font-size:18px;font-weight:900;padding:15px;box-shadow:0 6px 0 #c9a200;transition:.12s}
+.next:hover{transform:translateY(-2px)} .next:active{transform:translateY(3px);box-shadow:0 3px 0 #c9a200}
+
+/* ---------- FINAL ---------- */
+.end{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:20px 0}
+.rank{font-size:clamp(28px,7vw,46px);font-weight:900;color:#ffd23f;text-shadow:0 5px 0 rgba(0,0,0,.18)}
+.bigscore{font-size:clamp(50px,14vw,90px);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.bigscore small{display:block;font-size:16px;font-weight:700;color:var(--soft);letter-spacing:.12em;text-transform:uppercase;margin-top:6px}
+.endcard{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:16px 20px;max-width:440px}
+.endstats{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.endstats div b{display:block;font-size:26px;color:#fff;font-variant-numeric:tabular-nums}
+.endstats div span{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.08em}
+.endbtns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.btn2{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;
+  font-size:16px;font-weight:800;padding:13px 24px;transition:.12s}
+.btn2:hover{background:rgba(255,255,255,.26)}
+.btn2.main{background:#ffd23f;color:#3a0ca3;border-color:transparent;box-shadow:0 6px 0 #c9a200}
+.btn2.main:active{transform:translateY(3px);box-shadow:0 3px 0 #c9a200}
+.foot{margin-top:auto;text-align:center;font-size:12px;color:rgba(255,255,255,.5);padding-top:14px}
+</style>
+<style>html,body{height:100%;margin:0}</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- INICIO -->
+  <section class="screen start" id="start">
+    <div class="badge">Trivia interactiva</div>
+    <h1 class="title">TUNEÁ A <span class="q">QWEN</span></h1>
+    <p class="tag">Aprendé jugando cómo darle instrucciones a una inteligencia artificial. ¡Cuanto más rápido respondés, más puntos!</p>
+    <div class="shapes-deco">
+      <span class="a-red"><i class="sh-tri"></i></span>
+      <span class="a-blue"><i class="sh-dia"></i></span>
+      <span class="a-gold"><i class="sh-cir"></i></span>
+      <span class="a-green"><i class="sh-sq"></i></span>
+    </div>
+    <div class="howto">
+      <b>Cómo se juega:</b> respondé cada pregunta tocando el color correcto antes de que se acabe el tiempo.
+      Sumás más puntos si acertás rápido, y si encadenás aciertos ganás <b>bonus de racha</b>. Al final ves tu puntaje y tu nivel.
+    </div>
+    <button class="play" id="playBtn">¡JUGAR!</button>
+  </section>
+
+  <!-- JUEGO -->
+  <section class="screen" id="game" hidden>
+    <div class="hud">
+      <span class="pill">Pregunta <b id="qnum">1</b>/<span id="qtot">10</span></span>
+      <span class="pill streak" id="streakPill" hidden>🔥 Racha <b id="streakN">0</b></span>
+      <span class="pill score">Puntos <b id="scoreN">0</b></span>
+    </div>
+    <div class="timebar"><div class="fill" id="timeFill"></div></div>
+    <div class="qcard" id="qtext">—</div>
+    <div class="timer-ring"><div class="num" id="timerNum">20</div></div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback" hidden></div>
+    <button class="next" id="nextBtn" hidden>Siguiente →</button>
+  </section>
+
+  <!-- FINAL -->
+  <section class="screen end" id="end" hidden>
+    <div class="badge">Resultado final</div>
+    <div class="rank" id="rank">—</div>
+    <div class="bigscore"><span id="finalScore">0</span><small>puntos</small></div>
+    <div class="endcard">
+      <div class="endstats">
+        <div><b id="correctN">0</b><span>Aciertos</span></div>
+        <div><b id="pctN">0%</b><span>Correctas</span></div>
+        <div><b id="bestStreak">0</b><span>Mejor racha</span></div>
+      </div>
+      <p style="margin:12px 0 0;color:var(--soft);font-size:14px" id="rankMsg"></p>
+    </div>
+    <div class="endbtns">
+      <button class="btn2 main" id="againBtn">Jugar de nuevo</button>
+      <button class="btn2" id="shareBtn">Compartir mi puntaje</button>
+    </div>
+    <p class="foot">Modificar las instrucciones de una IA no la reentrena: solo cambia cómo te responde.</p>
+  </section>
+
+  <p class="foot" id="globalFoot">Tocá un color para responder · Más rápido = más puntos</p>
+</div>
+
+<script>
+"use strict";
+
+/* Preguntas simpáticas y poco técnicas sobre cómo "tunear" una IA con instrucciones. */
+const QUESTIONS = [
+  { q:"Si querés que una IA te responda de cierta forma, ¿qué le tenés que dar?",
+    a:["Un reto","Instrucciones claras","Una contraseña","Más memoria RAM"], correct:1,
+    fb:"Le das instrucciones (lo que se llama un “system prompt”). No la retás ni la reprogramás: le explicás cómo querés que actúe." },
+  { q:"“Sos un asistente experto en farándula argentina.” Esa frase define…",
+    a:["La identidad de la IA","El clima de hoy","Un chiste","Un error"], correct:0,
+    fb:"Eso es la identidad: le decís qué es y de qué sabe. Es la base para que responda en ese rol." },
+  { q:"Le pedís: “Respondé en una sola oración.” Eso es un ejemplo de…",
+    a:["Una traducción","Una regla de estilo","Un insulto","Una foto"], correct:1,
+    fb:"Es una regla de estilo/formato: le marcás cómo tiene que responder (en este caso, corto)." },
+  { q:"Cuando una IA inventa un dato que no sabe y lo dice como si fuera verdad, eso se llama…",
+    a:["Alucinación","Actualización","Descuento","Reinicio"], correct:0,
+    fb:"Se llama alucinación. Por eso conviene pedirle que, si no está segura, lo diga en vez de inventar." },
+  { q:"¿Qué regla le ponés para que NO invente cosas?",
+    a:["“Contá siempre un chiste”","“Si no estás segura, decí que no podés confirmarlo”","“Hablá en inglés”","“Respondé con emojis”"], correct:1,
+    fb:"Pedirle que reconozca cuando no sabe algo es la mejor defensa contra las alucinaciones." },
+  { q:"Cambiarle las instrucciones a la IA, ¿la vuelve a entrenar desde cero?",
+    a:["Sí, aprende todo de nuevo","No: solo cambia cómo responde","Sí, pero tarda un año","Le borra la memoria"], correct:1,
+    fb:"¡Clave! Las instrucciones solo orientan la respuesta. No tocan el “cerebro” del modelo ni lo reentrenan." },
+  { q:"Ajustar una IA con instrucciones es un proceso de…",
+    a:["Prueba, error y corrección","Suerte","Comprar una app","Apagar y prender"], correct:0,
+    fb:"Se prueba, se mira la respuesta y se corrige la instrucción. Así vas mejorando de a poco." },
+  { q:"¿Agregar MUCHÍSIMAS reglas siempre mejora las respuestas?",
+    a:["Sí, siempre","No necesariamente","Solo los lunes","Sí, pero en mayúsculas"], correct:1,
+    fb:"No siempre: a veces demasiadas reglas confunden. Mejor pocas, claras y bien elegidas." },
+  { q:"¿Qué le pedís para que conteste bien cortito?",
+    a:["“Escribí 10 páginas”","“Usá un máximo de 20 palabras”","“Repetí todo dos veces”","“Agregá un cuento”"], correct:1,
+    fb:"Ponerle un límite concreto (palabras u oraciones) es la forma más directa de acortar la respuesta." },
+  { q:"Una IA chica, ¿sabe sí o sí las noticias de HOY?",
+    a:["Sí, sabe todo en tiempo real","No siempre: puede no tener info actual","Solo si llueve","Sí, lee los diarios sola"], correct:1,
+    fb:"Muchos modelos no tienen noticias recientes. Si le preguntás por hoy, lo ideal es que avise que no puede confirmarlo." },
+];
+
+const TIME = 20;          // segundos por pregunta
+const BASE = 600, SPEED = 400, STREAK_BONUS = 100;
+
+let idx=0, score=0, streak=0, bestStreak=0, correctCount=0;
+let timeLeft=TIME, tHandle=null, locked=false;
+
+const $=s=>document.querySelector(s);
+const show=id=>{document.querySelectorAll(".screen").forEach(s=>s.hidden=true);$("#"+id).hidden=false;};
+
+const SHAPES=[["a-red","sh-tri"],["a-blue","sh-dia"],["a-gold","sh-cir"],["a-green","sh-sq"]];
+
+function startGame(){
+  idx=0;score=0;streak=0;bestStreak=0;correctCount=0;
+  $("#qtot").textContent=QUESTIONS.length;
+  $("#scoreN").textContent="0";
+  $("#globalFoot").hidden=false;
+  show("game");
+  renderQuestion();
+}
+
+function renderQuestion(){
+  locked=false;
+  const item=QUESTIONS[idx];
+  $("#qnum").textContent=idx+1;
+  $("#qtext").textContent=item.q;
+  $("#feedback").hidden=true;$("#feedback").className="feedback";
+  $("#nextBtn").hidden=true;
+  // racha
+  const sp=$("#streakPill"); sp.hidden=streak<2; $("#streakN").textContent=streak;
+  // opciones
+  const box=$("#answers"); box.innerHTML="";
+  item.a.forEach((txt,i)=>{
+    const [col,sh]=SHAPES[i];
+    const b=document.createElement("button");
+    b.className="ans "+col;
+    b.innerHTML=<span class="shape"><i class="${sh}"></i></span><span class="txt">${txt}</span><span class="mark"></span>;
+    b.addEventListener("click",()=>answer(i,b));
+    box.appendChild(b);
+  });
+  // timer
+  timeLeft=TIME;
+  updateTimer();
+  clearInterval(tHandle);
+  tHandle=setInterval(()=>{
+    timeLeft--;
+    updateTimer();
+    if(timeLeft<=0){ clearInterval(tHandle); if(!locked) answer(-1,null); }
+  },1000);
+}
+
+function updateTimer(){
+  $("#timerNum").textContent=Math.max(0,timeLeft);
+  const f=$("#timeFill");
+  f.style.width=(Math.max(0,timeLeft)/TIME*100)+"%";
+  f.classList.toggle("low", timeLeft<=6);
+}
+
+function answer(choice,btn){
+  if(locked) return;
+  locked=true;
+  clearInterval(tHandle);
+  const item=QUESTIONS[idx];
+  const ok = choice===item.correct;
+  const buttons=document.querySelectorAll(".ans");
+  buttons.forEach((b,i)=>{
+    b.disabled=true;
+    if(i===item.correct){ b.classList.add("correct"); b.querySelector(".mark").textContent="✓"; }
+    else if(i===choice){ b.classList.add("wrong"); b.querySelector(".mark").textContent="✗"; }
+    else b.classList.add("dim");
+  });
+
+  let gained=0;
+  if(ok){
+    gained = BASE + Math.round(SPEED*(timeLeft/TIME)) + streak*STREAK_BONUS;
+    score+=gained; correctCount++; streak++; if(streak>bestStreak)bestStreak=streak;
+  } else {
+    streak=0;
+  }
+  $("#scoreN").textContent=score;
+
+  const fb=$("#feedback");
+  fb.hidden=false;
+  fb.classList.add(ok?"good":"bad");
+  const verdict = ok ? (streak>=3?"¡Imparable! 🔥":"¡Correcto! 🎉") : (choice===-1?"¡Se acabó el tiempo! ⏱️":"¡Casi! 💡");
+  fb.innerHTML=<span class="verdict">${verdict}</span>${item.fb}+
+    (ok?<div class="pts" style="margin-top:6px">+${gained} puntos${streak>1? · racha x${streak}:""}</div>:"");
+
+  const nb=$("#nextBtn");
+  nb.hidden=false;
+  nb.textContent = idx < QUESTIONS.length-1 ? "Siguiente →" : "Ver resultado →";
+  nb.focus();
+}
+
+$("#nextBtn").addEventListener("click",()=>{
+  idx++;
+  if(idx<QUESTIONS.length) renderQuestion();
+  else endGame();
+});
+
+function endGame(){
+  clearInterval(tHandle);
+  $("#globalFoot").hidden=true;
+  const total=QUESTIONS.length;
+  const pct=Math.round(correctCount/total*100);
+  $("#finalScore").textContent=score;
+  $("#correctN").textContent=${correctCount}/${total};
+  $("#pctN").textContent=pct+"%";
+  $("#bestStreak").textContent=bestStreak;
+  let rank, msg;
+  if(pct===100){ rank="¡Crack del Prompt! 🏆"; msg="Le hablás a una IA mejor que nadie. ¡Perfecto!"; }
+  else if(pct>=70){ rank="¡Gran Tuner! 🎛️"; msg="Entendiste cómo darle instrucciones a una IA. ¡Muy bien!"; }
+  else if(pct>=40){ rank="Aprendiz de IA 🌱"; msg="Vas bien. Repasá las explicaciones y volvé a intentar."; }
+  else { rank="Recién empezando 🚀"; msg="¡No pasa nada! Jugá de nuevo y vas a mejorar un montón."; }
+  $("#rank").textContent=rank;
+  $("#rankMsg").textContent=msg;
+  show("end");
+}
+
+$("#playBtn").addEventListener("click",startGame);
+$("#againBtn").addEventListener("click",startGame);
+
+$("#shareBtn").addEventListener("click",async()=>{
+  const total=QUESTIONS.length;
+  const txt=Hice ${score} puntos en el Reto TUNEÁ A QWEN (${correctCount}/${total} correctas). ¿Me superás? 🎛️🔥;
+  try{
+    await navigator.clipboard.writeText(txt);
+    $("#shareBtn").textContent="¡Copiado! pegalo donde quieras";
+    setTimeout(()=>$("#shareBtn").textContent="Compartir mi puntaje",2500);
+  }catch(e){
+    $("#rankMsg").textContent=txt;
+    $("#shareBtn").textContent="Copiá el texto de arriba ↑";
+  }
+});
+</script>
+</body>
+</html>
