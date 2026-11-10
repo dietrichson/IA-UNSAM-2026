@@ -1,0 +1,16 @@
+[server]
+enableStaticServing = true      # sirve las fuentes pixel de app/static/
+headless = true
+
+[browser]
+gatherUsageStats = false        # no enviar estadísticas de uso
+
+[theme]
+base = "light"
+primaryColor = "#E58FB5"
+backgroundColor = "#FBF4E9"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#4A4458"
+baseRadius = "none"
+borderColor = "#4A4458"
+showWidgetBorder = true
