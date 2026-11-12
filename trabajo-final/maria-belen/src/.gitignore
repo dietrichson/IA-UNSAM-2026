@@ -1,0 +1,18 @@
+# Secretos y datos personales: nunca se publican
+.env
+data/local/
+*.local.md
+mis-cv/
+
+# Se regeneran solos
+data/indice/*
+!data/indice/.gitkeep
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Resultados de evaluación con datos reales (los de CV ficticios sí se pueden versionar)
+evaluacion/resultados/simulado-*
+.DS_Store

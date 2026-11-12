@@ -1,0 +1,4 @@
+streamlit>=1.50        # probado con 1.66
+pydantic>=2.5
+numpy>=1.26
+pypdf>=4.0        # solo para leer CV en PDF

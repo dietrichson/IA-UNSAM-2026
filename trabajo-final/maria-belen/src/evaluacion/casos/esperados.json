@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "instrucciones": "Completá a mano, idealmente una persona del rubro (no el autor). 'puestos_esperados': hasta 3 ids de data/puestos/ (nombre del archivo sin .md) que esa persona elegiría para el CV. 'faltantes': por cada oferta, la lista de palabras clave de la oferta que el CV NO muestra; dejá null si todavía no la armaste. Mientras estén vacíos, el script informa 'sin datos' en esas métricas.",
+  "cvs": {
+    "cv-01-camila-rojas": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    },
+    "cv-02-tomas-benitez": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    },
+    "cv-03-lucia-fernandez": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    },
+    "cv-04-martin-gimenez": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    },
+    "cv-05-valentina-sosa": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    },
+    "cv-06-julian-paz": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    },
+    "cv-07-agustina-molina": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    },
+    "cv-08-nicolas-ortega": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    },
+    "cv-09-sofia-acosta": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    },
+    "cv-10-bruno-castro": {
+      "puestos_esperados": [],
+      "faltantes": {
+        "oferta-01-community-manager": null,
+        "oferta-02-comunicacion-institucional": null,
+        "oferta-03-seo-contenidos": null
+      }
+    }
+  }
+}
