@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ta-te-ti con comentarista deportivo</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 420px; margin: 2rem auto; padding: 0 1rem; text-align: center; }
+  #tablero { display: grid; grid-template-columns: repeat(3, 100px); gap: 6px; justify-content: center; margin: 1rem 0; }
+  .celda { width: 100px; height: 100px; font-size: 2.5rem; font-weight: bold; cursor: pointer;
+           border: 2px solid #444; border-radius: 8px; background: #fff; color: #111; }
+  .celda:disabled { cursor: not-allowed; }
+  #estado { font-weight: 600; min-height: 1.5rem; }
+  #relato { min-height: 3rem; font-style: italic; margin-top: 1rem; color: #555; }
+  #nueva { padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
+</style>
+</head>
+<body>
+  <h1>Ta-te-ti</h1>
+  <p id="estado"></p>
+  <div id="tablero"></div>
+  <button id="nueva">Nueva partida</button>
+  <p id="relato">El comentarista llega en la próxima versión.</p>
+
+<script>
+// Las 8 líneas ganadoras del ta-te-ti (filas, columnas y diagonales).
+const LINEAS = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+let tablero;      // 9 casillas: null, "X" u "O"
+let terminado;    // true cuando la partida ya terminó
+let esperando;    // true mientras juega el rival
+
+const contenedor = document.getElementById("tablero");
+const estado = document.getElementById("estado");
+const celdas = [];
+
+// Crea los 9 botones del tablero una sola vez.
+for (let i = 0; i < 9; i++) {
+  const b = document.createElement("button");
+  b.className = "celda";
+  b.addEventListener("click", () => clicPersona(i));
+  contenedor.appendChild(b);
+  celdas.push(b);
+}
+
+// Devuelve "X", "O" o null si todavía no ganó nadie.
+function ganador(t) {
+  for (const [a, b, c] of LINEAS) {
+    if (t[a] && t[a] === t[b] && t[a] === t[c]) return t[a];
+  }
+  return null;
+}
+
+// Devuelve "sigue", "gana X", "gana O" o "empate".
+function resultado(t) {
+  const g = ganador(t);
+  if (g) return "gana " + g;
+  if (t.every(c => c !== null)) return "empate";
+  return "sigue";
+}
+
+// Esta función se va a usar en la próxima versión para avisarle al
+// comentarista qué pasó. Por ahora solo muestra los datos en la consola.
+function alJugar(info) {
+  console.log("Jugada:", info);
+}
+
+// Aplica una jugada. Devuelve false si la casilla está ocupada o la partida terminó.
+function jugar(casilla, jugador) {
+  if (terminado || tablero[casilla] !== null) return false;
+  tablero[casilla] = jugador;
+  const r = resultado(tablero);
+  if (r !== "sigue") terminado = true;
+  alJugar({ tablero: [...tablero], jugador: jugador, casilla: casilla, resultado: r });
+  return true;
+}
+
+function dibujar() {
+  celdas.forEach((b, i) => {
+    b.textContent = tablero[i] || "";
+    b.disabled = terminado || esperando || tablero[i] !== null;
+  });
+  const r = resultado(tablero);
+  if (r === "gana X") estado.textContent = "¡Ganaste!";
+  else if (r === "gana O") estado.textContent = "Ganó el rival.";
+  else if (r === "empate") estado.textContent = "Empate.";
+  else estado.textContent = esperando ? "Juega el rival..." : "Tu turno (X)";
+}
+
+function clicPersona(i) {
+  if (esperando) return;
+  if (!jugar(i, "X")) return;
+  if (terminado) { dibujar(); return; }
+  esperando = true;
+  dibujar();
+  setTimeout(jugadaRival, 600);
+}
+
+// El rival elige una casilla libre al azar.
+function jugadaRival() {
+  const libres = [];
+  tablero.forEach((c, i) => { if (c === null) libres.push(i); });
+  const elegida = libres[Math.floor(Math.random() * libres.length)];
+  jugar(elegida, "O");
+  esperando = false;
+  dibujar();
+}
+
+function nuevaPartida() {
+  tablero = Array(9).fill(null);
+  terminado = false;
+  esperando = false;
+  dibujar();
+}
+
+document.getElementById("nueva").addEventListener("click", nuevaPartida);
+nuevaPartida();
+</script>
+</body>
+</html>
