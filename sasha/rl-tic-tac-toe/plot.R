@@ -16,7 +16,7 @@ rolling_mean <- function(x, n) {
   vapply(seq_along(x), function(i) if (i < n) NA_real_ else mean(x[(i - n + 1):i]), numeric(1))
 }
 
-files <- sort(Sys.glob(file.path(script_dir, "data", "log-*.csv")))
+files <- file.path(script_dir, "data", "log-3x3.csv")
 if (length(files) == 0) stop("No hay CSV en data/. Corré train.R primero.")
 
 logs <- lapply(files, function(f) {

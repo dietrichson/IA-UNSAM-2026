@@ -26,7 +26,7 @@ greedy_action <- function(q_table, state, actions) {
   if (!(state %in% rownames(q_table))) return(actions[sample.int(length(actions), 1L)])
   actions[which.max(q_table[state, as.character(actions)])]
 }
-
+chromote::set_chrome_args("--no-sandbox")
 b <- ChromoteSession$new()
 
 # Ejecuta JavaScript en la página y devuelve el resultado ya parseado.
