@@ -20,3 +20,6 @@ Se eligió este juego porque sus reglas son simples y permiten observar de maner
 
 Desarrollar una inteligencia artificial que aprenda a jugar al ta-te-ti mediante aprendizaje por refuerzo, mejorando progresivamente sus decisiones a partir de la experiencia adquirida durante el entrenamiento.
 
+## 4. Seguimiento del aprendizaje
+
+Para evaluar el progreso de la inteligencia artificial se registrarán las partidas jugadas, las victorias, las derrotas y los empates. Estos datos permitirán observar cómo evoluciona su desempeño durante el entrenamiento.
