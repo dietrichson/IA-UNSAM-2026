@@ -1,0 +1,50 @@
+[
+ {
+  "tema": "Derechos vulnerados",
+  "texto": "Doctor/a, tiene la palabra. ¿Qué derechos de su clienta y de sus hijas considera vulnerados por las emisiones del 6 y 7 de octubre de 2004?",
+  "ideal": "Su intimidad personal y familiar, su imagen y su honor, y los de sus hijas menores, afectados por las dos emisiones.",
+  "explicacion": "Es lo que se invocó en la demanda: intimidad, imagen y honor, con daños patrimoniales y extrapatrimoniales, por ella y por sus hijas."
+ },
+ {
+  "tema": "Contra quiénes demandar",
+  "texto": "¿Contra quiénes dirige la demanda?",
+  "ideal": "Contra el canal, la productora y los conductores de ambos programas, porque todos intervinieron en lo que se emitió.",
+  "explicacion": "La demanda alcanzó a América TV, a Eyeworks y a los conductores de \"Punto Doc\" y de \"Intrusos\". La primera sentencia los condenó de forma concurrente."
+ },
+ {
+  "tema": "Consentimiento",
+  "texto": "Señoría, la actora fue al estudio por su propia voluntad. Si estuvo ahí, consintió. ¿No es así, doctor/a?",
+  "ideal": "Fue por otro motivo: creía que iba a dar su descargo por una denuncia. No sabía qué se mostraría y el canal no probó lo contrario.",
+  "explicacion": "La sentencia de primera instancia destacó que no había prueba de que le anticiparan el contenido ni le pidieran consentimiento. La Corte, en 2025, habló de la falta de un consentimiento claro."
+ },
+ {
+  "tema": "Figura pública e interés general",
+  "texto": "La actora es una figura pública y el tema era de interés general. La prensa tiene derecho a informar sobre ella.",
+  "ideal": "Ser famosa permite informar sobre su actividad si hay interés general, pero no sobre su vida íntima, ajena a su trabajo.",
+  "explicacion": "Es el equilibrio que marcó la Corte en 2025: las figuras públicas pueden ser noticia en lo que se vincula con su actividad, pero conservan un ámbito de vida privada."
+ },
+ {
+  "tema": "Real malicia",
+  "texto": "Invoco la doctrina de la real malicia: sin intención de dañar ni conocimiento de que algo es falso, no hay responsabilidad.",
+  "ideal": "No aplica: no discutimos que la información sea falsa, sino la cámara oculta, la intromisión en la intimidad y su repetición.",
+  "explicacion": "El juez de primera instancia consideró inaplicable la real malicia. Ese estándar gira en torno a la falsedad, y acá el reclamo es por intimidad."
+ },
+ {
+  "tema": "Responsabilidad conjunta",
+  "texto": "Eran dos programas de empresas distintas. El canal no responde por lo que hizo la productora de \"Punto Doc\".",
+  "ideal": "Los programas actuaron coordinados: la invitaron a verlo en vivo, el canal los emitió y \"Intrusos\" las repitió después.",
+  "explicacion": "Esa fue la línea de la actora. La primera sentencia condenó a todos de modo concurrente, y la Corte consideró que quienes conducían \"Intrusos\" también se entrometieron en su intimidad."
+ },
+ {
+  "tema": "Daños y prueba",
+  "texto": "Hablemos de los daños. ¿Qué reclama y cómo piensa probarlo?",
+  "ideal": "Daño moral, para ella y sus hijas, y daño patrimonial por trabajos perdidos, con prueba de las ofertas que dejaron de llegar.",
+  "explicacion": "La demanda pidió daños patrimoniales y extrapatrimoniales por un total de $ 4.717.200 más intereses. Sin prueba concreta de lo laboral, ese rubro puede rechazarse."
+ },
+ {
+  "tema": "Alegato final",
+  "texto": "Última oportunidad, doctor/a. Resuma su posición.",
+  "ideal": "La libertad de expresión no es absoluta y debe armonizarse con la intimidad: hubo engaño, falta de consentimiento y repetición.",
+  "explicacion": "Es el equilibrio que planteó la Corte Suprema en 2025 entre libertad de prensa e intimidad."
+ }
+]
